@@ -1,0 +1,238 @@
+<!doctype html>
+<html>
+<head>
+
+<!-- Images courtesy of CC -->
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<script src="../../lib/popcorn/popcorn.js"></script>
+<script src="../timefeed.js"></script>
+<script src="example.js"></script>
+
+<link href="../timefeed.css" rel="stylesheet" />
+<link href="tpbafk.css" rel="stylesheet" />
+
+<script type="text/javascript">
+    var example, feed;
+
+    // ensure the web page (DOM) has loaded
+    document.addEventListener("DOMContentLoaded", function () {
+
+        var tf = timefeed('#feeddiv', {
+            highlight: false
+        });
+
+        tf.onFirstItem = function () {
+            $('.tab').show();
+            toggleOverlay(true);
+        };
+
+        // Create a popcorn instance by calling the Youtube player plugin
+        example = Popcorn("#video");
+
+        // todo: debug why this doesn't fire
+        $("#video").bind('ended', function(){
+            tf.hideAll();
+        });
+
+        $('.tab').click( function () {
+            toggleOverlay();
+        });
+
+        example.timefeed({
+            start: 10,
+            target : "#feeddiv",
+            title: 'Bus',
+            body: 'The Pirate Bus',
+            img: '../Icons/piratbyranlogo.png',
+            href : "http://piratbyran.org/s23k/"
+        });
+
+        example.timefeed({
+            start: 12.24,
+            target : "#feeddiv",
+            body: 'The Mickey Mouse Act',
+            img: '../Icons/wikipedia.jpg',
+            href : "http://en.wikipedia.org/wiki/Copyright_Term_Extension_Act"
+        });
+
+        example.timefeed({
+            start: 14.5,
+            target : "#feeddiv",
+            body: 'The Pirate Bureau',
+            img: '../Icons/wikipedia.jpg',
+            href : "http://en.wikipedia.org/wiki/Piratbyr%C3%A5n"
+        });
+
+        example.timefeed({
+            start: 15.23,
+            target : "#feeddiv",
+            body: 'Sara Sajjad',
+            img: "http://a3.twimg.com/profile_images/1569492387/saraa_reasonably_small.png",
+            href : "https://twitter.com/#!/fraux"
+        });
+
+        example.timefeed({
+            start: 17.21,
+            target : "#feeddiv",
+            body: 'Dani Alba',
+            img: '../Icons/24x24/facebook.png',
+            href : "http://www.facebook.com/profile.php?id=689754738"
+        });
+
+        example.timefeed({
+            start: 19.04,
+            target : "#feeddiv",
+            body: 'Rasmus Fleischer',
+            img : 'http://a0.twimg.com/profile_images/1294525540/Bild_2011-03-31_kl._14.27__5_reasonably_small.jpg',
+            href : "http://copyriot.se/2009/02/17/the-spectrial-manus-till-en-teater-akt-ett-scen-ett-mandag-kring-ratten/"
+        });
+
+//            example.timefeed({
+//                start: 19.22,
+//                target : "#feeddiv",
+//                body: 'PromenadorQuestern',
+//                href : "http://pq.for.ths.kth.se/"
+//            });
+
+        example.timefeed({
+            start: 21.03,
+            target : "#feeddiv",
+            body: 'Marcin de Kaminski',
+            href : "http://twitter.com/#!/dekaminski"
+        });
+
+        example.timefeed({
+            start: 22.07,
+            target : "#feeddiv",
+            body: 'Bambuser Live Stream',
+            href : "http://bambuser.com/channel/Spectrial/broadcast/67570"
+        });
+
+        example.timefeed({
+            start: 24.21,
+            target : "#feeddiv",
+            body: 'Magnus Eriksson',
+            img: '../Icons/24x24/facebook.png',
+            href : "http://www.facebook.com/svartfax"
+        });
+
+        example.timefeed({
+            start: 27.20,
+            target : "#feeddiv",
+            body: 'District Court',
+            img: '../Icons/24x24/google.png',
+            href : "http://www.google.se/maps?q=stockholm+district+court&hl=sv&ie=UTF8&sll=59.332839,18.044014&sspn=0.124854,0.445976&vpsrc=0&hq=district"
+        });
+
+        example.timefeed({
+            start: 30.06,
+            target : "#feeddiv",
+            body: 'CNN',
+            img:'../Icons/cnnlogo.png',
+            href : "http://articles.cnn.com/2009-04-16/tech/sweden.piracy_1_file-sharing-pirate-bay-copyright?_s=PM:TECH"
+        });
+
+        example.timefeed({
+            start: 34.09,
+            target : "#feeddiv",
+            body: ' Pirate Party',
+            img: '../Icons/wikipedia.jpg',
+            href : "http://en.wikipedia.org/wiki/Pirate_Party_%28Sweden%29"
+        });
+
+        example.timefeed({
+            start: 36.14,
+            target : "#feeddiv",
+            body: 'Rick Falkvinge',
+            img: '../Icons/24x24/rss.png',
+            href : "http://translate.google.com/translate?hl=en&sl=sv&tl=en&u=http%3A%2F%2Ffalkvinge.net%2F2009%2F02%2F16%2Fartiondets-politiska-rattegang-har-startat%2F&anno=2"
+        });
+
+        example.timefeed({
+            start: 41.20,
+            target : "#feeddiv",
+            body: 'Johan Allgoth',
+            img : "http://a1.twimg.com/profile_images/1253987127/n883465299_3206678_8448_reasonably_small.jpg",
+            href : "http://johanallgoth.se/"
+        });
+
+        example.timefeed({
+            start: 43.22,
+            target : "#feeddiv",
+            body: 'Al Jazeera',
+            href : "http://english.aljazeera.net/news/europe/2008/01/2008525124147351129.html"
+        });
+
+        example.timefeed({
+            start: 49,
+            target : "#feeddiv",
+            body: 'Peter Sunde tweet',
+            href : "https://twitter.com/#!/brokep/status/1214815613"
+        });
+
+        example.timefeed({
+            start: 50,
+            target : "#feeddiv",
+            body: 'First Court Tweet',
+            href : "http://journlaw.com/2011/07/06/who-was-first-to-tweet-from-court/"
+        });
+
+        example.timefeed({
+            start: 52,
+            target : "#feeddiv",
+            body: 'Blog of Peter',
+            img: 'http://a1.twimg.com/profile_images/1502714480/EUP_normal.jpg',
+            href : "http://blog.brokep.com/"
+        });
+
+        example.timefeed({
+            start: 55,
+            target : "#feeddiv",
+            body: 'Gottfrid Svartholm Warg',
+            href : "http://www.youtube.com/watch?v=uENqtT5AP_w"
+        });
+
+        example.timefeed({
+            start: 58,
+            target : "#feeddiv",
+            body: 'Depeche Mode',
+            href : "http://www.youtube.com/user/dmdotcom?blend=1&ob=4"
+        });
+        // initial render
+        toggleOverlay(false, true);
+
+        // play
+        example.play();
+
+    }, false);
+
+</script>
+
+</head>
+
+<body>
+<div class="container">
+    <div id="videodiv" class="videodiv">
+        <video style="background:#000" id="video" loop="" controls="">
+            <!--<source src="http://videos.mozilla.org/serv/webmademovies/wtfpopcorn.mp4" type="video/mp4">-->
+            <!--<source src="http://videos.mozilla.org/serv/webmademovies/wtfpopcorn.webm" type="video/webM">-->
+            <source src="http://mackt.se/tpbafk/TPB_AFK_Demo720.theora.ogv" type="video/ogg">
+            <p>Your user agent does not support the HTML5 Video element.</p>
+        </video>
+        <div class="tab" style="padding-top: 6px; padding-left: 6px;">
+            +
+        </div>
+    </div>
+    <div id="feed" class="feed">
+
+        <div class="searchdiv">
+            <input type=text class="search" placeholder="Search">
+        </div>
+        <div id="feeddiv">
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,114 @@
+<!doctype html>
+<html>
+<head>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+    <script src="../../lib/popcorn/popcorn.js"></script>
+
+    <script src="../timefeed.js"></script>
+    <script src="example.js"></script>
+
+    <link href="../timefeed.css" rel="stylesheet" />
+
+    <script type="text/javascript">
+        var example, feed;
+
+        // ensure the web page (DOM) has loaded
+        document.addEventListener("DOMContentLoaded", function () {
+
+            timefeed('#feeddiv', {
+                highlight: true
+            });
+
+            // Create a popcorn instance by calling the Youtube player plugin
+            example = Popcorn("#video");
+            example.volume(0);
+
+            example.timefeed({
+                start: 1,
+                end: 5,
+                target : "#feeddiv",
+                title: 'Director',
+                body: 'Kevin Spacy',
+                href : "http://www.imdb.com/name/nm0000228/"
+            });
+
+            example.timefeed({
+                start: 6,
+                end: 10,
+                target : "#feeddiv",
+                body: 'PopcornJS',
+                img : 'http://t1.gstatic.com/images?q=tbn:ANd9GcT4ayBDA8UuNphnD6GBpIr-4Ksp2evNkYhCMbxTr2Tt4S-7Pej6',
+                href : "http://www.popcornjs.org/"
+            });
+
+            example.timefeed({
+                start: 8,
+                end: 12,
+                target : "#feeddiv",
+                title: '"...pirated disk..."',
+                body: 'The pirated CD was Depeche Mode',
+                img : "http://www.ihavesynth.com/sites/ihavesynth.com/files/blog/images/depeche-mode.jpg?1260893100",
+                href : "http://www.piratebay.com/some/deep/link/..."
+            });
+
+            example.timefeed({
+                start: 16,
+                end: 20,
+                target : "#feeddiv",
+                title: '"...flying a kite..."',
+                body: 'Learn more about "kites"',
+                href : "http://www.wikipedia.org/some/deep/link/..."
+            });
+
+
+            // generate placeholder cues
+            for(var i = 4; i < 15 ; i++ ){
+                example.timefeed({
+                    start: 4 * i + i,
+                    end: 4 * i + i + 5,
+                    target : "#feeddiv",
+                    title: '"quoted text here"',
+                    body: 'Test item ' + i,
+                    href : "http://www.google.com/some/deep/link/..."
+                });
+
+            }
+
+            // initial render
+            toggleOverlay(true, true);
+
+            // play
+            example.play();
+
+        }, false);
+
+    </script>
+
+    <style>
+
+    </style>
+
+</head>
+<body>
+<div class="container">
+    <video style="background:#000" id="video" preload="auto" autobuffer="" controls="" poster="http://videos.mozilla.org/serv/webmademovies/popcornposter.png">
+        <source src="http://videos.mozilla.org/serv/webmademovies/wtfpopcorn.mp4" type="video/mp4">
+        <source src="http://videos.mozilla.org/serv/webmademovies/wtfpopcorn.webm" type="video/webM">
+        <source src="http://videos.mozilla.org/serv/webmademovies/wtfpopcorn.ogv" type="video/ogg">
+        <p>Your user agent does not support the HTML5 Video element.</p>
+    </video>
+    <!--<div id="viddeo">dum-->
+    <!--</div>-->
+    <div class="feed">
+        <div class="searchdiv">
+            <input type=text class="search" placeholder="Search">
+        </div>
+        <div id="feeddiv">
+    </div>
+</div>
+
+
+
+</body>
+</html>
