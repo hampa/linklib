@@ -22,5 +22,19 @@ if ($msg != '') {
 <tr><td></td><td><input type=submit value="Submit"></td></tr>
 </table>
 </form>
+
+<h1>get_time_feed</h1>
+<table border=1>
+<?php
+$linkontrol = new linkontrol();
+$arr = $linkontrol->getTimeFeed($_GET['movieid']); 
+if (isset($arr)) {
+	foreach ($arr as $key => $val) {
+		#print_r($val);
+		echo($linkontrol->timeFeedToHtml($val));
+	}
+}
+?>
+</table>
 </body>
 </html>

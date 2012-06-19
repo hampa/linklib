@@ -16,4 +16,9 @@ if ($_GET['do'] == 'add_time_feed') {
 	$feedid = $linkontrol->addTimeFeed($movieid, $userid, $start, $end, $title, $img, $body, $href);
 	$msg = "added time feed $feedid";
 }
+else if ($_GET['do'] == 'delete_time_feed') {
+	$timefeedid = intval($_REQUEST['timefeedid']);
+	$linkontrol->deleteTimeFeed($timefeedid);
+	$msg = "deleted time feed $timefeedid";
+}
 ?>
