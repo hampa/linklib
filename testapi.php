@@ -2,7 +2,40 @@
 include_once("linkontrol/functions_linkontrol.php");
 ?>
 <html>
-<head></head>
+<head>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<script src="http://popcornjs.org/code/dist/popcorn-complete.js"></script>
+<script src="tpbafk/timefeed.js"></script>
+<link href="tpbafk/timefeed.css" rel="stylesheet" />
+<script>
+        // ensure the web page (DOM) has loaded
+        document.addEventListener("DOMContentLoaded", function () {
+
+            timefeed('#feeddiv', {
+                highlight: true
+            });
+
+            // Create a popcorn instance by calling the Youtube player plugin
+            popcorn = Popcorn("#video");
+            popcorn.volume(0);
+<?php
+$linkontrol = new linkontrol();
+$arr = $linkontrol->getTimeFeed($_GET['movieid']); 
+if (isset($arr)) {
+	foreach ($arr as $key => $val) {
+		echo($linkontrol->timeFeedToJson($val));
+	}
+}
+?>
+            // initial render
+            //toggleOverlay(true, true);
+
+            // play
+            popcorn.play();
+        }, false);
+
+</script>
+</head>
 <body>
 <?php
 if ($msg != '') {
@@ -31,10 +64,26 @@ $arr = $linkontrol->getTimeFeed($_GET['movieid']);
 if (isset($arr)) {
 	foreach ($arr as $key => $val) {
 		#print_r($val);
-		echo($linkontrol->timeFeedToHtml($val));
+		echo("\t\t" . $linkontrol->timeFeedToHtml($val));
 	}
 }
 ?>
 </table>
+<div class="container">
+    	<video height=100 width=100 style="background:#000" id="video" preload="auto" autobuffer="" controls="" poster="http://videos.mozilla.org/serv/webmademovies/popcornposter.png">
+        <source src="http://videos.mozilla.org/serv/webmademovies/wtfpopcorn.mp4" type="video/mp4">
+        <source src="http://videos.mozilla.org/serv/webmademovies/wtfpopcorn.webm" type="video/webM">
+        <source src="http://videos.mozilla.org/serv/webmademovies/wtfpopcorn.ogv" type="video/ogg">
+        <p>Your user agent does not support the HTML5 Video element.</p>
+    </video>
+    <!--<div id="viddeo">dum-->
+    <!--</div>-->
+    <div class="feed">
+        <div class="searchdiv">
+            <input type=text class="search" placeholder="Search">
+        </div>
+        <div id="feeddiv">
+    </div>
+</div>
 </body>
 </html>

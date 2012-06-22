@@ -12,7 +12,7 @@ class linkontrol {
 
 	function getTimeFeed($movieid) {
 		$movieid = intval($movieid);
-		return $this->runSqlMulti("SELECT * FROM linkontrol.timefeed WHERE movieid = $movieid AND deleted = 0 LIMIT 1000");
+		return $this->runSqlMulti("SELECT * FROM linkontrol.timefeed WHERE movieid = $movieid AND deleted = 0 ORDER BY start ASC LIMIT 1000");
 	}
 
 	function deleteTimeFeed($timefeedid) {
@@ -33,6 +33,17 @@ class linkontrol {
 			$val['img'] . "</td><td>" . 
 			$val['href'] . "</td><td>" . 
 			"<a href=\"?do=delete_time_feed&timefeedid=" . $val['timefeedid'] . "\">Delete</a></td></tr>\n";
+	}
+
+	function timeFeedToJson($val) {
+		return "popcorn.timefeed({\n" .
+			"start: " . $val['start'] . ",\n" . 
+			"end:" . $val['end'] . ",\n" .
+			"target: '#feeddiv',\n" .
+			"body: '" . $val['body'] . "',\n" .
+			"img: '" . $val['img'] . "',\n" .
+			"href: '" . $val['href'] . "',\n" .
+		"});\n";
 	}
 }
 ?>

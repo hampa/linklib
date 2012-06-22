@@ -1,0 +1,46 @@
+<html>
+<head>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<script src="http://popcornjs.org/code/dist/popcorn-complete.js"></script>
+<script src="tpbafk/timefeed.js"></script>
+<link href="tpbafk/timefeed.css" rel="stylesheet" />
+<script>
+	document.addEventListener( "DOMContentLoaded", function() {
+            	timefeed('#feeddiv', {
+                	highlight: true
+		});
+		var popcorn = Popcorn( "#ourvideo" );
+		popcorn.controls(true);
+		popcorn.footnote({
+			start: 2,
+			end: 5,
+			target: "footnote",
+			text: "Pop!"
+		});
+            	popcorn.timefeed({
+                	start: 3,
+                	end: 5,
+                	target : "#feeddiv",
+                	title: 'Director',
+                	body: 'Kevin Spacy',
+                	href : "http://www.imdb.com/name/nm0000228/"
+            	});
+		popcorn.play();
+	}, false );
+</script>
+</head>
+<body>
+<video height="180" width="300" id="ourvideo">
+<source src="http://videos.mozilla.org/serv/webmademovies/popcornplug.mp4">
+<source src="http://videos.mozilla.org/serv/webmademovies/popcornplug.ogv">
+<source src="http://videos.mozilla.org/serv/webmademovies/popcornplug.webm">
+</video>
+<div id="footnote"></div>
+    <div class="feed">
+        <div class="searchdiv">
+            <input type=text class="search" placeholder="Search">
+        </div>
+        <div id="feeddiv">
+    </div>
+</body>
+</html>
