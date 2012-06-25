@@ -3,13 +3,14 @@ var app = require('http').createServer(handler)
     , fs = require('fs');
 
 app.listen(1339);
+console.log('listening on port 1339');
 
 function handler(req, res) {
     fs.readFile(__dirname + '/index.html',
         function (err, data) {
             if (err) {
                 res.writeHead(500);
-                return res.end('Error loading index.html');
+                return res.end('Error loading ' + __dirname + '/index.html');
             }
 
             res.writeHead(200);
@@ -28,17 +29,20 @@ Array.prototype.removeByValue = function(val) {
 
 function handleCommand(socket, command, data)
 {
+	console.log('hanldeCommand ' + command);
     socket.broadcast.to(data.streamId).emit(command, data);
    //io.sockets.in(data.streamId).emit(command, data);
 }
 
 io.sockets.on('connection', function (socket) {
-
+    console.log('connection');
     socket.on("join", function(data){
+	console.log('join');
        socket.join(data.streamId);
     });
 
     socket.on("play", function(data) {
+	console.log('play');
        handleCommand(socket, "play", data);
     });
 
@@ -81,6 +85,4 @@ io.sockets.on('connection', function (socket) {
         console.log('disconnect', data);
 
     });
-
-
 });
