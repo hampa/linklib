@@ -16,7 +16,8 @@ include_once("linkontrol/functions_linkontrol.php");
             });
 
             // Create a popcorn instance by calling the Youtube player plugin
-            popcorn = Popcorn("#video");
+            //popcorn = Popcorn("#video");
+	    popcorn = Popcorn.youtube("#youtube", "http://www.youtube.com/watch?v=v-7kf7OZQtw");
             popcorn.volume(0);
 <?php
 $linkontrol = new linkontrol();
@@ -70,12 +71,14 @@ if (isset($arr)) {
 ?>
 </table>
 <div class="container">
+<!--
     	<video height=100 width=100 style="background:#000" id="video" preload="auto" autobuffer="" controls="" poster="http://videos.mozilla.org/serv/webmademovies/popcornposter.png">
         <source src="http://videos.mozilla.org/serv/webmademovies/wtfpopcorn.mp4" type="video/mp4">
         <source src="http://videos.mozilla.org/serv/webmademovies/wtfpopcorn.webm" type="video/webM">
         <source src="http://videos.mozilla.org/serv/webmademovies/wtfpopcorn.ogv" type="video/ogg">
         <p>Your user agent does not support the HTML5 Video element.</p>
     </video>
+-->
     <!--<div id="viddeo">dum-->
     <!--</div>-->
     <div class="feed">
@@ -85,5 +88,7 @@ if (isset($arr)) {
         <div id="feeddiv">
     </div>
 </div>
+<div id="youtube" style="width:600px;height:400px;"></div>
+<div id="foo"></div>
 </body>
 </html>
