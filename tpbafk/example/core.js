@@ -15,6 +15,18 @@ function sendPause(time) {
 	emit("pause", {"time": time})
 }
 
+function sendRewind(time) {
+	console.log("sendRewind");
+	handleSendRewind({"time": time});
+	emit("rewind", {"time": time})
+}
+
+function sendForward(time) {
+	console.log("sendForward");
+	handleSendForward({"time": time});
+	emit("forward", {"time": time})
+}
+
 function sendShowOverlay() {
 	handleSendShowOverlay();
 	emit("showOverlay",{});

@@ -24,6 +24,13 @@ var handleSendPlay = function(data){
  //   document.getElementById('playerstatus').innerHTML = 'sending ';
 };
 
+var handleSendRewind = function(data) {
+	// do nothing for now
+};
+
+var handleSendForward = function(data) {
+	// do nothing for now
+};
 
 var handleOnPlay = function(data){
     document.getElementById('play').style.display ="none";

@@ -267,6 +267,31 @@ $(document).ready(function() {
         emit("onPause", data);
     };
 
+	var handleRewind = function (data) {
+		jumpTo(data, -5);
+	}
+
+	var handleForward = function(data) {
+		jumpTo(data, 5);
+	}
+
+	var jumpTo = function(data, seconds) {
+        	var newtime = example.video.currentTime + seconds;
+		if (newtime < 0) {
+			newtime = 0;
+		}
+		var duration = example.video.duration;
+		if (duration && duration < newtime) {
+			newtime = duration;
+		}	
+		console.log("jumpTo" + newtime + " duration " + duration);
+        	example.play(newtime);
+        	if (!data.time) {
+            		data.time = example.video.currentTime;
+        	}
+        	emit("onRewind", data);
+    	}
+
     var handleShowOverlay = function (data)
     {
         toggleOverlay(true, false);
@@ -293,6 +318,8 @@ function connect() {
 	socket.emit("join", {'streamId':streamId});
 	socket.on('play', handlePlay);
 	socket.on('pause', handlePause);
+	socket.on('rewind', handleRewind);
+	socket.on('forward', handleForward);
 	socket.on('showOverlay', handleShowOverlay);
 	socket.on('hideOverlay', handleHideOverlay);
 	socket.on('hrefInPlayer', handleHrefInPlayerOverlay)

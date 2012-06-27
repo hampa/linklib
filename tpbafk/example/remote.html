@@ -74,10 +74,10 @@ $(document).ready(function() {
 <div id="footer">
 	<div id="filmnav">
 
-        <a href="#" id="reverse"><img src="images/rewind.png"></a>
+        <a href="#" id="reverse" onclick="sendRewind()"><img src="images/rewind.png"></a>
         <a href="#" id="play"  onclick="sendPlay()" ><img src="images/play.png"></a>
         <a href="#" id="pause" onclick="sendPause()" style="display: none" ><img src="images/pause.png"></a>
-        <a href="#" id="forward"><img src="images/forward.png"></a>
+        <a href="#" id="forward" onclick="sendForward()"><img src="images/forward.png"></a>
 	</div>
 
     <a href="#" id="list" onclick="sendShowOverlay()"  ><img src="images/links.png"></a>

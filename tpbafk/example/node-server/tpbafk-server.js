@@ -29,9 +29,9 @@ Array.prototype.removeByValue = function(val) {
 
 function handleCommand(socket, command, data)
 {
-	console.log('hanldeCommand ' + command);
-    socket.broadcast.to(data.streamId).emit(command, data);
-   //io.sockets.in(data.streamId).emit(command, data);
+	console.log('handleCommand' + command + 'data ' + data);
+	socket.broadcast.to(data.streamId).emit(command, data);
+	//io.sockets.in(data.streamId).emit(command, data);
 }
 
 io.sockets.on('connection', function (socket) {
@@ -52,6 +52,14 @@ io.sockets.on('connection', function (socket) {
 
     socket.on("pause", function(data) {
         handleCommand(socket, "pause", data);
+    });
+
+    socket.on("rewind", function(data) {
+        handleCommand(socket, "rewind", data);
+    });
+
+    socket.on("forward", function(data) {
+        handleCommand(socket, "forward", data);
     });
 
     socket.on("onPause", function(data) {
