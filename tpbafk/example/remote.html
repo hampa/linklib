@@ -16,20 +16,31 @@
 	<link rel="stylesheet" href="css/style.css" />
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
-	<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(
-	hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+    <script src="util.js"></script>
+	<script type="application/x-javascript"> 
+        	var streamId = "someStreamIdFirst";
+		var serverLocation = 'http://23.20.12.188:1339';	 // works
+		addEventListener("load", 
+			function() { setTimeout(hideURLbar, 0); }, false); 
+			function hideURLbar(){ window.scrollTo(0,1); } 
 
-    <script type="text/javascript">
+$(document).ready(function() {
+        params = getParams();
+        if (params && params["id"]) {
+                streamId = "someStreamId" + params["id"];
+        }
+	connect();
+});
+
         //var serverLocation = 'http://empty-stone-2701.herokuapp.com';
 	//var serverLocation = 'http://linkontrol.toribash.com:1339';	 // works
 	// sometimes the DNS fails, for some reason
 	var serverLocation = 'http://23.20.12.188:1339';	 // works
-        var streamId = "someStreamId";
+        //var streamId = "someStreamId2";
+	console.log("streamId" + streamId);
     </script>
-    <script src="http://empty-stone-2701.herokuapp.com/socket.io/socket.io.js"></script>
-    <!-- <script src="http://linkontrol.toribash.com/~hampa/socket.io/lib/socket.io.js"></script> -->
-    <!-- <script src="http://linkontrol.toribash.com/~hampa/tpbafk/example/node-server/node_modules/socket.io/node_modules/socket.io-client/dist/socket.io.js"></script> -->
-    <!-- <script src="node-server/node_modules/socket.io/lib/socket.io.js"></script> -->
+    <!-- <script src="http://empty-stone-2701.herokuapp.com/socket.io/socket.io.js"></script> -->
+    <script src="http://linkontrol.toribash.com/~hampa/tpbafk/example/node-server/node_modules/socket.io/node_modules/socket.io-client/dist/socket.io.js"></script> 
 
 
     <script src="hooks.js"></script>

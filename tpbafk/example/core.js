@@ -1,4 +1,5 @@
 
+ var streamId="someStreamId2";
 
  function emit(command, data)
  {
@@ -32,11 +33,12 @@
      emit("hrefInPlayer",{'href':href});
 }
 
- var streamId="someStreamId";
-
-  socket = io.connect(serverLocation);
-  socket.emit("join", {'streamId': streamId});
-  socket.on('onPlay', handleOnPlay);
-  socket.on('onPause', handleOnPause);
-  socket.on('onShowOverlay', handleOnShowOverlay);
-  socket.on('onHideOverlay', handleOnHideOverlay);
+function connect() {
+	console.log("connecting to " + serverLocation + " using streamId " + streamId);
+	socket = io.connect(serverLocation);
+	socket.emit("join", {'streamId': streamId});
+	socket.on('onPlay', handleOnPlay);
+	socket.on('onPause', handleOnPause);
+	socket.on('onShowOverlay', handleOnShowOverlay);
+	socket.on('onHideOverlay', handleOnHideOverlay);
+}
