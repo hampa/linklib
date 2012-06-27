@@ -1,36 +1,32 @@
+var streamId="someStreamId2";
 
- var streamId="someStreamId2";
-
- function emit(command, data)
- {
-     data.streamId = streamId;
-     socket.emit(command,data);
- }
-
- function sendPlay(time) {
-     handleSendPlay({"time": time});
-     emit("play", {"time": time})
- }
-
- function sendPause(time) {
-     handleSendPause({"time": time});
-     emit("pause", {"time": time})
- }
-
- function sendShowOverlay() {
-       //  handlePause();
-    handleSendShowOverlay();
-    emit("showOverlay",{});
+function emit(command, data) {
+	data.streamId = streamId;
+	socket.emit(command,data);
 }
 
- function sendHideOverlay() {
-     handleSendHideOverlay();
-     emit("hideOverlay",{});
- }
+function sendPlay(time) {
+	handleSendPlay({"time": time});
+	emit("play", {"time": time})
+}
 
- function sendHref(href) {
-           //  handlePause();
-     emit("hrefInPlayer",{'href':href});
+function sendPause(time) {
+	handleSendPause({"time": time});
+	emit("pause", {"time": time})
+}
+
+function sendShowOverlay() {
+	handleSendShowOverlay();
+	emit("showOverlay",{});
+}
+
+function sendHideOverlay() {
+	handleSendHideOverlay();
+	emit("hideOverlay",{});
+}
+
+function sendHref(href) {
+	emit("hrefInPlayer",{'href':href});
 }
 
 function connect() {
