@@ -22,7 +22,7 @@ class linkontrol {
 
 	function addTimeFeed($movieid, $userid, $start, $end, $title, $img, $body, $href) {
                 $this->runSql("INSERT INTO linkontrol.timefeed(movieid, userid, start, end, title, img, body, href) " .
-				"VALUES ($movieid, $userid, $start, $end, '$img', '$title', '$body', '$href')");
+				"VALUES ($movieid, $userid, $start, $end, '$title', '$img', '$body', '$href')");
 		return mysql_insert_id();
         }
 
@@ -32,7 +32,7 @@ class linkontrol {
 			$val['body'] . "</td><td>" . 
 			$val['img'] . "</td><td>" . 
 			$val['href'] . "</td><td>" . 
-			"<a href=\"?do=delete_time_feed&timefeedid=" . $val['timefeedid'] . "\">Delete</a></td></tr>\n";
+			"<a href=\"?do=delete_time_feed&timefeedid=" . $val['timefeedid'] . "&movieid=" . $val['movieid'] . "\">Delete</a></td></tr>\n";
 	}
 
 	function timeFeedToJson($val) {
@@ -41,7 +41,7 @@ class linkontrol {
 			"end:" . $val['end'] . ",\n" .
 			"target: '#feeddiv',\n" .
 			"body: '" . $val['body'] . "',\n" .
-			"img: '" . $val['img'] . "',\n" .
+			"img: 'Icons/" . $val['img'] . "',\n" .
 			"href: '" . $val['href'] . "',\n" .
 		"});\n";
 	}
