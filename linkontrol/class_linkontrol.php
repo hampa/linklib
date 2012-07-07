@@ -26,6 +26,31 @@ class linkontrol {
 		return mysql_insert_id();
         }
 
+	function addMovie($userid, $name, $href) {
+                $this->runSql("INSERT INTO linkontrol.movie(userid, name, href) " .
+				"VALUES (userid, '$name', '$href')");
+		return mysql_insert_id();
+        }
+
+	function getMovies() {
+		return $this->runSqlMulti("SELECT * FROM linkontrol.movie ORDER BY movieid DESC LIMIT 100"); 
+        }
+	
+	function createSession($movieid) {
+		$movieid = intval($movieid);
+		$sessionkey = substr(base_convert(md5($movieid + time()), 10, 36), 1, 5);
+                $this->runSql("INSERT INTO linkontrol.session(movieid, sessionkey) " .
+				"VALUES ($movieid, '$sessionkey')");
+		return $sessionkey;
+	}
+
+	function getSession($sessionkey) {
+		return $this->runSql("SELECT session.movieid, movie.name as moviename " .
+			"FROM linkontrol.session, linkontrol.movie " .
+			"WHERE session.movieid = movie.movieid " .
+			"AND sessionkey = '$sessionkey' LIMIT 1"); 
+	}
+	
 	function timeFeedToHtml($val) {
 		return "<tr><td>" . $val['timefeedid'] . "</td><td>" . 
 			$val['start'] . ',' . $val['end'] . "</td><td>" . 

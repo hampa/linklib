@@ -1,10 +1,18 @@
 <?php
 include_once("linkontrol/functions_linkontrol.php");
-$movieid = intval($_GET['movieid']);
+$linkontrol = new linkontrol();
+$sessionkey = mysql_real_escape_string($_GET['id']);
+$arr = $linkontrol->getSession($sessionkey);
+$movieid = 0;
+$movie_name = "No movie specified";
+if (isset($arr)) {
+	$movieid = $arr['movieid'];
+	$movie_name = $arr['moviename'];
+}
 ?>
 <html>
 <head>
-	<title>TPB AFK: Augumentary</title>
+	<title><?php echo("$movie_name");?></title>
 	<meta name="description" content="">
 	<meta name="author" content="">
 
@@ -31,8 +39,9 @@ $movieid = intval($_GET['movieid']);
 $(document).ready(function() {
         params = getParams();
         if (params && params["id"]) {
-                streamId = "someStreamId" + params["id"];
+                streamId = params["id"];
         }
+	<?php echo("streamId = \"$sessionkey\";\n"); ?>
 	connect();
 });
 
@@ -57,7 +66,7 @@ $(document).ready(function() {
 <div id="listener">
 
 <div id="header">
-	<h1>TPB AFK: Augumentary</h1>
+	<h1><?php echo("$movie_name"); ?></h1>
 </div>
 
 <div id="time">

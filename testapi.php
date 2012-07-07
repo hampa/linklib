@@ -39,11 +39,52 @@ if (isset($arr)) {
 </script>
 </head>
 <body>
+<div>
+<h3>get_movies</h3>
+<table border=1>
+<?php
+$linkontrol = new linkontrol();
+$arr = $linkontrol->getMovies();
+if (isset($arr)) {
+        foreach ($arr as $key => $val) {
+		echo('<tr><td><a href="?movieid=' . $val['movieid'] . '">' . $val['name'] . "($val[movieid])</a></td></tr>\n");
+        }
+}
+?>
+</table>
 <?php
 if ($msg != '') {
 	echo("<h2>$msg</h2>");
 }
 ?>
+
+<h3>add_movie</h3>
+<form method=post action="http://linkontrol.toribash.com/~hampa/testapi.php?do=add_movie" >
+<table>
+<tr><td>userid:</td>	<td><input name="userid" value="2101483"></td></tr>
+<tr><td>name:</td>	<td><input size="60" name="body" value="Prometheus"></td></tr>
+<tr><td>href:</td>	<td><input size="60" name="href" value="http://en.wikipedia.org/wiki/"></td></tr>
+<tr><td></td><td><input type=submit value="Submit"></td></tr>
+</table>
+</form>
+</div>
+
+<h3>create_session</h3>
+<form method=post action="http://linkontrol.toribash.com/~hampa/testapi.php?do=create_session" >
+<table>
+<tr><td>movieid:</td>	<td><input name="movieid" value="1"></td></tr>
+<tr><td></td><td><input type=submit value="Submit"></td></tr>
+</table>
+</form>
+
+<h3>get_session</h3>
+<form method=post action="http://linkontrol.toribash.com/~hampa/testapi.php?do=get_session" >
+<table>
+<tr><td>sessionkey:</td>	<td><input name="sessionkey" value="abcd"></td></tr>
+<tr><td></td><td><input type=submit value="Submit"></td></tr>
+</table>
+
+<h3>add_time_feed</h3>
 <form method=post action="http://linkontrol.toribash.com/~hampa/testapi.php?do=add_time_feed&movieid=<?php echo($movieid) ?>" >
 <table>
 <tr><td>movieid:</td>	<td><input name="movieid" value="1"></td></tr>
@@ -58,7 +99,7 @@ if ($msg != '') {
 </table>
 </form>
 
-<h1>get_time_feed</h1>
+<h3>get_time_feed</h3>
 <table border=1>
 <?php
 $linkontrol = new linkontrol();
