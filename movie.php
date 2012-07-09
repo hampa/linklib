@@ -17,7 +17,7 @@ if ($remote_code == '') {
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
 <script src="lib/popcorn/popcorn.js"></script>
 <script src="timefeed.js"></script>
-<script src="example.js"></script>
+<script src="movie.js"></script>
 <script src="util.js"></script>
 <script type="text/javascript">
 
