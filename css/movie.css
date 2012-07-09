@@ -90,3 +90,17 @@ body {
     opacity: .8;
     cursor: pointer;
 }
+
+.remotecode {
+    height: 30px;
+    width: 200px;
+    background: rgba(66, 66, 66, .5);
+    position: absolute;
+    left: 2px;
+    top: 2px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    color: white;
+    z-index: 100;
+    opacity: .8;
+}

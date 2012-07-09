@@ -22,7 +22,7 @@ if ($remote_code == '') {
 <script type="text/javascript">
 
 $(document).ready(function() {
-        params = getParams();
+	params = getParams();
         if (params && params["id"]) {
                 streamId = "someStreamId" + params["id"];
         }
@@ -31,56 +31,54 @@ $(document).ready(function() {
         connect();
 });
        //var serverLocation = 'http://empty-stone-2701.herokuapp.com';
-	var serverLocation = 'http://linkontrol.toribash.com:1339';	
-       var streamId = "someStreamId";
-   </script>
-   <!-- <script src="http://empty-stone-2701.herokuapp.com/socket.io/socket.io.js"></script> -->
-    <script src="http://linkontrol.toribash.com/~hampa/tpbafk/example/node-server/node_modules/socket.io/node_modules/socket.io-client/dist/socket.io.js"></script>
-
-<link href="timefeed.css" rel="stylesheet"/>
+var serverLocation = 'http://linkontrol.toribash.com:1339';	
+var streamId = "someStreamId";
+</script>
+<script src="http://linkontrol.toribash.com/~hampa/tpbafk/example/node-server/node_modules/socket.io/node_modules/socket.io-client/dist/socket.io.js"></script>
+<link href="css/timefeed.css" rel="stylesheet"/>
 <link href="css/movie.css" rel="stylesheet"/>
-
 <script type="text/javascript">
 	var popcorn, feed;
 
 	// ensure the web page (DOM) has loaded
 	document.addEventListener("DOMContentLoaded", function () {
 
-	var tf = timefeed('#feeddiv', {
-		highlight:false
-        });
+		var tf = timefeed('#feeddiv', {
+			highlight:false
+        	});
 
-	tf.onFirstItem = function () {
-            $('.tab').show();
-  //          toggleOverlay(true, false);
-        };
+		tf.onFirstItem = function () {
+			$('.tab').show();
+			$('.remotecode').show();
+        	};
 
-        popcorn = Popcorn("#video");
+		popcorn = Popcorn("#video");
 
-        // todo: debug why this doesn't fire
-        $("#video").bind('ended', function () {
-            tf.hideAll();
-        });
+		// todo: debug why this doesn't fire
+		$("#video").bind('ended', function () {
+			tf.hideAll();
+		});
 
-        $('.tab').click(function () {
-		toggleOverlay();
-	});
-
+		$('.tab').click(function () {
+			toggleOverlay();
+		});
+        	$('.remotecode').click(function () {
+			console.log("do something");
+		});
 <?php
-	$linkontrol = new linkontrol();
-	$arr = $linkontrol->getTimeFeeds($movieid);
-	if (isset($arr)) {
-        	foreach ($arr as $key => $val) {
-                	echo($linkontrol->timeFeedToJson($val));
-        	}
-	}
+		$linkontrol = new linkontrol();
+		$arr = $linkontrol->getTimeFeeds($movieid);
+		if (isset($arr)) {
+        		foreach ($arr as $key => $val) {
+                		echo($linkontrol->timeFeedToJson($val));
+        		}
+		}
 ?>
-        // initial render
-        handleHideOverlay({'streamId':streamId});
+        	// initial render
+        	handleHideOverlay({'streamId':streamId});
 
-        // play
-        handlePlay({'streamId':streamId});
-
+        	// play
+		handlePlay({'streamId':streamId});
 	}, false);
 
 	setInterval(function () {
@@ -174,31 +172,25 @@ $(document).ready(function() {
 	}
 </script>
 </head>
-
 <body>
-<p>Remote Code: <?php echo("$remote_code\n");?></p>
-<div class="container">
-    <div id="videodiv" class="videodiv">
-        <video style="background:#000" id="video" loop="" controls="">
-            <!--<source src="http://videos.mozilla.org/serv/webmademovies/wtfpopcorn.mp4" type="video/mp4">-->
-            <!--<source src="http://videos.mozilla.org/serv/webmademovies/wtfpopcorn.webm" type="video/webM">-->
-       	<source src="http://www.tpbafk.tv/augumentary/video/TPB_AFK_Demo720.theora.ogv" type="video/ogg">
-
-        <!--    <source src="/augumentary/video/TPB_AFK_Demo720.theora.ogv" type="video/ogg"> -->
-	<p>Your user agent does not support the HTML5 Video element.</p>
-        </video>
-        <div class="tab" style="padding-top: 6px; padding-left: 6px;">
-            +
-        </div>
-    </div>
-    <div id="feed" class="feed">
-        <div class="searchdiv">
-            <input type=text class="search" placeholder="Search">
-        </div>
-        <div id="feeddiv">
-        </div>
-    </div>
+	<div class="remotecode">Remote Code: <?php echo("$remote_code");?></div>
+	<div class="container">
+		<div id="videodiv" class="videodiv">
+        		<video style="background:#000" id="video" loop="" controls="">
+				<!-- <source src="http://videos.mozilla.org/serv/webmademovies/wtfpopcorn.mp4" type="video/mp4">-->
+				<!-- <source src="http://videos.mozilla.org/serv/webmademovies/wtfpopcorn.webm" type="video/webM">-->
+				<source src="http://www.tpbafk.tv/augumentary/video/TPB_AFK_Demo720.theora.ogv" type="video/ogg">
+				<!-- <source src="/augumentary/video/TPB_AFK_Demo720.theora.ogv" type="video/ogg"> -->
+				<p>Your user agent does not support the HTML5 Video element.</p>
+        		</video>
+		<div class="tab" style="padding-top: 6px; padding-left: 6px;">+</div>
+	</div>
+	<div id="feed" class="feed">
+		<div class="searchdiv">
+			<input type=text class="search" placeholder="Search">
+        	</div>
+		<div id="feeddiv"> </div>
+	</div>
 </div>
-
 </body>
 </html>
