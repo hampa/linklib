@@ -2,6 +2,10 @@
 include_once("linkontrol/functions_linkontrol.php");
 $linkontrol = new linkontrol();
 $movieid = intval($_GET['movieid']);
+if ($movieid == 0) {
+	include_once('movies.php');
+	die();
+}
 $remote_code = $_GET['id'];
 if ($remote_code == '') {
 	$remote_code = $linkontrol->createSession($movieid);
@@ -64,7 +68,7 @@ $(document).ready(function() {
 
 <?php
 	$linkontrol = new linkontrol();
-	$arr = $linkontrol->getTimeFeed($movieid);
+	$arr = $linkontrol->getTimeFeeds($movieid);
 	if (isset($arr)) {
         	foreach ($arr as $key => $val) {
                 	echo($linkontrol->timeFeedToJson($val));

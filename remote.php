@@ -2,6 +2,10 @@
 include_once("linkontrol/functions_linkontrol.php");
 $linkontrol = new linkontrol();
 $sessionkey = mysql_real_escape_string($_GET['id']);
+if ($sessionkey == '') {
+	include_once('remote_start.php');
+	die();
+}
 $arr = $linkontrol->getSession($sessionkey);
 $movieid = 0;
 $movie_name = "No movie specified";
@@ -15,56 +19,43 @@ if (isset($arr)) {
 	<title><?php echo("$movie_name");?></title>
 	<meta name="description" content="">
 	<meta name="author" content="">
-
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-    <link rel="apple-touch-icon" href="apple-touch-icon.png" type="image/png"/>
-    <link rel="apple-touch-startup-image" href="apple-touch-startup-image.png" type="image/png"/>
-
-
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+	<link rel="apple-touch-icon" href="apple-touch-icon.png" type="image/png"/>
+	<link rel="apple-touch-startup-image" href="apple-touch-startup-image.png" type="image/png"/>
 	<meta charset="utf-8">
-    <meta name="viewport" content="width=device-width"/>
-
+	<meta name="viewport" content="width=device-width"/>
 	<link rel="stylesheet" href="css/style.css" />
-
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
-    <script src="util.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+	<script src="util.js"></script>
 	<script type="application/x-javascript"> 
         	var streamId = "someStreamIdFirst";
 		var serverLocation = 'http://23.20.12.188:1339';	 // works
 		addEventListener("load", 
-			function() { setTimeout(hideURLbar, 0); }, false); 
-			function hideURLbar(){ window.scrollTo(0,1); } 
+			function() { 
+				setTimeout(hideURLbar, 0); 
+			}, false); 
+			function hideURLbar() { 
+				window.scrollTo(0,1);
+			} 
+			$(document).ready(function() {
+				params = getParams();
+				if (params && params["id"]) {
+					streamId = params["id"];
+				}
+				<?php echo("streamId = \"$sessionkey\";\n"); ?>
+				connect();
+		});
 
-$(document).ready(function() {
-        params = getParams();
-        if (params && params["id"]) {
-                streamId = params["id"];
-        }
-	<?php echo("streamId = \"$sessionkey\";\n"); ?>
-	connect();
-});
-
-        //var serverLocation = 'http://empty-stone-2701.herokuapp.com';
-	//var serverLocation = 'http://linkontrol.toribash.com:1339';	 // works
-	// sometimes the DNS fails, for some reason
-	var serverLocation = 'http://23.20.12.188:1339';	 // works
-        //var streamId = "someStreamId2";
-	console.log("streamId" + streamId);
-    </script>
-    <!-- <script src="http://empty-stone-2701.herokuapp.com/socket.io/socket.io.js"></script> -->
-    <script src="http://linkontrol.toribash.com/~hampa/tpbafk/example/node-server/node_modules/socket.io/node_modules/socket.io-client/dist/socket.io.js"></script> 
-
-
-    <script src="hooks.js"></script>
-    <script src="core.js"></script>
-
+		var serverLocation = 'http://23.20.12.188:1339';	 // works
+		console.log("streamId" + streamId);
+    	</script>
+    	<script src="http://linkontrol.toribash.com/~hampa/tpbafk/example/node-server/node_modules/socket.io/node_modules/socket.io-client/dist/socket.io.js"></script> 
+	<script src="hooks.js"></script>
+	<script src="core.js"></script>
 </head>
-
-
 <body id="body">
 <div id="listener">
-
 <div id="header">
 	<h1><?php echo("$movie_name"); ?></h1>
 </div>
@@ -74,13 +65,11 @@ $(document).ready(function() {
 </div>
 
 <div class="feed" id="feed">
-
 </div>
 
 <div id="timelapse">00:00:00</div>
 <div id="bottomshadow">
 </div>
-
 <div id="footer">
 	<div id="filmnav">
         <a href="#" id="reverse" onclick="sendRewind()"><img src="images/rewind.png"></a>
@@ -126,7 +115,7 @@ $(document).ready(function() {
     };
 <?php
 $linkontrol = new linkontrol();
-$arr = $linkontrol->getTimeFeed($movieid);
+$arr = $linkontrol->getTimeFeeds($movieid);
 if (isset($arr)) {
 	foreach ($arr as $key => $val) {
 		echo($linkontrol->timeFeedToJson($val));

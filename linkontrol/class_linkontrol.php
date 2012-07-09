@@ -10,9 +10,14 @@ class linkontrol {
 		return $arr[0];
 	}
 
-	function getTimeFeed($movieid) {
+	function getTimeFeeds($movieid) {
 		$movieid = intval($movieid);
 		return $this->runSqlMulti("SELECT * FROM linkontrol.timefeed WHERE movieid = $movieid AND deleted = 0 ORDER BY start ASC LIMIT 1000");
+	}
+
+	function getTimeFeed($timefeedid) {
+		$timefeedid = intval($timefeedid);
+		return $this->runSql("SELECT * FROM linkontrol.timefeed WHERE timefeedid = $timefeedid");
 	}
 
 	function deleteTimeFeed($timefeedid) {
@@ -25,6 +30,13 @@ class linkontrol {
 				"VALUES ($movieid, $userid, $start, $end, '$title', '$img', '$body', '$href')");
 		return mysql_insert_id();
         }
+
+	function updateTimeFeed($timefeedid, $userid, $start, $end, $title, $img, $body, $href) {
+                $this->runSql("UPDATE linkontrol.timefeed SET " . 
+				"userid = $userid, start = $start, end = $end, title = '$title', img = '$img', body = '$body', href = '$href' " .
+				"WHERE timefeedid = $timefeedid");
+		return mysql_affected_rows();
+	}
 
 	function addMovie($userid, $name, $href) {
                 $this->runSql("INSERT INTO linkontrol.movie(userid, name, href) " .
@@ -57,7 +69,9 @@ class linkontrol {
 			$val['body'] . "</td><td>" . 
 			$val['img'] . "</td><td>" . 
 			$val['href'] . "</td><td>" . 
-			"<a href=\"?do=delete_time_feed&timefeedid=" . $val['timefeedid'] . "&movieid=" . $val['movieid'] . "\">Delete</a></td></tr>\n";
+			"<a href=\"?do=delete_time_feed&timefeedid=" . $val['timefeedid'] . "&movieid=" . $val['movieid'] . "\">Delete</a></td><td>" .
+			"<a href=\"?do=get_time_feed&timefeedid=" . $val['timefeedid'] . "&movieid=" . $val['movieid'] . "\">View</a></td><td>" .
+			"</td></tr>\n";
 	}
 
 	function timeFeedToJson($val) {
