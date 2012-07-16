@@ -31,8 +31,8 @@ else if ($_GET['do'] == 'update_time_feed') {
 		$msg_level = "error";
 		return;
 	}
-	if ($title == '') {
-		$msg = "Title cannot be empty";
+	if ($body == '') {
+		$msg = "Body cannot be empty";
 		$msg_level = "error";
 		return;
 	}
