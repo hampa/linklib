@@ -1,11 +1,17 @@
+<?php
+include_once('linkontrol/functions_linkontrol.php');
+$linkontrol = new linkontrol();
+?>
 <html>
 <head>
 <!-- <link href="css/apistyle.css" rel="stylesheet" /> -->
+<link href="css/nav.css" rel="stylesheet" />
+<link href="css/apistyle.css" rel="stylesheet" />
 </head>
 <body>
+<?php echo($linkontrol->getNavigationMenu()); ?>
 <table> 
 <div align="center">
-<h3>Remote Start<h3>
 </div>
 <form method=GET action="remote.php">
 <table align="center">

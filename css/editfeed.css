@@ -1,0 +1,139 @@
+
+body {
+    padding: 0;
+    margin:  0;
+}
+#video {
+    width: 100%;
+    height: 100%;
+    background: white;
+    float: right;
+}
+
+.feed {
+    position: absolute;
+    top: 0;
+    width: 300px;
+    height: 100%;
+    background:  rgba(66,66,66, .5);
+    /*overflow-y:  scroll;*/
+    overflow-y: auto;
+}
+
+.item:hover {
+    opacity: 1;
+}
+
+.item {
+    background:  white;
+    width: 280px;
+    padding:  5px;
+    border-radius: 5px;
+    position: relative;
+    opacity: .5;
+    top: 0; left: 0;
+    overflow:  hidden;
+    margin: 0 5px 5px 5px;
+}
+
+.title {
+    font-size: .9em;
+    font-style: italic;
+    margin-bottom: 4px;
+}
+.time {
+    position: absolute;
+    top: 2px;
+    right: 4px;
+    color: #888;
+    font-size: .8em;
+}
+
+.ico {
+    position: absolute;
+    margin-right: 8px;
+    height: 32px;
+    width: 32px;
+}
+.body {
+    font-weight: bold;
+}
+.body, .link {
+    margin-left: 42px;
+}
+
+.title, .body, .ico , .start{
+    cursor: pointer;
+}
+.link {
+    color: gray;
+    font-style: italic;
+    font-size: .9em;
+    text-decoration: none;
+}
+
+.link:hover {
+    color: blue;
+    text-decoration: underline;
+}
+
+.container {
+    position: fixed;
+    top: 50px;
+    height: 100px;
+    width: 100%;
+    background: gray;
+}
+
+.nav {
+    display: none;
+    width: 300px;
+    text-align: center;
+    height: 20px;
+    padding:  5px 0;
+}
+.navdown {
+    position: absolute;
+    bottom: 0;
+}
+.up, .down {
+    text-align: center;
+    cursor: pointer;
+    background: #333;
+    color: #888;
+    height: 20px;
+}
+.up:hover, .down:hover {
+    background: #aaa;
+}
+.up {
+    margin-bottom: 5px;
+}
+
+.search {
+    width: 285px;
+    border-radius: 2px;
+    padding:  2px;
+    height: 15px;
+    border: none;
+    opacity: .6;
+}
+.search:focus {
+    opacity: 1;
+}
+
+.searchdiv {
+    margin: 0 5px ;
+    padding: 5px 0;
+    border-bottom:  1px solid #888
+}
+
+#feeddiv {
+    position: absolute;;
+    /*top: 35px;*/
+    top: 30px;
+    bottom: 35px;
+    overflow: hidden;
+    width: 300px;
+    padding-top: 5px;
+}

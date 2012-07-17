@@ -1,0 +1,113 @@
+body {
+    padding: 0;
+    margin:  0;
+    font-family: Helvetica, Arial, sans-serif;
+}
+#video {
+    top: 100px;
+    width: 100px;
+    height: 100px;
+    float: none;
+}
+#videodiv {
+    float: left;
+    position: relative;
+    top: 0; left: 0;
+    width: 100%;
+    height: 90%;
+}
+
+.feed {
+    position: absolute;
+    top: 0px;
+    right: 0;
+    width: 315px;
+    padding-left: 5px;
+    height: 100%;
+    background:  black;
+    overflow: visible;
+}
+
+#feeddiv {
+    overflow-y:  auto;
+}
+
+.item {
+    background: rgba(66,66,66, .5);
+    width: 265px;
+}
+.item .title {
+    display : none;
+}
+
+.item .title,
+.item .body {
+    color: white;
+}
+
+.item .link,
+.item .link:hover
+{
+    color:   #49827B;
+}
+
+.item:hover {
+    background: rgba(99,99,99, .5);;
+}
+.item .time {
+    display: none;
+}
+
+.searchdiv {
+    display: none;
+}
+
+#feeddiv {
+    top : 0;
+}
+
+.item .link {
+    white-space: nowrap;
+}
+.ico {
+    width: 25px;
+    height: 25px;
+    margin-left: 5px;
+}
+
+.tab {
+    height: 25px;
+    width: 16px;
+    background: rgba(66, 66, 66, .5);
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    color: white;
+    z-index: 99;
+    display: none;
+    opacity: .8;
+    cursor: pointer;
+}
+
+.remotecode {
+    height: 30px;
+    width: 200px;
+    background: rgba(66, 66, 66, .5);
+    position: absolute;
+    left: 2px;
+    top: 2px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    color: white;
+    z-index: 100;
+    opacity: .8;
+}
+
+.editfeeds {
+    position: fixed;
+    top: 180px;
+    height: 100%;
+    width: 100%;
+}

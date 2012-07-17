@@ -57,6 +57,11 @@ else if ($_GET['do'] == 'add_movie') {
 	$movieid = $linkontrol->addMovie($userid, $name, $href);
 	$msg = "added movie $movieid";
 }
+else if ($_GET['do'] == 'delete_movie') {
+	$movieid= intval($_REQUEST['movieid']);
+	$linkontrol->deleteMovie($movieid);
+	$msg = "deleted movie $movieid";
+}
 else if ($_GET['do'] == 'create_session') {
 	$movieid = intval($_REQUEST['movieid']);
 	if ($movieid == 0) {

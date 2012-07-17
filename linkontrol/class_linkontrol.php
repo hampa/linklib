@@ -44,8 +44,18 @@ class linkontrol {
 		return mysql_insert_id();
         }
 
+	function deleteMovie($movieid) {
+		$movieid = intval($movieid);
+		return $this->runSql("UPDATE linkontrol.movie SET deleted = 1 WHERE movieid = $movieid");
+	}
+
 	function getMovies() {
-		return $this->runSqlMulti("SELECT * FROM linkontrol.movie ORDER BY movieid DESC LIMIT 100"); 
+		return $this->runSqlMulti("SELECT * FROM linkontrol.movie WHERE deleted = 0 ORDER BY movieid DESC LIMIT 100"); 
+        }
+
+	function getMovie($movieid) {
+		$movieid = intval($movieid);
+		return $this->runSql("SELECT * FROM linkontrol.movie WHERE movieid = $movieid LIMIT 1"); 
         }
 	
 	function createSession($movieid) {
@@ -97,6 +107,32 @@ class linkontrol {
 			"img: 'Icons/" . $val['img'] . "',\n" .
 			"href: '" . $val['href'] . "',\n" .
 		"});\n";
+	}
+
+	function getNavigationMenu() {
+		$html = <<<EOF
+		<table>
+		<tr>
+		<td><a href="index.php"> Linkontrol </a></td>
+		<td><a href="movies.php"> Movies </a></td>
+		<td><a href="remote.php"> Remote </a></td>
+		<td><a href="testapi.php"> Test API </a></td>
+		<tr>
+		</table>
+EOF;
+		return $html;
+
+	}	
+	function getNavigationMenu2() {
+		$html = <<<EOF
+		<div id="small_menu">
+		<ul>
+		<li><a style="padding: 0pt 9px;" href="index.php"> Linkontrol </a></li>
+		<li><a style="padding: 0pt 9px;" href="movies.php"> Movies </a></li>
+		<li><a style="padding: 0pt 9px;" href="remote.php"> Remote </a></li>
+</ul>
+EOF;
+		return $html;
 	}
 }
 ?>

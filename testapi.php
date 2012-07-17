@@ -27,6 +27,7 @@ if ($timefeedid > 0) {
 <link href="css/apistyle.css" rel="stylesheet" />
 </head>
 <body>
+<?php echo($linkontrol->getNavigationMenu()); ?>
 <div>
 <?php
 if ($msg != '') {
@@ -46,7 +47,7 @@ if (isset($arr)) {
 ?>
 </table>
 <h1>add_movie</h1>
-<form method=post action="http://linkontrol.toribash.com/~hampa/testapi.php?do=add_movie" >
+<form method=post action="?do=add_movie" >
 <table>
 <tr><td>userid:</td>	<td><input name="userid" value="2101483"></td></tr>
 <tr><td>name:</td>	<td><input size="60" name="name" value="Prometheus"></td></tr>
