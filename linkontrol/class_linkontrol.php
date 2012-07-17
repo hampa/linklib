@@ -113,7 +113,6 @@ class linkontrol {
 		$html = <<<EOF
 		<table>
 		<tr>
-		<td><a href="index.php"> Linkontrol </a></td>
 		<td><a href="movies.php"> Movies </a></td>
 		<td><a href="remote.php"> Remote </a></td>
 		<td><a href="testapi.php"> Test API </a></td>

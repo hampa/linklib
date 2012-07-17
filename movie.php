@@ -10,6 +10,8 @@ $remote_code = $_GET['id'];
 if ($remote_code == '') {
 	$remote_code = $linkontrol->createSession($movieid);
 }
+$arr = $linkontrol->getMovie($movieid);
+$movie_href = $arr['href'];
 ?>
 <!doctype html>
 <html>
@@ -177,10 +179,7 @@ var streamId = "someStreamId";
 	<div class="container">
 		<div id="videodiv" class="videodiv">
         		<video style="background:#000" id="video" loop="" controls="">
-				<!-- <source src="http://videos.mozilla.org/serv/webmademovies/wtfpopcorn.mp4" type="video/mp4">-->
-				<!-- <source src="http://videos.mozilla.org/serv/webmademovies/wtfpopcorn.webm" type="video/webM">-->
-				<source src="http://www.tpbafk.tv/augumentary/video/TPB_AFK_Demo720.theora.ogv" type="video/ogg">
-				<!-- <source src="/augumentary/video/TPB_AFK_Demo720.theora.ogv" type="video/ogg"> -->
+				<source src="<?php echo($movie_href);?>" type="video/ogg">
 				<p>Your user agent does not support the HTML5 Video element.</p>
         		</video>
 		<div class="tab" style="padding-top: 6px; padding-left: 6px;">+</div>
