@@ -12,12 +12,17 @@ if ($remote_code == '') {
 }
 $arr = $linkontrol->getMovie($movieid);
 $movie_href = $arr['href'];
+$is_youtube = false;
+if (stristr($movie_href, "http://youtu.be")) {
+	$is_youtube = true;
+}
 ?>
 <!doctype html>
 <html>
 <head>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
-<script src="lib/popcorn/popcorn.js"></script>
+<!-- <script src="lib/popcorn/popcorn.js"></script> -->
+<script src="http://popcornjs.org/code/dist/popcorn-complete.js"></script>
 <script src="timefeed.js"></script>
 <script src="movie.js"></script>
 <script src="util.js"></script>
@@ -52,9 +57,20 @@ var streamId = "someStreamId";
 		tf.onFirstItem = function () {
 			$('.tab').show();
 			$('.remotecode').show();
+			console.log("onFirstItem");
         	};
 
-		popcorn = Popcorn("#video");
+<?php
+		if ($is_youtube) {
+			echo("popcorn = Popcorn.smart('#youtube', '$movie_href');\n");
+		}
+		else {
+			echo("popcorn = Popcorn('#video');\n");
+		}
+		//echo("//$movie_href\n");
+		//echo("popcorn = Popcorn.smart('#video', '$movie_href');\n");
+?>
+		//console.log(popcorn); 
 
 		// todo: debug why this doesn't fire
 		$("#video").bind('ended', function () {
@@ -62,10 +78,12 @@ var streamId = "someStreamId";
 		});
 
 		$('.tab').click(function () {
+			console.log("tab click");
 			toggleOverlay();
 		});
         	$('.remotecode').click(function () {
 			console.log("do something");
+			toggleOverlay();
 		});
 <?php
 		$linkontrol = new linkontrol();
@@ -81,14 +99,18 @@ var streamId = "someStreamId";
 
         	// play
 		handlePlay({'streamId':streamId});
+
+		popcorn.play();
 	}, false);
 
 	setInterval(function () {
 		var data = {};
 		if (!data.time) {
-			data.time = popcorn.video.currentTime;
+			//data.time = popcorn.video.currentTime;
+			data.time = popcorn.currentTime();
 		}
-		if (popcorn.video.paused) {
+		//if (popcorn.video.paused) {
+		if (popcorn.paused()) {
 			emit("onPause", data);
 		}
 		else {
@@ -99,7 +121,8 @@ var streamId = "someStreamId";
 	var handlePlay = function (data) {
 		popcorn.play(data.time);
         	if (!data.time) {
-            		data.time = popcorn.video.currentTime;
+            		//data.time = popcorn.video.currentTime;
+            		data.time = popcorn.currentTime();
         	}
         	emit("onPlay", data);
     	};
@@ -107,7 +130,8 @@ var streamId = "someStreamId";
 	var handlePause = function (data) {
 		popcorn.pause(data.time);
         	if (!data.time) {
-			data.time = popcorn.video.currentTime;
+			//data.time = popcorn.video.currentTime;
+			data.time = popcorn.currentTime();
 		}
 		emit("onPause", data);
 	};
@@ -121,18 +145,19 @@ var streamId = "someStreamId";
 	}
 
 	var jumpTo = function(data, seconds) {
-        	var newtime = popcorn.video.currentTime + seconds;
+        	var newtime = popcorn.currentTime() + seconds;
 		if (newtime < 0) {
 			newtime = 0;
 		}
-		var duration = popcorn.video.duration;
+		var duration = popcorn.duration();
 		if (duration && duration < newtime) {
 			newtime = duration;
 		}	
 		console.log("jumpTo" + newtime + " duration " + duration);
-        	popcorn.play(newtime);
+        	//popcorn.play(newtime);
+        	popcorn.currentTime(newtime);
         	if (!data.time) {
-            		data.time = popcorn.video.currentTime;
+            		data.time = popcorn.currentTime();
         	}
         	emit("onRewind", data);
     	}
@@ -178,18 +203,25 @@ var streamId = "someStreamId";
 	<div class="remotecode">Remote Code: <?php echo("$remote_code");?></div>
 	<div class="container">
 		<div id="videodiv" class="videodiv">
-        		<video style="background:#000" id="video" loop="" controls="">
-				<source src="<?php echo($movie_href);?>" type="video/ogg">
-				<p>Your user agent does not support the HTML5 Video element.</p>
-        		</video>
-		<div class="tab" style="padding-top: 6px; padding-left: 6px;">+</div>
+<?php 
+	if ($is_youtube) {
+		echo('<div id="youtube" style="padding-top:50px;width:400px;height:400px;"></div>');
+	}
+	else {
+		echo('<video style="background:#000" id="video" loop="" controls="">' . "\n");
+		echo("<source src=\"$movie_href\" type=\"video/ogg\">\n");
+		echo("<p>Your user agent does not support the HTML5 Video element.</p>\n");
+		echo("</video>\n");
+	}
+?>
+			<div class="tab" style="padding-top: 6px; padding-left: 6px;">+</div>
+		</div>
+		<div id="feed" class="feed">
+			<div class="searchdiv">
+				<input type=text class="search" placeholder="Search">
+        		</div>
+			<div id="feeddiv"> </div>
+		</div>
 	</div>
-	<div id="feed" class="feed">
-		<div class="searchdiv">
-			<input type=text class="search" placeholder="Search">
-        	</div>
-		<div id="feeddiv"> </div>
-	</div>
-</div>
 </body>
 </html>
