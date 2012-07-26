@@ -6,10 +6,14 @@ if ($movieid == 0) {
 	include_once('movies.php');
 	die();
 }
-$remote_code = $_GET['id'];
+$remote_code = mysql_real_escape_string($_GET['id']);
 if ($remote_code == '') {
 	$remote_code = $linkontrol->createSession($movieid);
 }
+else {
+	$linkontrol->reuseSession($remote_code, $movieid);
+}
+
 $arr = $linkontrol->getMovie($movieid);
 $movie_href = $arr['href'];
 $is_youtube = false;

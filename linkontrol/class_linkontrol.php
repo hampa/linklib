@@ -66,6 +66,13 @@ class linkontrol {
 		return $sessionkey;
 	}
 
+	function reuseSession($sessionkey, $movieid) {
+		$movieid = intval($movieid);
+                $this->runSql("INSERT INTO linkontrol.session(movieid, sessionkey) " .
+				"VALUES ($movieid, '$sessionkey') " . 
+				"ON DUPLICATE KEY UPDATE movieid = $movieid, sessionkey = '$sessionkey'");
+	}
+
 	function getSession($sessionkey) {
 		return $this->runSql("SELECT session.movieid, movie.name as moviename " .
 			"FROM linkontrol.session, linkontrol.movie " .
