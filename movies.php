@@ -20,7 +20,7 @@ $linkontrol = new linkontrol();
 <tr bgcolor="#AAAAAA">
 <td><input name=name value="Enter Movie Title"></td>
 <td><input name=href value="http://link.to.movie.com"></td>
-<td colspan=3><input type=submit value="Add Movie"></td>
+<td colspan=4><input type=submit value="Add Movie"></td>
 </form>
 <?php
 $arr = $linkontrol->getMovies();

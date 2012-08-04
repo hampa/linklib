@@ -89,6 +89,17 @@ var streamId = "someStreamId";
 			console.log("do something");
 			toggleOverlay();
 		});
+
+
+
+        popcorn.timefeed({
+			start:0,
+			target:"#feeddiv",
+			title:'Linkontrol!',
+			body:'Your links show up here',
+			img:'../Icons/linkontrol.png',
+			href:"http://www.linkontrol.com"
+                         });
 <?php
 		$linkontrol = new linkontrol();
 		$arr = $linkontrol->getTimeFeeds($movieid);
@@ -105,6 +116,7 @@ var streamId = "someStreamId";
 		handlePlay({'streamId':streamId});
 
 		popcorn.play();
+
 	}, false);
 
 	setInterval(function () {
@@ -209,7 +221,7 @@ var streamId = "someStreamId";
 		<div id="videodiv" class="videodiv">
 <?php 
 	if ($is_youtube) {
-		echo('<div id="youtube" style="padding-top:50px;width:400px;height:400px;"></div>');
+		echo('<div id="youtube" style="padding-top:50px;width:400px;height:400px;"></div>' . "\n");
 	}
 	else {
 		echo('<video style="background:#000" id="video" loop="" controls="">' . "\n");
@@ -218,8 +230,8 @@ var streamId = "someStreamId";
 		echo("</video>\n");
 	}
 ?>
-			<div class="tab" style="padding-top: 6px; padding-left: 6px;">+</div>
 		</div>
+		<div class="tab" style="padding-top: 6px; padding-left: 6px;">+</div>
 		<div id="feed" class="feed">
 			<div class="searchdiv">
 				<input type=text class="search" placeholder="Search">

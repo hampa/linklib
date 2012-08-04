@@ -57,6 +57,34 @@ else if ($_GET['do'] == 'add_movie') {
 	$movieid = $linkontrol->addMovie($userid, $name, $href);
 	$msg = "added movie $movieid";
 }
+else if ($_GET['do'] == 'update_movie') {
+	$movieid = intval($_REQUEST['movieid']);
+	$name = mysql_real_escape_string($_REQUEST['name']);
+	$href = mysql_real_escape_string($_REQUEST['href']);
+	if ($movieid == 0) {
+		$msg = "movieid cannot be 0";
+		$msg_level = "warning";
+		return;
+	}
+	if ($name == '') {
+		$msg = "Name cannot be empty";
+		$msg_level = "warning";
+		return;
+	}
+	if ($href == '') {
+		$msg = "href cannot be empty";
+		$msg_level = "warning";
+		return;
+	}
+
+	$rows = $linkontrol->updateMovie($movieid, $name, $href);
+	if ($rows == 0) {
+		$msg = "unable to find movie $movieid";
+		$msg_level = "error";
+		return;
+	}
+	$msg = "Movie was updated";
+}
 else if ($_GET['do'] == 'delete_movie') {
 	$movieid= intval($_REQUEST['movieid']);
 	$linkontrol->deleteMovie($movieid);

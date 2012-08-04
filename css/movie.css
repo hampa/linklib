@@ -86,7 +86,7 @@ body {
     border-bottom-left-radius: 5px;
     color: white;
     z-index: 99;
-    display: none;
+    // display: none;
     opacity: .8;
     cursor: pointer;
 }

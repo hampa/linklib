@@ -44,6 +44,12 @@ class linkontrol {
 		return mysql_insert_id();
         }
 
+	function updateMovie($movieid, $name, $href) {
+		$movieid = intval($movieid);
+                $this->runSql("UPDATE linkontrol.movie SET name = '$name', href = '$href' WHERE movieid = $movieid");
+		return mysql_affected_rows();
+        }
+
 	function deleteMovie($movieid) {
 		$movieid = intval($movieid);
 		return $this->runSql("UPDATE linkontrol.movie SET deleted = 1 WHERE movieid = $movieid");
@@ -106,13 +112,14 @@ class linkontrol {
 	}
 
 	function timeFeedToJson($val) {
+		// if end: 0, it will not show
 		return "popcorn.timefeed({\n" .
 			"start: " . $val['start'] . ",\n" . 
-			"end:" . $val['end'] . ",\n" .
+			//"end:" . $val['end'] . ",\n" .
 			"target: '#feeddiv',\n" .
 			"body: '" . $val['body'] . "',\n" .
 			"img: 'Icons/" . $val['img'] . "',\n" .
-			"href: '" . $val['href'] . "',\n" .
+			"href: '" . $val['href'] . "'\n" .
 		"});\n";
 	}
 

@@ -1,8 +1,8 @@
 <?php
 include_once("linkontrol/functions_linkontrol.php");
 $linkontrol = new linkontrol;
-$movieid = intval($_GET['movieid']);
-$timefeedid = intval($_GET['timefeedid']);
+$movieid = intval($_REQUEST['movieid']);
+$timefeedid = intval($_REQUEST['timefeedid']);
 if ($timefeedid > 0) {
 	$arr = $linkontrol->getTimeFeed($timefeedid);
 	if (isset($arr)) {
@@ -37,7 +37,6 @@ if ($msg != '') {
 <h1>get_movies</h1>
 <table border=1>
 <?php
-$linkontrol = new linkontrol();
 $arr = $linkontrol->getMovies();
 if (isset($arr)) {
         foreach ($arr as $key => $val) {
@@ -53,6 +52,26 @@ if (isset($arr)) {
 <tr><td>name:</td>	<td><input size="60" name="name" value="Prometheus"></td></tr>
 <tr><td>href:</td>	<td><input size="60" name="href" value="http://en.wikipedia.org/wiki/"></td></tr>
 <tr><td></td><td><input type=submit value="Submit"></td></tr>
+</table>
+</form>
+</div>
+
+<h1>update_movie</h1>
+<?php
+if ($movieid != 0) {
+	$arr = $linkontrol->getMovie($movieid);
+	if (isset($arr)) {
+		$movie_name = $arr['name'];
+		$movie_href = $arr['href'];
+        }
+}
+?>
+<form method=post action="?do=update_movie" >
+<table>
+<tr><td>movieid:</td>      <td><input size="5" name="movieid" value="<?php echo($movieid); ?>"></td></tr>
+<tr><td>name:</td>      <td><input size="60" name="name" value="<?php echo($movie_name); ?>"></td></tr>
+<tr><td>href:</td>      <td><input size="60" name="href" value="<?php echo($movie_href); ?>"></td></tr>
+<tr><td></td><td><input type=submit value="Update"></td></tr>
 </table>
 </form>
 </div>
@@ -106,7 +125,6 @@ if (isset($arr)) {
 <h1>get_time_feeds</h1>
 <table border=1>
 <?php
-$linkontrol = new linkontrol();
 $arr = $linkontrol->getTimeFeeds($movieid);
 if (isset($arr)) {
 	foreach ($arr as $key => $val) {

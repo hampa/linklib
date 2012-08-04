@@ -124,8 +124,15 @@ if ($msg != '') {
 	echo("<div class=$msg_level>$msg</div>");
 }
 ?>
-<p>Movie: <?php echo($moviename); ?> </p>
-<p>Url: <?php echo($movieurl); ?> </p>
+
+<form method=post action="?do=update_movie&movieid=<?php echo($movieid); ?>">
+<table>
+<tr><td>name:</td>      <td><input size="60" name="name" value="<?php echo($moviename); ?>"></td></tr>
+<tr><td>url:</td>      <td><input size="60" name="href" value="<?php echo($movieurl); ?>"></td></tr>
+<tr><td></td><td><input type=submit value="Update"></td></tr>
+</table>
+</form>
+
 <table>
 <tr><td>Start (sec)</td><td>body</td><td>img</td><td>href</td><td></td><td></td></tr>
 <form method=post action="?do=add_time_feed&movieid=<?php echo($movieid) ?>" >
