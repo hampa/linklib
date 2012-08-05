@@ -90,16 +90,6 @@ var streamId = "someStreamId";
 			toggleOverlay();
 		});
 
-
-
-        popcorn.timefeed({
-			start:0,
-			target:"#feeddiv",
-			title:'Linkontrol!',
-			body:'Your links show up here',
-			img:'../Icons/linkontrol.png',
-			href:"http://www.linkontrol.com"
-                         });
 <?php
 		$linkontrol = new linkontrol();
 		$arr = $linkontrol->getTimeFeeds($movieid);
@@ -116,6 +106,8 @@ var streamId = "someStreamId";
 		handlePlay({'streamId':streamId});
 
 		popcorn.play();
+
+		toggleOverlay();
 
 	}, false);
 
