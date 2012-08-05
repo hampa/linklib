@@ -139,6 +139,7 @@ if ($msg != '') {
 <input type=hidden name=movieid value=<?php echo($movieid) ?>
 <input type=hidden name=userid value="123">
 <tr bgcolor="#AAAAAA">
+<td></td>
 <td><input size=4 name=start value="10"></td>
 <td><input size=15 name=body value="This is a feed title"></td>
 <td><input size=10 name=img value="pp.png"></td>
@@ -149,10 +150,11 @@ if ($msg != '') {
 <?php
 $linkontrol = new linkontrol();
 $arr = $linkontrol->getTimeFeeds($movieid);
+$index = 1;
 if (isset($arr)) {
 	foreach ($arr as $key => $val) {
 		#print_r($val);
-		echo("\t\t" . $linkontrol->timeFeedToHtmlForm($val));
+		echo("\t\t" . $linkontrol->timeFeedToHtmlForm($index++, $val));
 	}
 }
 ?>

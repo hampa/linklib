@@ -97,10 +97,11 @@ class linkontrol {
 			"</td></tr>\n";
 	}
 
-	function timeFeedToHtmlForm($val) {
+	function timeFeedToHtmlForm($index, $val) {
 		return '<form method=post action="?do=update_time_feed&movieid=' . $val['movieid'] . '">' . 
 			'<input type=hidden name=feedid value=' . $val['timefeedid'] . '>' .
 			'<tr>' .
+			'<td>' . $index . '</td>' . 
 			'<td><input name=start size=4 value="' . $val['start'] . '"></td>' . 
 			'<td><input name=body size=15 value="' . $val['body'] . '"></td>' . 
 			'<td><input name=img size=10 value="' . $val['img'] . '"></td>' . 
