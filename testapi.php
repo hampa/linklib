@@ -20,6 +20,8 @@ if ($timefeedid > 0) {
 ?>
 <html>
 <head>
+<script type="text/javascript" src="//use.typekit.net/gtv1fsm.js"></script>
+<script type="text/javascript">try{Typekit.load();}catch(e){}</script>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
 <script src="http://popcornjs.org/code/dist/popcorn-complete.js"></script>
 <script src="timefeed.js"></script>

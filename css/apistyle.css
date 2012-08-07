@@ -5,7 +5,7 @@
 }
 
 body {
-	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-family: "museo-sans", sans-serif;
 	font-size: 13px;
 	color: #666666;
 }
@@ -18,7 +18,7 @@ table  {
 td {
 	border: 1px solid #eee;
 	padding: 5px;
-	font: 10px/20px"Lucida Grande", verdana, sans-serif;
+	font-family: "museo-sans", Arial, Helvetica, sans-serif;
 	text-align: left;
 }
 
@@ -27,7 +27,7 @@ td {
 }
 
 h1, h2 {
-	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+	font-family: "museo-sans", Arial, Helvetica, sans-serif;
 	font-weight: normal;
 }
 

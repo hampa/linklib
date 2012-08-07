@@ -7,13 +7,15 @@ $( function () {
 //        toggleOverlay();
 //    });
 
-    $('.feed').mouseenter( function (){
-        handlePause({});
-    });
+	/*
+	$('.feed').mouseenter( function (){
+		handlePause({});
+	});
 
-    $('#video').mouseenter( function (){
-        handlePlay({});
-    });
+	$('#video').mouseenter( function (){
+		handlePlay({});
+	});
+	*/
 });
 
 

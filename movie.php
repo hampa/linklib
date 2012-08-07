@@ -24,6 +24,8 @@ if (stristr($movie_href, "http://youtu.be")) {
 <!doctype html>
 <html>
 <head>
+<script type="text/javascript" src="//use.typekit.net/gtv1fsm.js"></script>
+<script type="text/javascript">try{Typekit.load();}catch(e){}</script>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
 <!-- <script src="lib/popcorn/popcorn.js"></script> -->
 <script src="http://popcornjs.org/code/dist/popcorn-complete.js"></script>
@@ -127,18 +129,18 @@ var streamId = "someStreamId";
 	}, 700);
 
 	var handlePlay = function (data) {
+		console.log("handlePlay " + data);
 		popcorn.play(data.time);
         	if (!data.time) {
-            		//data.time = popcorn.video.currentTime;
             		data.time = popcorn.currentTime();
         	}
         	emit("onPlay", data);
     	};
 
 	var handlePause = function (data) {
+		console.log("handlePause");
 		popcorn.pause(data.time);
         	if (!data.time) {
-			//data.time = popcorn.video.currentTime;
 			data.time = popcorn.currentTime();
 		}
 		emit("onPause", data);
@@ -213,7 +215,7 @@ var streamId = "someStreamId";
 		<div id="videodiv" class="videodiv">
 <?php 
 	if ($is_youtube) {
-		echo('<div id="youtube" style="padding-top:50px;width:400px;height:400px;"></div>' . "\n");
+		echo('<div id="youtube" style="padding-top:50px;width:640px;height:480px;"></div>' . "\n");
 	}
 	else {
 		echo('<video style="background:#000" id="video" loop="" controls="">' . "\n");

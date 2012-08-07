@@ -4,7 +4,8 @@ $linkontrol = new linkontrol();
 ?>
 <html>
 <head>
-<!-- <link href="css/apistyle.css" rel="stylesheet" /> -->
+<script type="text/javascript" src="//use.typekit.net/gtv1fsm.js"></script>
+<script type="text/javascript">try{Typekit.load();}catch(e){}</script>
 <link href="css/nav.css" rel="stylesheet" />
 <link href="css/apistyle.css" rel="stylesheet" />
 </head>

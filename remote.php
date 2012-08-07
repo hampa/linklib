@@ -16,6 +16,8 @@ if (isset($arr)) {
 ?>
 <html>
 <head>
+<script type="text/javascript" src="//use.typekit.net/gtv1fsm.js"></script>
+<script type="text/javascript">try{Typekit.load();}catch(e){}</script>
 	<title><?php echo("$movie_name");?></title>
 	<meta name="description" content="">
 	<meta name="author" content="">

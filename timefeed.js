@@ -57,14 +57,19 @@
             el.find('.link').attr('href',  options.href)
                 .text(options.href)
                 .click( function () {
+			console.log("click.handlePause");
                     handlePause();
             });
             el.click( function () {
-                if( player.paused() )
-
+                if( player.paused() ) {
+			console.log("handlePause time");
                     handlePause({'time': options.start});
-                else
+		}
+                else {
+			console.log("handlePause time");
                     handlePlay({'time': options.start});
+                    //handlePause({'time': options.start});
+		}
 
             });
 
