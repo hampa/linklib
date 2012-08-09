@@ -56,7 +56,10 @@ class linkontrol {
 	}
 
 	function getMovies() {
-		return $this->runSqlMulti("SELECT * FROM linkontrol.movie WHERE deleted = 0 ORDER BY movieid DESC LIMIT 100"); 
+		return $this->runSqlMulti("SELECT movie.*, users.username FROM linkontrol.movie, linkontrol.users " .
+					"WHERE deleted = 0 " .
+					"AND movie.userid = users.userid " .
+					"ORDER BY movieid DESC LIMIT 100"); 
         }
 
 	function getMovie($movieid) {
@@ -137,6 +140,11 @@ EOF;
 		return $html;
 
 	}	
+
+	function getLoginMenu() {
+		return '<div><a href="login.php" class="sign-in" id="login-link">Log In</a> | <a href="register.php" class="sign-in" id="signup-link">Sign Up</a></div>' . "\n";
+	}
+
 	function getNavigationMenu2() {
 		$html = <<<EOF
 		<div id="small_menu">

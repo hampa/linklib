@@ -1,0 +1,35 @@
+<html>
+	<head>
+		<script type="text/javascript" src="//use.typekit.net/gtv1fsm.js"></script>
+		<script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+		<link href="css/editfeed.css" rel="stylesheet" />
+		<link href="css/edit.css" rel="stylesheet" />
+		<link href="css/nav.css" rel="stylesheet" />
+		<link href="css/apistyle.css" rel="stylesheet" />
+	</head>
+	<body>
+		<if condition="($username == '')">
+			<div>logged in as $username | <a href="logout.php">Logout</a></div>	
+		<else />
+			<div><a href="login.php" class="sign-in" id="login-link">Log In</a> | <a href="register.php" class="sign-in" id="signup-link">Sign Up</a></div>
+		</if>
+		<table>
+		<tr>
+		<td><a href="movies.php"> Movies </a></td>
+		<td><a href="remote.php"> Remote </a></td>
+		<td><a href="testapi.php"> Test API </a></td>
+		<tr>
+		</table>
+	<div align="center"></div>
+	<table align="center" border=1>
+		<form method=post action="?do=add_movie" >
+		<input type=hidden name=userid value="123">
+		<tr bgcolor="#AAAAAA">
+		<td><input name=name value="Enter Movie Title"></td>
+		<td><input name=href value="http://link.to.movie.com"></td>
+		<td>Uploader</td>
+		<td colspan=4><input type=submit value="Add Movie"></td>
+		</form>
+		$content
+	</body>
+</html>

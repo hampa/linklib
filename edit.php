@@ -1,5 +1,10 @@
 <?php
+require_once("./include/membersite_config.php");
 include_once("linkontrol/functions_linkontrol.php");
+if (!$fgmembersite->CheckLogin()) {
+	include_once("login.php");
+}
+
 $linkontrol = new linkontrol;
 $movieid = intval($_GET['movieid']);
 $arr = $linkontrol->getMovie($movieid);
@@ -102,7 +107,15 @@ var streamId = "someStreamId";
 </script>
 </head>
 <body>
-<?php echo($linkontrol->getNavigationMenu()); ?>
+<?php
+if ($fgmembersite->CheckLogin()) {
+        echo("<div>logged in as " . $fgmembersite->UserFullName() . ' | <a href="logout.php">Logout</a></div>' . "\n");
+}
+else {
+        echo($linkontrol->getLoginMenu());
+}
+echo($linkontrol->getNavigationMenu());
+?>
 
 <!-- <div class="remotecode">Remote Code: <?php echo("$remote_code");?></div> -->
 <!--
