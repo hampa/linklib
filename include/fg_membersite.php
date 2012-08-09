@@ -69,11 +69,6 @@ class FGMembersite
     //-------Main Operations ----------------------
     function RegisterUser()
     {
-        if(!isset($_POST['submitted']))
-        {
-           return false;
-        }
-        
         $formvars = array();
         
         if(!$this->ValidateRegistrationSubmission())
@@ -148,20 +143,29 @@ class FGMembersite
     
     function CheckLogin()
     {
-         if(!isset($_SESSION)){ session_start(); }
+         if(!isset($_SESSION)){ 
+		session_start();
+	}
 
          $sessionvar = $this->GetLoginSessionVar();
-         
+        
          if(empty($_SESSION[$sessionvar]))
          {
             return false;
          }
          return true;
     }
+
+	function Username() {
+        	return isset($_SESSION['username'])?$_SESSION['username']:'';
+	}
     
-    function UserFullName()
-    {
+    function UserFullName() {
         return isset($_SESSION['name_of_user'])?$_SESSION['name_of_user']:'';
+    }
+
+    function UserId() {
+        return intval($_SESSION['userid']);
     }
     
     function UserEmail()
@@ -359,7 +363,7 @@ class FGMembersite
         $username = $this->SanitizeForSQL($username);
         $pwdmd5 = md5($password);
         //$qry = "Select name, email from $this->tablename where username='$username' and password='$pwdmd5' and confirmcode='y'";
-        $qry = "Select name, email from $this->tablename where username='$username' and password='$pwdmd5'"; // and confirmcode='y'";
+        $qry = "Select name, email, userid, username from $this->tablename where username='$username' and password='$pwdmd5'"; // and confirmcode='y'";
         
         $result = mysql_query($qry,$this->connection);
         
@@ -374,6 +378,8 @@ class FGMembersite
         
         $_SESSION['name_of_user']  = $row['name'];
         $_SESSION['email_of_user'] = $row['email'];
+        $_SESSION['userid'] = $row['userid'];
+        $_SESSION['username'] = $row['username'];
         
         return true;
     }
@@ -590,7 +596,7 @@ class FGMembersite
         }
         
         $validator = new FormValidator();
-        $validator->addValidation("name","req","Please fill in Name");
+        //$validator->addValidation("name","req","Please fill in Name");
         $validator->addValidation("email","email","The input for Email should be a valid email value");
         $validator->addValidation("email","req","Please fill in Email");
         $validator->addValidation("username","req","Please fill in UserName");

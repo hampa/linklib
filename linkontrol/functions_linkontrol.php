@@ -3,11 +3,80 @@ require_once('linkontrol/global.php');
 require_once('linkontrol/class_linkontrol.php');
 
 $linkontrol = new linkontrol;
-$msg_level = "info";
-
-if ($_GET['do'] == 'add_time_feed') {
+$alert = "info";
+if ($_GET['do'] == "logout") {
+	$fgmembersite->LogOut();
+	$msg = "Logged out";
+	$username = "";
+	$userid = 0;
+}
+else if ($_GET['do'] == "login") {
+	if ($_REQUEST['username'] == '') {
+		$msg = "Username cannot be empty";
+		$alert = "error";
+		return;
+	}
+	if ($_REQUEST['password'] == '') {
+		$msg = "Password cannot be empty";
+		$alert = "error";
+		return;
+	}
+	if ($fgmembersite->Login()) {
+		$username = $fgmembersite->Username();
+		$userid = $fgmembersite->UserId();
+		$msg = "Logged in";
+		$alert = "info";
+	}
+	else {
+		$msg = "Login failed";
+		$alert = "error";
+	}
+}
+else if ($_GET['do'] == "password_reminder") {
+	if ($_REQUEST['email'] == '') {
+		$msg = "Email cannot be empty";
+		$alert = "error";
+		return;
+	}	
+	if ($fgmembersite->EmailResetPasswordLink()) {
+		$msg = "Link sent to your email";
+		return;
+	}
+	else {
+		$msg = $fgmembersite->GetErrorMessage();
+		$alert = "error";
+	}
+}
+else if ($_GET['do'] == "change_password") {
+	if ($_REQUEST['oldpwd'] == '') {
+		$msg = "Old password cannot be empty";
+		$alert = "error";
+		return;
+	}
+	if ($_REQUEST['newpwd'] == '') {
+		$msg = "New Password cannot be empty";
+		$alert = "error";
+		return;
+	}
+	if ($fgmembersite->ChangePassword()) {
+		$msg = "Password updated";
+		$alert = "info";
+	}
+	else {
+		$msg = $fgmembersite->GetErrorMessage();
+		$alert = "error";
+	}
+}
+else if ($_GET['do'] == "register") {
+	if ($fgmembersite->RegisterUser()) {
+		$msg = "Registered";
+		return;
+	}
+	$msg = $fgmembersite->GetErrorMessage();
+	$alert = "error";
+}
+else if ($_GET['do'] == 'add_time_feed') {
 	$movieid = intval($_REQUEST['movieid']);
-	$userid = intval($_REQUEST['userid']);
 	$start = intval($_REQUEST['start']);
 	$end = intval($_REQUEST['end']);
 	$title = mysql_real_escape_string($_REQUEST['title']);
@@ -19,7 +88,6 @@ if ($_GET['do'] == 'add_time_feed') {
 }
 else if ($_GET['do'] == 'update_time_feed') {
 	$feedid = intval($_REQUEST['feedid']);
-	$userid = intval($_REQUEST['userid']);
 	$start = intval($_REQUEST['start']);
 	$end = intval($_REQUEST['end']);
 	$title = mysql_real_escape_string($_REQUEST['title']);
@@ -28,12 +96,12 @@ else if ($_GET['do'] == 'update_time_feed') {
 	$href = mysql_real_escape_string($_REQUEST['href']);
 	if ($feedid == 0) {
 		$msg = "Feedid cannot be 0 or empty";
-		$msg_level = "error";
+		$alert = "error";
 		return;
 	}
 	if ($body == '') {
 		$msg = "Body cannot be empty";
-		$msg_level = "error";
+		$alert = "error";
 		return;
 	}
 	$rows = $linkontrol->updateTimeFeed($feedid, $userid, $start, $end, $title, $img, $body, $href);
@@ -45,13 +113,18 @@ else if ($_GET['do'] == 'delete_time_feed') {
 	$msg = "deleted time feed $timefeedid";
 }
 else if ($_GET['do'] == 'add_movie') {
-	$userid = intval($_REQUEST['userid']);
 	$name = mysql_real_escape_string($_REQUEST['name']);
 	$href = mysql_real_escape_string($_REQUEST['href']);
 
+	if ($userid == 0) {
+		$msg = "You need to be logged in to add a movie";
+		$alert = "error";
+		return;
+	}
+
 	if ($name == '') {
 		$msg = "Name cannot be empty";
-		$msg_level = "warning";
+		$alert = "warning";
 		return;
 	}
 	$movieid = $linkontrol->addMovie($userid, $name, $href);
@@ -63,24 +136,24 @@ else if ($_GET['do'] == 'update_movie') {
 	$href = mysql_real_escape_string($_REQUEST['href']);
 	if ($movieid == 0) {
 		$msg = "movieid cannot be 0";
-		$msg_level = "warning";
+		$alert = "warning";
 		return;
 	}
 	if ($name == '') {
 		$msg = "Name cannot be empty";
-		$msg_level = "warning";
+		$alert = "warning";
 		return;
 	}
 	if ($href == '') {
 		$msg = "href cannot be empty";
-		$msg_level = "warning";
+		$alert = "warning";
 		return;
 	}
 
 	$rows = $linkontrol->updateMovie($movieid, $name, $href);
 	if ($rows == 0) {
 		$msg = "unable to find movie $movieid";
-		$msg_level = "error";
+		$alert = "error";
 		return;
 	}
 	$msg = "Movie was updated";
@@ -94,7 +167,7 @@ else if ($_GET['do'] == 'create_session') {
 	$movieid = intval($_REQUEST['movieid']);
 	if ($movieid == 0) {
 		$msg = "No movieid specified";
-		$msg_level = "warning";
+		$alert = "warning";
 		return;
 	}
 	$sessionkey = $linkontrol->createSession($movieid);
@@ -109,7 +182,7 @@ else if ($_GET['do'] == 'get_session') {
 	}
 	else {
 		$msg = "could not find session";
-		$msg_level = "warning";
+		$alert = "warning";
 	}
 }
 else if ($_GET['do'] == 'dump_time_feed') {

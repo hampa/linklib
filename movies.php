@@ -1,17 +1,10 @@
 <?php
 require_once('linkontrol/template.php');
 require_once('linkontrol/global.php');
-require_once("include/membersite_config.php");
+require_once('linkontrol/access.php');
 require_once('linkontrol/functions_linkontrol.php');
 
 $linkontrol = new linkontrol();
-if ($fgmembersite->CheckLogin()) {
-	$username = $fgmembersite->UserFullName();
-}
-else {
-	$username = "";
-}
-
 $arr = $linkontrol->getMovies();
 $id = $_SERVER['REMOTE_ADDR'];
 if (isset($arr)) {
