@@ -17,8 +17,12 @@ else {
 $arr = $linkontrol->getMovie($movieid);
 $movie_href = $arr['href'];
 $is_youtube = false;
+$is_vimeo = false;
 if (stristr($movie_href, "http://youtu.be")) {
 	$is_youtube = true;
+}
+else if (stristr($movie_href, "http://player.vimeo.com")) {
+	$is_vimeo = true;
 }
 ?>
 <!doctype html>
@@ -69,6 +73,9 @@ var streamId = "someStreamId";
 <?php
 		if ($is_youtube) {
 			echo("popcorn = Popcorn.smart('#youtube', '$movie_href');\n");
+		}
+		else if ($is_vimeo) {
+			echo("popcorn = Popcorn.smart('#video', '$movie_href');\n");
 		}
 		else {
 			echo("popcorn = Popcorn('#video');\n");
@@ -216,6 +223,9 @@ var streamId = "someStreamId";
 <?php 
 	if ($is_youtube) {
 		echo('<div id="youtube" style="padding-top:50px;width:640px;height:480px;"></div>' . "\n");
+	}
+	else if ($is_vimeo) {
+		echo('<div id="video" style="padding-top:50px;width:640px;height:480px;"></div>' . "\n");
 	}
 	else {
 		echo('<video style="background:#000" id="video" loop="" controls="">' . "\n");

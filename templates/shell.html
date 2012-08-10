@@ -1,0 +1,42 @@
+<html>
+	<head>
+		<script type="text/javascript" src="//use.typekit.net/gtv1fsm.js"></script>
+		<script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+		<link href="css/editfeed.css" rel="stylesheet" />
+		<link href="css/edit.css" rel="stylesheet" />
+		<link href="css/nav.css" rel="stylesheet" />
+		<link href="css/apistyle.css" rel="stylesheet" />
+	</head>
+	<body>
+		<if condition="($userid != 0)">
+			<div>logged in as $username ($userid) | <a href="?do=logout">Logout</a></div>	
+		<else />
+			<form action="?do=login" method="post">
+				<table>
+					<tr>
+					<td>Username:</td>
+					<td><input type="text" name="username" value="$username" maxlength="50" /></td>
+					<td>Password:</td>
+					<td><input type="password" name="password" value="" maxlength="50" /></td>
+    					<td><input type='submit' name='Submit' value='Login' /></td>
+    					<td><a href="register.php">Register</a></td>
+    					<td><a href="reminder.php">Forgot something?</a></td>
+					</tr>
+				</table>
+			</form>
+		</if>
+		<if condition="isset($msg)">
+        		<div id="alert" class='$alert'>$msg</div>
+		</if>
+		<div class='success' id='success-box' hidden></div>
+		<div class='error' id='error-box' hidden></div>
+		<table>
+		<tr>
+		<td><a href="movies.php"> Movies </a></td>
+		<td><a href="remote.php"> Remote </a></td>
+		<td><a href="account.php"> Account </a></td>
+		<tr>
+		</table>
+		$content
+	</body>
+</html>
