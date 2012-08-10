@@ -16,7 +16,7 @@ if (isset($arr)) {
 		'<td>' . 
 		'<form>' . 
 		"<input type=\"button\" value=\"Watch\" onClick=\"window.open('movie.php?id=$id&movieid=" . $val['movieid'] . "', " .
-		"'movie', 'width=800,height=600,toolbar=yes,location=yes,directories=yes, status=yes,menubar=yes,scrollbar=yes,copyhistory=yes,resizable=yes,screenX=0')\")>" .
+		"'movie', 'width=1024,height=600,toolbar=yes,location=yes,directories=yes, status=yes,menubar=yes,scrollbar=yes,copyhistory=yes,resizable=yes,screenX=0')\")>" .
 		'</form>' .
 		'</td>' .
 		'<td>' .

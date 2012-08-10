@@ -4,6 +4,8 @@ require_once('linkontrol/class_linkontrol.php');
 
 $linkontrol = new linkontrol;
 $alert = "info";
+$userid = intval($userid);
+
 if ($_GET['do'] == "logout") {
 	$fgmembersite->LogOut();
 	$msg = "Logged out";
@@ -76,14 +78,25 @@ else if ($_GET['do'] == "register") {
 	$alert = "error";
 }
 else if ($_GET['do'] == 'add_time_feed') {
+	if ($userid == 0) {
+		$msg = "You need to be logged for this";
+		$alert = "error";
+		return;
+	}
 	$movieid = intval($_REQUEST['movieid']);
+	$arr = $linkontrol->getMovie($movieid);
+	if ($arr['userid'] != $userid) {
+		$msg = "You can only add time feeds to your movie";
+		$alert = "error";
+		return;
+	}
 	$start = intval($_REQUEST['start']);
 	$end = intval($_REQUEST['end']);
 	$title = mysql_real_escape_string($_REQUEST['title']);
 	$img = mysql_real_escape_string($_REQUEST['img']);
 	$body = mysql_real_escape_string($_REQUEST['body']);
 	$href = mysql_real_escape_string($_REQUEST['href']);
-	$feedid = $linkontrol->addTimeFeed($movieid, $userid, $start, $end, $title, $img, $body, $href);
+	$feedid = $linkontrol->addTimeFeed($movieid, $start, $end, $title, $img, $body, $href);
 	$msg = "added time feed $feedid";
 }
 else if ($_GET['do'] == 'update_time_feed') {
@@ -94,6 +107,17 @@ else if ($_GET['do'] == 'update_time_feed') {
 	$img = mysql_real_escape_string($_REQUEST['img']);
 	$body = mysql_real_escape_string($_REQUEST['body']);
 	$href = mysql_real_escape_string($_REQUEST['href']);
+	if ($userid == 0) {
+		$msg = "You need to be logged for this";
+		$alert = "error";
+		return;
+	}
+	$arr = $linkontrol->getTimeFeed($timefeedid);
+	if ($arr['userid'] != $userid) {
+		$msg = "You can only your your timefeeds";
+		$alert = "error";
+		return;
+	}
 	if ($feedid == 0) {
 		$msg = "Feedid cannot be 0 or empty";
 		$alert = "error";
@@ -108,13 +132,27 @@ else if ($_GET['do'] == 'update_time_feed') {
 	$msg = "time feed updated $rows row affected";
 }
 else if ($_GET['do'] == 'delete_time_feed') {
+	if ($userid == 0) {
+		$msg = "You need to be logged for this";
+		$alert = "error";
+		return;
+	}
 	$timefeedid = intval($_REQUEST['timefeedid']);
+
+	$arr = $linkontrol->getTimeFeed($timefeedid);
+	if ($arr['userid'] != $userid) {
+		$msg = "You can only delete your timefeeds";
+		$alert = "error";
+		return;
+	}
+
 	$linkontrol->deleteTimeFeed($timefeedid);
 	$msg = "deleted time feed $timefeedid";
 }
 else if ($_GET['do'] == 'add_movie') {
 	$name = mysql_real_escape_string($_REQUEST['name']);
 	$href = mysql_real_escape_string($_REQUEST['href']);
+	$userid = intval($userid);
 
 	if ($userid == 0) {
 		$msg = "You need to be logged in to add a movie";
@@ -127,6 +165,7 @@ else if ($_GET['do'] == 'add_movie') {
 		$alert = "warning";
 		return;
 	}
+
 	$movieid = $linkontrol->addMovie($userid, $name, $href);
 	$msg = "added movie $movieid";
 }
@@ -134,6 +173,17 @@ else if ($_GET['do'] == 'update_movie') {
 	$movieid = intval($_REQUEST['movieid']);
 	$name = mysql_real_escape_string($_REQUEST['name']);
 	$href = mysql_real_escape_string($_REQUEST['href']);
+	if ($userid == 0) {
+		$msg = "You need to be logged in to update a movie";
+		$alert = "error";
+		return;
+	}
+	$arr = $linkontrol->getMovie($movieid);
+	if ($arr['userid'] != $userid) {
+		$msg = "You cannot edit other peoples movies";
+		$alert = "error";
+		return;
+	}
 	if ($movieid == 0) {
 		$msg = "movieid cannot be 0";
 		$alert = "warning";
@@ -159,7 +209,19 @@ else if ($_GET['do'] == 'update_movie') {
 	$msg = "Movie was updated";
 }
 else if ($_GET['do'] == 'delete_movie') {
-	$movieid= intval($_REQUEST['movieid']);
+	if ($userid == 0) {
+		$msg = "You need to be logged for this";
+		$alert = "error";
+		return;
+	}
+	$movieid = intval($_REQUEST['movieid']);
+	$arr = $linkontrol->getMovie($movieid);
+	if ($arr['userid'] != $userid) {
+		$msg = "You cannot delete other peoples movies";
+		$alert = "error";
+		return;
+	}
+
 	$linkontrol->deleteMovie($movieid);
 	$msg = "deleted movie $movieid";
 }

@@ -17,7 +17,9 @@ class linkontrol {
 
 	function getTimeFeed($timefeedid) {
 		$timefeedid = intval($timefeedid);
-		return $this->runSql("SELECT * FROM linkontrol.timefeed WHERE timefeedid = $timefeedid");
+		return $this->runSql("SELECT timefeed.*, movie.userid FROM linkontrol.timefeed, linkontrol.movie " .
+				"WHERE movie.movieid = timefeed.movieid " .
+				"AND timefeedid = $timefeedid");
 	}
 
 	function deleteTimeFeed($timefeedid) {
@@ -25,9 +27,9 @@ class linkontrol {
 		return $this->runSql("UPDATE linkontrol.timefeed SET deleted = 1 WHERE timefeedid = $timefeedid");
 	}
 
-	function addTimeFeed($movieid, $userid, $start, $end, $title, $img, $body, $href) {
-                $this->runSql("INSERT INTO linkontrol.timefeed(movieid, userid, start, end, title, img, body, href) " .
-				"VALUES ($movieid, $userid, $start, $end, '$title', '$img', '$body', '$href')");
+	function addTimeFeed($movieid, $start, $end, $title, $img, $body, $href) {
+                $this->runSql("INSERT INTO linkontrol.timefeed(movieid, start, end, title, img, body, href) " .
+				"VALUES ($movieid, $start, $end, '$title', '$img', '$body', '$href')");
 		return mysql_insert_id();
         }
 
@@ -40,7 +42,7 @@ class linkontrol {
 
 	function addMovie($userid, $name, $href) {
                 $this->runSql("INSERT INTO linkontrol.movie(userid, name, href) " .
-				"VALUES (userid, '$name', '$href')");
+				"VALUES ($userid, '$name', '$href')");
 		return mysql_insert_id();
         }
 

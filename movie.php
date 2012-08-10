@@ -225,7 +225,7 @@ var streamId = "someStreamId";
 		echo('<div id="youtube" style="padding-top:50px;width:640px;height:480px;"></div>' . "\n");
 	}
 	else if ($is_vimeo) {
-		echo('<div id="video" style="width: 360px; height: 300px;"></div>' . "\n");
+		echo('<div id="video" style="padding-top:50px;width:640px;height:480px;"></div>' . "\n");
 	}
 	else {
 		echo('<video style="background:#000" id="video" loop="" controls="">' . "\n");
