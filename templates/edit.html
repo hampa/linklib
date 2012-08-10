@@ -1,0 +1,21 @@
+<form method=post action="?do=update_movie&movieid=$movieid">
+<table>
+<tr><td>name:</td>      <td><input size="60" name="name" value="$movie_name"></td></tr>
+<tr><td>url:</td>      <td><input size="60" name="href" value="$movie_href"></td></tr>
+<tr><td></td><td><input type=submit value="Update"></td></tr>
+</table>
+</form>
+
+<table>
+<tr><td>Start (sec)</td><td>body</td><td>img</td><td>href</td><td></td><td></td></tr>
+<form method=post action="?do=add_time_feed&movieid=$movieid" >
+<tr bgcolor="#AAAAAA">
+<td></td>
+<td><input size=4 name=start value="10"></td>
+<td><input size=15 name=body value="This is a feed title"></td>
+<td><input size=10 name=img value="pp.png"></td>
+<td><input size=25 name=href value="http://en.wikipedia.org/wiki/"></td>
+<td colspan=2><input type=submit value="Add Time Feed"></td>
+</form>
+$link_list
+</table>
