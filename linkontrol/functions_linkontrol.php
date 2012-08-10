@@ -112,9 +112,9 @@ else if ($_GET['do'] == 'update_time_feed') {
 		$alert = "error";
 		return;
 	}
-	$arr = $linkontrol->getTimeFeed($timefeedid);
+	$arr = $linkontrol->getTimeFeed($feedid);
 	if ($arr['userid'] != $userid) {
-		$msg = "You can only your your timefeeds";
+		$msg = "You can only update your timefeeds";
 		$alert = "error";
 		return;
 	}
@@ -128,7 +128,7 @@ else if ($_GET['do'] == 'update_time_feed') {
 		$alert = "error";
 		return;
 	}
-	$rows = $linkontrol->updateTimeFeed($feedid, $userid, $start, $end, $title, $img, $body, $href);
+	$rows = $linkontrol->updateTimeFeed($feedid, $start, $end, $title, $img, $body, $href);
 	$msg = "time feed updated $rows row affected";
 }
 else if ($_GET['do'] == 'delete_time_feed') {
