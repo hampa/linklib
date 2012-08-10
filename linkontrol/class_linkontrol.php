@@ -33,9 +33,9 @@ class linkontrol {
 		return mysql_insert_id();
         }
 
-	function updateTimeFeed($timefeedid, $userid, $start, $end, $title, $img, $body, $href) {
-                $this->runSql("UPDATE linkontrol.timefeed SET " . 
-				"userid = $userid, start = $start, end = $end, title = '$title', img = '$img', body = '$body', href = '$href' " .
+	function updateTimeFeed($timefeedid, $start, $end, $title, $img, $body, $href) {
+                $this->runSql("UPDATE linkontrol.timefeed " . 
+				"SET start = $start, end = $end, title = '$title', img = '$img', body = '$body', href = '$href' " .
 				"WHERE timefeedid = $timefeedid");
 		return mysql_affected_rows();
 	}
