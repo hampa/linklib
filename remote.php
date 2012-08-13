@@ -70,7 +70,7 @@ if (isset($arr)) {
 </div>
 
 <div id="timelapse">00:00:00</div>
-<div id="bottomshadow">
+<div id="bottomshadow_x">
 </div>
 <div id="footer">
 	<div id="filmnav">
