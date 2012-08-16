@@ -12,6 +12,7 @@ $arr = $linkontrol->getMovie($movieid);
 $movie_name = $arr['name'];
 $movie_href = $arr['href'];
 
+$linktype_select = $linkontrol->getLinkTypeSelectHtml(0);
 $arr = $linkontrol->getTimeFeeds($movieid);
 $index = 1;
 if (isset($arr)) {

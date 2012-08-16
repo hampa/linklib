@@ -7,7 +7,7 @@
 </form>
 
 <table>
-<tr><td>Start (sec)</td><td>body</td><td>img</td><td>href</td><td></td><td></td></tr>
+<tr><td></td><td>Start (sec)</td><td>body</td><td>img</td><td>href</td><td>type</td><td colspan=3></td></tr>
 <form method=post action="?do=add_time_feed&movieid=$movieid" >
 <tr bgcolor="#AAAAAA">
 <td></td>
@@ -15,7 +15,8 @@
 <td><input size=15 name=body value="This is a feed title"></td>
 <td><input size=10 name=img value="pp.png"></td>
 <td><input size=25 name=href value="http://en.wikipedia.org/wiki/"></td>
-<td colspan=2><input type=submit value="Add Time Feed"></td>
+<td>$linktype_select</td>
+<td colspan=3><input type=submit value="Add Time Feed"></td>
 </form>
 $link_list
 </table>
