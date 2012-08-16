@@ -48,7 +48,7 @@ $(document).ready(function() {
         connect();
 });
        //var serverLocation = 'http://empty-stone-2701.herokuapp.com';
-var serverLocation = 'http://linkontrol.toribash.com:1339';	
+var serverLocation = 'http://linkontrol.toribash.com:1337';	
 var streamId = "someStreamId";
 </script>
 <script src="http://linkontrol.toribash.com/~hampa/tpbafk/example/node-server/node_modules/socket.io/node_modules/socket.io-client/dist/socket.io.js"></script>

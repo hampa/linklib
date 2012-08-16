@@ -6,6 +6,7 @@ function emit(command, data) {
 }
 
 function sendPlay(time) {
+	console.log("sendPlay time:" + time);
 	handleSendPlay({"time": time});
 	emit("play", {"time": time})
 }

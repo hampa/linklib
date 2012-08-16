@@ -1,11 +1,12 @@
 html, body {
-    font-family: Helvetica, Arial, sans-serif;
+    font-family: "museo-sans", sans-serif;
     margin: 0;
     padding: 0;
     background: #000;
 }
 
 div#header {
+    font-family: "museo-sans", sans-serif;
     position: fixed;
     top: 0;
     height: 50px;
@@ -45,6 +46,7 @@ div#header h1 {
 
 
 .item {
+    font-family: "museo-sans", sans-serif;
     height: 50px;
     padding: 10px;
     margin: 0;
@@ -58,6 +60,7 @@ div#header h1 {
 
 .item .title,
 .item .body {
+    font-family: "museo-sans", sans-serif;
     font-weight: bold;
     color: white;
 }

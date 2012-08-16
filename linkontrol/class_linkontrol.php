@@ -129,6 +129,16 @@ class linkontrol {
 		"});\n";
 	}
 
+	function timeFeedToList($val) {
+		return 
+			"<li style='display: none' start='" . $val['start'] . "'>\n" .
+			'<a href="' . $val['href'] . '">' . "\n" .
+			'<img src="Icons/' . $val['img'] . '" />' . "\n" . 
+			//"<h3>Animals</h3>"
+			"<p>" . $val['body'] . "</p>\n" .
+			"</a>" .
+			"</li>\n";
+	}
 	function getNavigationMenu() {
 		$html = <<<EOF
 		<table>
