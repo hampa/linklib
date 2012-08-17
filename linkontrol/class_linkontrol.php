@@ -163,6 +163,7 @@ class linkontrol {
 			"</a>" .
 			"</li>\n";
 	}
+
 	function getNavigationMenu() {
 		$html = <<<EOF
 		<table>
