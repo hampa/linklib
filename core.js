@@ -11,6 +11,10 @@ function sendPlay(time) {
 	emit("play", {"time": time})
 }
 
+function togglePlay() {
+
+}
+
 function sendPause(time) {
 	handleSendPause({"time": time});
 	emit("pause", {"time": time})

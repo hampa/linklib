@@ -3,6 +3,13 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+	<link rel="apple-touch-icon" sizes="72x72" href="Icons/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="Icons/apple-touch-icon-114x114.png">
+	<link rel="apple-touch-icon" href="Icons/apple-touch-icon-57x57.png">
+	<link rel="apple-touch-startup-image" href="Icons/splash-startup.png">   
+
         <title>
         </title>
         <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/jquery.mobile/1.1.1/jquery.mobile-1.1.1.min.css" />
@@ -12,7 +19,7 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"> </script>
         <script src="https://ajax.aspnetcdn.com/ajax/jquery.mobile/1.1.1/jquery.mobile-1.1.1.min.js"> </script>
     </head>
-    <body>
+    <body bgcolor="#000">
         <!-- Home -->
 	<div data-role="page" id="page1">
 		<div data-theme="a" data-role="header">
@@ -25,6 +32,7 @@
 			</ul>
 		</div>
 
+		<!--
 		<style>	
 			.nav-glyphish-example .ui-btn .ui-btn-inner { padding-top: 40px !important; }
 			.nav-glyphish-example .ui-btn .ui-icon { width: 30px!important; height: 30px!important; margin-left: -15px !important; box-shadow: none!important; -moz-box-shadow: none!important; -webkit-box-shadow: none!important; -webkit-border-radius: 0 !important; border-radius: 0 !important; }
@@ -42,18 +50,40 @@
 			#list .ui-icon { background:  url(images/links.png) 50% 50% no-repeat;  background-size: 22px 24px; }
 			#list2 .ui-icon { background:  url(images/links_in.png) 50% 50% no-repeat;  background-size: 22px 24px; }
 		</style	>
-	
+		-->
+
+		<!--	
 		<div data-theme="a" data-role="footer" class="nav-glyphish-example" data-position="fixed">
 			<div data-role="navbar" class="nav-glyphish-example" data-grid="c">
 			<ul>
                         <li><a href="#" id="reverse" data-icon="custom" onclick="sendRewind()"></a></li>
                         <li><a href="#" id="play" data-icon="custom" onclick="sendPlay()"></a></li>
-                        <!-- <li><a href="#" id="pause" data-icon="custom" onclick="sendPause()" style="display: none"></a></li> -->
                         <li><a href="#" id="forward" data-icon="custom" onclick="sendForward()"></a></li>
                         <li><a href="#" id="list" data-icon="custom" onclick="sendShowOverlay()"></a></li>
-                        <!-- <li><a href="#" id="list2" data-icon="custom" style="display: none" onclick="sendHideOverlay()"></a></li> -->
 			</ul>
 			</div>
+		</div>
+		-->
+
+		<!--
+                <div data-theme="a" data-role="footer" data-position="fixed">
+                        <div data-role="navbar" data-grid="c">
+                        <ul>
+                        	<li><a href="#" id="reverse" data-icon="custom" onclick="sendRewind()"></a></li>
+                        	<li><a href="#" id="play" data-icon="custom" onclick="sendPlay()"></a></li>
+                        	<li><a href="#" id="forward" data-icon="custom" onclick="sendForward()"></a></li>
+                        	<li><a href="#" id="list" data-icon="custom" onclick="sendShowOverlay()"></a></li>
+                        </ul>
+                        </div>
+                </div>
+		-->
+		<!-- <div data-theme="a" data-role="footer" class="ui-bar ui-grid-c" data-position="fixed"> -->
+		<div data-theme="a" data-role="footer" data-position="fixed">
+			<fieldset class="ui-grid-b">
+				<div class="ui-block-a"><button type="submit" id="rewind" onclick="sendRewind()" data-icon="arrow-l">Rewind</button></div>
+				<div class="ui-block-b"><button type="submit" id="play" onclick="togglePlay()" data-icon="arrow-r">Play</button></div>
+				<div class="ui-block-c"><button type="submit" id="forward" onclick="sendForward()" data-icon="arrow-r">Forward</button></div>
+			</fieldset>
 		</div>
 			<!--
 		<div data-theme="a" data-role="footer" data-position="fixed">
@@ -94,7 +124,6 @@
 	<script src="lib/socket.io/socket.io.js"></script>
     	<!-- <script src="http://linkontrol.toribash.com/~hampa/tpbafk/example/node-server/node_modules/socket.io/node_modules/socket.io-client/dist/socket.io.js"></script> -->
 	<script src="remote_hooks.js"></script>
-	<script src="core.js"></script>
 	<script src="util.js"></script>
         <script type="text/javascript">
 		var streamId = "someStreamIdFirst";
