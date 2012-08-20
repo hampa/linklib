@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>
+        </title>
+        <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/jquery.mobile/1.1.1/jquery.mobile-1.1.1.min.css" />
+        <style>
+            /* App custom styles */
+        </style>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"> </script>
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery.mobile/1.1.1/jquery.mobile-1.1.1.min.js"> </script>
+    </head>
+    <body>
+        <!-- Home -->
+	<div data-role="page" id="page1">
+		<div data-theme="a" data-role="header">
+                <h3> $movie_name </h3>
+		</div>
+	
+		<div data-role="content">
+			<ul data-role="listview" data-theme="a" id="linkfeed">
+				$timefeed_list
+			</ul>
+		</div>
+
+		<style>	
+			.nav-glyphish-example .ui-btn .ui-btn-inner { padding-top: 40px !important; }
+			.nav-glyphish-example .ui-btn .ui-icon { width: 30px!important; height: 30px!important; margin-left: -15px !important; box-shadow: none!important; -moz-box-shadow: none!important; -webkit-box-shadow: none!important; -webkit-border-radius: 0 !important; border-radius: 0 !important; }
+			#chat .ui-icon { background:  url(Icons/glyphish/09-chat2.png) 50% 50% no-repeat; background-size: 24px 22px; }
+			#email .ui-icon { background:  url(Icons/glyphish/18-envelope.png) 50% 50% no-repeat; background-size: 24px 16px;  }
+			#login .ui-icon { background:  url(Icons/glyphish/30-key.png) 50% 50% no-repeat;  background-size: 12px 26px; }
+			#beer .ui-icon { background:  url(Icons/glyphish/88-beermug.png) 50% 50% no-repeat;  background-size: 22px 27px; }
+			#coffee .ui-icon { background:  url(Icons/glyphish/100-coffee.png) 50% 50% no-repeat;  background-size: 20px 24px; }
+			#skull .ui-icon { background:  url(Icons/glyphish/21-skull.png) 50% 50% no-repeat;  background-size: 22px 24px; }
+
+			#reverse .ui-icon { background:  url(images/rewind.png) 50% 50% no-repeat;  background-size: 22px 27px; }
+			#play .ui-icon { background:  url(images/play.png) 50% 50% no-repeat;  background-size: 20px 24px; }
+			#pause .ui-icon { background:  url(images/pause.png) 50% 50% no-repeat;  background-size: 22px 24px; }
+			#forward .ui-icon { background:  url(images/forward.png) 50% 50% no-repeat;  background-size: 22px 24px; }
+			#list .ui-icon { background:  url(images/links.png) 50% 50% no-repeat;  background-size: 22px 24px; }
+			#list2 .ui-icon { background:  url(images/links_in.png) 50% 50% no-repeat;  background-size: 22px 24px; }
+		</style	>
+	
+		<div data-theme="a" data-role="footer" class="nav-glyphish-example" data-position="fixed">
+			<div data-role="navbar" class="nav-glyphish-example" data-grid="c">
+			<ul>
+                        <li><a href="#" id="reverse" data-icon="custom" onclick="sendRewind()"></a></li>
+                        <li><a href="#" id="play" data-icon="custom" onclick="sendPlay()"></a></li>
+                        <!-- <li><a href="#" id="pause" data-icon="custom" onclick="sendPause()" style="display: none"></a></li> -->
+                        <li><a href="#" id="forward" data-icon="custom" onclick="sendForward()"></a></li>
+                        <li><a href="#" id="list" data-icon="custom" onclick="sendShowOverlay()"></a></li>
+                        <!-- <li><a href="#" id="list2" data-icon="custom" style="display: none" onclick="sendHideOverlay()"></a></li> -->
+			</ul>
+			</div>
+		</div>
+			<!--
+		<div data-theme="a" data-role="footer" data-position="fixed">
+			<div data-role="controlgroup" data-type="horizontal" data-mini="false">
+			<a data-role="button" data-transition="fade" href="#" id="reverse" onclick="sendRewind()" data-icon="arrow-l" data-iconpos="notext">Rewind</a>
+			<a data-role="button" data-transition="fade" href="#" id="play" onclick="sendPlay()" data-icon="info" data-iconpos="notext">Play</a>
+			<a data-role="button" data-transition="fade" href="#" id="pause" style="display: none" onclick="sendPause()" data-icon="info" data-iconpos="notext">Pause</a>
+			<a data-role="button" data-transition="fade" href="#" id="forward" onclick="sendForward()" data-icon="arrow-r" data-iconpos="notext">Forward</a>
+			<a data-role="button" data-transition="fade" href="#" id="list2" style="display: none" onclick="sendShowOverlay()" data-icon="info" data-iconpos="notext">Hide</a>
+			<a data-role="button" data-transition="fade" href="#" id="list" onclick="sendShowOverlay()" data-icon="info" data-iconpos="notext">+</a>
+			</div>
+        		<a href="#" id="reverse" onclick="sendRewind()"><img src="images/rewind.png"></a>
+        		<a href="#" id="play" onclick="sendPlay()" ><img src="images/play.png"></a>
+        		<a href="#" id="pause" onclick="sendPause()" style="display: none" ><img src="images/pause.png"></a>
+        		<a href="#" id="forward" onclick="sendForward()"><img src="images/forward.png"></a>
+        		<a href="#" id="list" onclick="sendShowOverlay()"  ><img src="images/links.png"></a>
+        		<a href="#" id="list2" style="display: none" onclick="sendHideOverlay()"  ><img src="images/links_in.png"></a>
+			</div>
+			-->
+	</div>
+
+	<!-- page 2 -->
+        <div data-role="page" id="page2">
+                <div data-theme="a" data-role="header" data-position="fixed">
+                <h3> Header on page two</h3>
+                </div>
+
+                <div data-role="content" style="padding: 15px">
+                        <p>hello page 2</p>
+                        <p><a href="#page1" data-transition="slidefade">back </a></p>
+                </div>
+                <div data-theme="a" data-role="footer">
+                        <h3> Footer on page 2</h3>
+                </div>
+        </div>
+
+	<!-- remote stuff -->
+	<script src="lib/socket.io/socket.io.js"></script>
+    	<!-- <script src="http://linkontrol.toribash.com/~hampa/tpbafk/example/node-server/node_modules/socket.io/node_modules/socket.io-client/dist/socket.io.js"></script> -->
+	<script src="remote_hooks.js"></script>
+	<script src="core.js"></script>
+	<script src="util.js"></script>
+        <script type="text/javascript">
+		var streamId = "someStreamIdFirst";
+                var serverLocation = 'http://23.20.12.188:1337';
+                addEventListener("load", 
+                        function() { 
+                                setTimeout(hideURLbar, 0); 
+                        }, false); 
+                        function hideURLbar() { 
+                                window.scrollTo(0,1);
+                        } 
+                        $(document).ready(function() {
+                                params = getParams();
+                                if (params && params["id"]) {
+                                        streamId = params["id"];
+                                }
+                                streamId = "$sessionkey";
+                                connect();
+                });
+
+                var serverLocation = 'http://23.20.12.188:1337';
+                console.log("streamId" + streamId);
+        </script>
+    </body>
+</html>
