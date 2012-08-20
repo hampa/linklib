@@ -92,15 +92,17 @@ else if ($_GET['do'] == 'add_time_feed') {
 	}
 	$start = intval($_REQUEST['start']);
 	$end = intval($_REQUEST['end']);
+	$linktypeid = intval($_REQUEST['linktypeid']);
 	$title = mysql_real_escape_string($_REQUEST['title']);
 	$img = mysql_real_escape_string($_REQUEST['img']);
 	$body = mysql_real_escape_string($_REQUEST['body']);
 	$href = mysql_real_escape_string($_REQUEST['href']);
-	$feedid = $linkontrol->addTimeFeed($movieid, $start, $end, $title, $img, $body, $href);
+	$feedid = $linkontrol->addTimeFeed($movieid, $start, $end, $title, $img, $body, $href, $linktypeid);
 	$msg = "added time feed $feedid";
 }
 else if ($_GET['do'] == 'update_time_feed') {
 	$feedid = intval($_REQUEST['feedid']);
+	$linktypeid = intval($_REQUEST['linktypeid']);
 	$start = intval($_REQUEST['start']);
 	$end = intval($_REQUEST['end']);
 	$title = mysql_real_escape_string($_REQUEST['title']);
@@ -128,7 +130,7 @@ else if ($_GET['do'] == 'update_time_feed') {
 		$alert = "error";
 		return;
 	}
-	$rows = $linkontrol->updateTimeFeed($feedid, $start, $end, $title, $img, $body, $href);
+	$rows = $linkontrol->updateTimeFeed($feedid, $start, $end, $title, $img, $body, $href, $linktypeid);
 	$msg = "time feed updated $rows row affected";
 }
 else if ($_GET['do'] == 'delete_time_feed') {

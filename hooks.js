@@ -1,5 +1,5 @@
 
-var handleFeed = function(data)
+var handleFeedX = function(data)
 {
     document.getElementById('timelapse').innerHTML = parseFloat(data.time).toFixed(2);
     document.getElementById('timelapse').style.top =  "95%";
@@ -11,14 +11,33 @@ var handleFeed = function(data)
         var start =  item.getAttribute("start");
         if((data.time +0.01) >= start)
         {
-            $(item).fadeIn();
-
+            //$(item).fadeIn();
+            $(item).slideDown("slow");
+		
+		//console.log($('html').scrollTop());
+		/*
+		$('html, body').animate({ 
+   		scrollTop: $(document).height()-$(window).height()}, 
+   		1400, 
+   		"swing"
+		);
+		*/
         }
         else
         {
             item.style.display = 'none';
         }
     }
+	if ($(document).height() - $(window).height() != $(window).scrollTop()) {
+		console.log("needs scroll");
+		/*
+	         $('html, body').animate({ 
+                scrollTop: $(document).height()-$(window).height()}, 
+                1400, 
+                "swing"
+                );	
+		*/
+	}
 }
 var handleSendPlay = function(data){
  //   document.getElementById('playerstatus').innerHTML = 'sending ';
@@ -33,8 +52,8 @@ var handleSendForward = function(data) {
 };
 
 var handleOnPlay = function(data){
-    document.getElementById('play').style.display ="none";
-    document.getElementById('pause').style.display ="inline";
+    //document.getElementById('play').style.display ="none";
+    //document.getElementById('pause').style.display = "inline";
     handleFeed(data);
 
   //   document.getElementById('playerstatus').innerHTML = 'playing ' +  data.time;
@@ -45,8 +64,8 @@ var handleSendPause= function(data){
 };
 
 var handleOnPause = function(data){
-    document.getElementById('play').style.display ="inline";
-    document.getElementById('pause').style.display ="none";
+    //document.getElementById('play').style.display ="inline";
+    //document.getElementById('pause').style.display ="none";
 
     handleFeed(data);
    // document.getElementById('playerstatus').innerHTML = 'paused ' +  data.time;

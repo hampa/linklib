@@ -27,15 +27,16 @@ class linkontrol {
 		return $this->runSql("UPDATE linkontrol.timefeed SET deleted = 1 WHERE timefeedid = $timefeedid");
 	}
 
-	function addTimeFeed($movieid, $start, $end, $title, $img, $body, $href) {
-                $this->runSql("INSERT INTO linkontrol.timefeed(movieid, start, end, title, img, body, href) " .
-				"VALUES ($movieid, $start, $end, '$title', '$img', '$body', '$href')");
+	function addTimeFeed($movieid, $start, $end, $title, $img, $body, $href, $linktypeid) {
+                $this->runSql("INSERT INTO linkontrol.timefeed(movieid, start, end, title, img, body, href, linktypeid) " .
+				"VALUES ($movieid, $start, $end, '$title', '$img', '$body', '$href', $linktypeid)");
 		return mysql_insert_id();
         }
 
-	function updateTimeFeed($timefeedid, $start, $end, $title, $img, $body, $href) {
+	function updateTimeFeed($timefeedid, $start, $end, $title, $img, $body, $href, $linktypeid) {
                 $this->runSql("UPDATE linkontrol.timefeed " . 
-				"SET start = $start, end = $end, title = '$title', img = '$img', body = '$body', href = '$href' " .
+				"SET start = $start, end = $end, title = '$title', img = '$img', " .
+				"body = '$body', href = '$href', linktypeid = $linktypeid " .
 				"WHERE timefeedid = $timefeedid");
 		return mysql_affected_rows();
 	}
@@ -102,8 +103,25 @@ class linkontrol {
 			"</td></tr>\n";
 	}
 
+	function getLinkTypeSelectHtml($linktypeid) {
+		$arr = $this->runSqlMulti("SELECT * FROM linkontrol.linktype");
+		$html = "<SELECT name=linktypeid>\n";
+		if (isset($arr)) {
+			foreach ($arr as $key => $val) {
+				if ($linktypeid == $val['linktypeid']) {
+					$html .= '<option value="' . $val['linktypeid'] . '" SELECTED>' . $val['name'] . '</option>' . "\n";
+				}
+				else {
+					$html .= '<option value=' . $val['linktypeid'] . '>' . $val['name'] . '</option>' . "\n";
+				}
+			}
+		}
+		$html .= "</SELECT>\n";
+		return $html;
+	}
+
 	function timeFeedToHtmlForm($index, $val) {
-		return '<form method=post action="?do=update_time_feed&movieid=' . $val['movieid'] . '">' . 
+		$html = '<form method=post action="?do=update_time_feed&movieid=' . $val['movieid'] . '">' . 
 			'<input type=hidden name=feedid value=' . $val['timefeedid'] . '>' .
 			'<tr>' .
 			'<td>' . $index . '</td>' . 
@@ -111,10 +129,16 @@ class linkontrol {
 			'<td><input name=body size=15 value="' . $val['body'] . '"></td>' . 
 			'<td><input name=img size=10 value="' . $val['img'] . '"></td>' . 
 			'<td><input name=href size=25 value="' . $val['href'] . '"></td>' . 
+			'<td>';
+			$html .= $this->getLinkTypeSelectHtml($val['linktypeid']);
+
+			$html .=
+			'<td>' .
 			'<td><input type=submit value="Save">' .
 			'</form>' .
 			"<td><a href=\"?do=delete_time_feed&timefeedid=" . $val['timefeedid'] . "&movieid=" . $val['movieid'] . "\">Delete</a></td>" .
 			"</tr>\n";
+			return $html;
 	}
 
 	function timeFeedToJson($val) {
@@ -127,6 +151,17 @@ class linkontrol {
 			"img: 'Icons/" . $val['img'] . "',\n" .
 			"href: '" . $val['href'] . "'\n" .
 		"});\n";
+	}
+
+	function timeFeedToList($val) {
+		return 
+			"<li style='display: none' start='" . $val['start'] . "'>\n" .
+			'<a href="' . $val['href'] . '">' . "\n" .
+			'<img src="Icons/' . $val['img'] . '" />' . "\n" . 
+			//"<h3>Animals</h3>"
+			"<p>" . $val['body'] . "</p>\n" .
+			"</a>" .
+			"</li>\n";
 	}
 
 	function getNavigationMenu() {
