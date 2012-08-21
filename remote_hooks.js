@@ -2,6 +2,7 @@ var isPlaying = false;
 var streamId = "someStreamId2";
 
 function emit(command, data) {
+	console.log("emit");
 	data.streamId = streamId;
 	socket.emit(command,data);
 }
@@ -65,6 +66,7 @@ function connect() {
 }
 
 var handleFeed = function(data) {
+	console.log("handleFeed");
 	var item = document.getElementById('linkfeed');
 	var items = item.getElementsByTagName('li');
 	for (var i = 0; i < items.length; i++) {
@@ -92,7 +94,7 @@ var handleSendForward = function(data) {
 };
 
 var handleOnPlay = function(data) {
-	//console.log("handleOnPlay");
+	console.log("handleOnPlay");
 	//document.getElementById('play').style.display ="none";
 	//document.getElementById('pause').style.display = "inline";
 	enablePauseButton();
@@ -106,7 +108,10 @@ var handleSendPause = function(data) {
 };
 
 var handleOnPause = function(data) {
-	//console.log("handleOnPause");
+	if (isPlaying == false) {
+		return;
+	}
+	console.log("handleOnPause");
 	//document.getElementById('play').style.display ="inline";
 	//document.getElementById('pause').style.display ="none";
 
