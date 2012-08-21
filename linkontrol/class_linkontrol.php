@@ -173,16 +173,16 @@ class linkontrol {
                                         "</div>" .
                                 "</li>\n";
 		}
-		else if ($linktypeid == 2) { // web page
-			"<li style='display: none' start='" . $val['start'] . "'>\n" .
+		else if ($linktypeid == 5) { // Text 
+			return "<li style='display: none' start='$start'><img src='$img' /><h3>$head</h3><p>$body</p></li>\n";
+		}
+		else {
+			return "<li style='display: none' start='" . $val['start'] . "'>\n" .
 			'<a href="' . $val['href'] . '">' . "\n" .
-			'<img src="Icons/' . $val['img'] . '" />' . "\n" . 
+			'<img width="200" height="200" src="Icons/' . $val['img'] . '" />' . "\n" . 
 			"<p>" . $val['body'] . "</p>\n" .
 			"</a>" .
 			"</li>\n";
-		}
-		else {
-			return "<li style='display: none' start='$start'><img src='$img' /><h3>$head</h3><p>$body</p></li>\n";
 		}
 	}
 
