@@ -12,7 +12,11 @@ class linkontrol {
 
 	function getTimeFeeds($movieid) {
 		$movieid = intval($movieid);
-		return $this->runSqlMulti("SELECT * FROM linkontrol.timefeed WHERE movieid = $movieid AND deleted = 0 ORDER BY start ASC LIMIT 1000");
+		return $this->runSqlMulti("SELECT timefeed.*, linktype.name as linktypename " .
+				"FROM linkontrol.timefeed, linkontrol.linktype " .
+				"WHERE timefeed.linktypeid = linktype.linktypeid " .
+				"AND movieid = $movieid " .
+				"AND deleted = 0 ORDER BY start ASC LIMIT 1000");
 	}
 
 	function getTimeFeed($timefeedid) {
@@ -126,9 +130,9 @@ class linkontrol {
 			'<tr>' .
 			'<td>' . $index . '</td>' . 
 			'<td><input name=start size=4 value="' . $val['start'] . '"></td>' . 
-			'<td><input name=body size=15 value="' . $val['body'] . '"></td>' . 
+			'<td><input name=body size=35 value="' . $val['body'] . '"></td>' . 
 			'<td><input name=img size=10 value="' . $val['img'] . '"></td>' . 
-			'<td><input name=href size=25 value="' . $val['href'] . '"></td>' . 
+			'<td><input name=href size=35 value="' . $val['href'] . '"></td>' . 
 			'<td>';
 			$html .= $this->getLinkTypeSelectHtml($val['linktypeid']);
 
@@ -154,14 +158,32 @@ class linkontrol {
 	}
 
 	function timeFeedToList($val) {
-		return 
+		$linktypeid = $val['linktypeid'];
+		$start = $val['start'];
+		$img = "Icons/" . $val['img'];
+		$href = $val['href'];
+		$title = $linktypeid . " " . $val['linktypename'] . " " . $val['title'];
+		$body = $val['body'];
+
+		if ($linktypeid == 3) { // video
+                                return "<li>" .
+					'<div data-role="collapsible" data-theme="a">' .
+                                        "<h3>$body</h3>" .
+                                        "<iframe width='288' height='200' src='$href' frameborder='0' allowfullscreen></iframe>" .
+                                        "</div>" .
+                                "</li>\n";
+		}
+		else if ($linktypeid == 2) { // web page
 			"<li style='display: none' start='" . $val['start'] . "'>\n" .
 			'<a href="' . $val['href'] . '">' . "\n" .
 			'<img src="Icons/' . $val['img'] . '" />' . "\n" . 
-			//"<h3>Animals</h3>"
 			"<p>" . $val['body'] . "</p>\n" .
 			"</a>" .
 			"</li>\n";
+		}
+		else {
+			return "<li style='display: none' start='$start'><img src='$img' /><h3>$head</h3><p>$body</p></li>";
+		}
 	}
 
 	function getNavigationMenu() {
