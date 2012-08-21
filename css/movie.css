@@ -92,15 +92,14 @@ body {
 }
 
 .remotecode {
-    height: 30px;
-    width: 200px;
-    background: rgba(66, 66, 66, .5);
+    height: 256px;
+    width: 256px;
+    background: rgba(66, 66, 66, 1);
     position: absolute;
     left: 2px;
-    top: 2px;
+    top: 600px;
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
     color: white;
     z-index: 100;
-    opacity: .8;
 }

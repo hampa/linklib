@@ -217,7 +217,6 @@ var streamId = "someStreamId";
 </script>
 </head>
 <body>
-	<div class="remotecode">Remote Code: <?php echo("$remote_code");?></div>
 	<div class="container">
 		<div id="videodiv" class="videodiv">
 <?php 
@@ -243,5 +242,6 @@ var streamId = "someStreamId";
 			<div id="feeddiv"> </div>
 		</div>
 	</div>
+	<div class="remotecode"><img src="http://qr.kaywa.com/img.php?s=8&d=http%3A%2F%2Fwww.linkontrol.com%2Fremote.php%3Fid%3D<?php echo("$remote_code");?>" width="256" height="256" alt="QRCode"/> </div>
 </body>
 </html>
