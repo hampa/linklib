@@ -166,7 +166,7 @@ class linkontrol {
 		$body = $val['body'];
 
 		if ($linktypeid == 3) { // video
-                                return "<li>" .
+                                return "<li style='display: none' start'$start'>" .
 					'<div data-role="collapsible" data-theme="a">' .
                                         "<h3>$body</h3>" .
                                         "<iframe width='288' height='200' src='$href' frameborder='0' allowfullscreen></iframe>" .
@@ -182,7 +182,7 @@ class linkontrol {
 			"</li>\n";
 		}
 		else {
-			return "<li style='display: none' start='$start'><img src='$img' /><h3>$head</h3><p>$body</p></li>";
+			return "<li style='display: none' start='$start'><img src='$img' /><h3>$head</h3><p>$body</p></li>\n";
 		}
 	}
 
