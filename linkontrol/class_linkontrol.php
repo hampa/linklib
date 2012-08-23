@@ -99,6 +99,7 @@ class linkontrol {
 	function timeFeedToHtml($val) {
 		return "<tr><td>" . $val['timefeedid'] . "</td><td>" . 
 			$val['start'] . ',' . $val['end'] . "</td><td>" . 
+			#$val['title'] . "</td><td>" . 
 			$val['body'] . "</td><td>" . 
 			$val['img'] . "</td><td>" . 
 			$val['href'] . "</td><td>" . 
@@ -130,7 +131,8 @@ class linkontrol {
 			'<tr>' .
 			'<td>' . $index . '</td>' . 
 			'<td><input name=start size=4 value="' . $val['start'] . '"></td>' . 
-			'<td><input name=body size=35 value="' . $val['body'] . '"></td>' . 
+			'<td><input name=title size=35 value="' . $val['body'] . '"></td>' . 
+			#'<td><textarea name=body rows=1 cols=35>' . $val['body'] . '</textarea></td>' . 
 			'<td><input name=img size=10 value="' . $val['img'] . '"></td>' . 
 			'<td><input name=href size=35 value="' . $val['href'] . '"></td>' . 
 			'<td>';
@@ -159,6 +161,7 @@ class linkontrol {
 
 	function timeFeedToList($val) {
 		$linktypeid = $val['linktypeid'];
+		$timefeedid = $val['timefeedid'];
 		$start = $val['start'];
 		$img = "Icons/" . $val['img'];
 		$href = $val['href'];
@@ -175,6 +178,9 @@ class linkontrol {
 		}
 		else if ($linktypeid == 5) { // Text 
 			return "<li style='display: none' start='$start'><img src='$img' /><h3>$head</h3><p>$body</p></li>\n";
+		}
+		else if ($linktypeid == 7) {
+			return "<li><a href='#page_$timefeedid'><img src='$img' /><h3>$head</h3><p>$body</p></a></li>\n";
 		}
 		else {
 			return "<li style='display: none' start='" . $val['start'] . "'>\n" .
