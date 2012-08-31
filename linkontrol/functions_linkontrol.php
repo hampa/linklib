@@ -1,12 +1,24 @@
 <?php
 require_once('linkontrol/global.php');
 require_once('linkontrol/class_linkontrol.php');
+require_once('linkontrol/class_scrape.php');
 
 $linkontrol = new linkontrol;
 $alert = "info";
 $userid = intval($userid);
 
-if ($_GET['do'] == "logout") {
+if ($_GET['do'] == 'scrape') {
+	if ($_REQUEST['url'] == '') {
+		$msg = "url is missing";
+		$alert = "error";
+		return;
+	}
+	$scrape = new scrape(); 
+        header("Content-type: text/json;charset=utf-8");
+	echo($scrape->getUrl($url));
+	die();
+}
+else if ($_GET['do'] == "logout") {
 	$fgmembersite->LogOut();
 	$msg = "Logged out";
 	$username = "";

@@ -17,11 +17,22 @@ if (isset($arr)) {
 	$movie_name = $arr['moviename'];
 }
 
+$scrape = new scrape();
+
+$subpages = "";
 $arr = $linkontrol->getTimeFeeds($movieid);
 if (isset($arr)) {
 	$arr_reverse = array_reverse($arr);
 	foreach ($arr_reverse as $key => $val) {
 		$timefeed_list .= $linkontrol->timeFeedToList($val);
+		if ($val['linktypeid'] == 7) {
+			$data = $scrape->getUrl($val['href']);
+			$subpage_header = $data['title'];
+			$subpage_content = $data['content'];
+			$subpage_id = $val['timefeedid'];
+			//print_r($data);
+			eval('$subpages .= "' . fetchTemplate('remote_subpage') . '";');
+		}
 	}
 }
 
