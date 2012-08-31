@@ -1,28 +1,74 @@
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<link href="css/apistyle.css" rel="stylesheet" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Linkontrol</title>
+	
 </head>
+
 <body>
-
-<div align="center">
-<img src="demo.png" alt="demo" />
-<table>
-	<tr>
-		<td>
-<form>
-<input type="button" value="Watch Movie" onClick="window.open('movie.php?id=traok&movieid=13', 'movie', 'width=800,height=600,toolbar=yes,location=yes,directories=yes, status=yes,menubar=yes,scrollbar=yes,copyhistory=yes,resizable=yes')")>
-</form>
-		</td>
-		<td>
-<form>
-<input type="button" value="Open Remote" onClick="window.open('remote.php?id=traok', 'remote', 'width=400,height=600,toolbar=yes,location=yes,directories=yes, status=yes,menubar=yes,scrollbar=yes,copyhistory=yes,resizable=yes,screenX=600')")>
-</form>
-		</td>
-	</tr>
-</table>
-<p>Click on "Watch Movie" on a computer and "Open Remote" on a smartphone or tablet to get a syncronzied feed that demonstrates how Linkontrol can be used to sync feeds across multiple devices.</p>
-</p>
-</div>
-
+	<ul>
+		<li>
+		<div id="android">
+		    <img src="images/android.png" width="237" height="465" />
+		    <p> The Big Lebowski </p>   
+	    </div>
+		</li>
+		<li>	    
+	    <div id="iphone">
+		    <img src="images/iphone.png" width="237" height="465" />
+		    <p> Vertigo </p>
+		</div>
+		</li>
+		<li>	   	
+	   	<div id="windowsPhone">
+	   	 	<img src="images/windowsPhone.png" width="237" height="465" />
+	   	 	<p> Mad Men </p>
+	    </div>
+		</li>
+	</ul>
 </body>
+
+
+<style type="text/css">
+
+	body {
+		background-color: #000;
+		font-family: "Helvetica Neue", Helvetica, Arial, Verdana, sans-serif;
+		font-weight: 100;
+		font-size: 30px;
+		text-align: center;
+		color:white;
+		padding-top: 80px;
+	}
+	
+	li {
+		display: inline-block;
+		height:600px;
+		width:300px;opacity:1;
+		transition:opacity 0.1s;
+			-webkit-transition:opacity 0.1s;
+			-moz-transition:opacity 0.1s;
+			-o-transition:opacity 0.1s;
+	}
+	li:hover {
+	opacity:0.7;
+	}
+
+	
+	#android {
+		background:url(images/QRcode.jpg) center center no-repeat;
+	}
+	
+	#iphone {
+	 	background:url(images/QRcode.jpg) center center no-repeat;
+	}
+	
+	#windowsPhone {
+		background:url(images/QRcode.jpg) center center no-repeat;
+	}
+	
+	</style>
+
+
 </html>
