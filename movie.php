@@ -242,6 +242,7 @@ var streamId = "someStreamId";
 			<div id="feeddiv"> </div>
 		</div>
 	</div>
-	<div class="remotecode"><img src="http://qr.kaywa.com/img.php?s=8&d=http%3A%2F%2Fwww.linkontrol.com%2Fremote.php%3Fid%3D<?php echo("$remote_code");?>" width="256" height="256" alt="QRCode"/> </div>
+	<div class="remotecode">
+	<img src="http://chart.apis.google.com/chart?chs=256x256&cht=qr&chld=L|0&chl=http%3A%2F%2Fwww.linkontrol.com%2Fremote.php%3Fid%3D<?php echo("$remote_code");?>" alt="Get links in your mobile" widthHeight="128" widthHeight="128"/>
 </body>
 </html>
