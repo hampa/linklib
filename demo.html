@@ -1,74 +1,55 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>Linkontrol</title>
-	
+<link rel="stylesheet" type="text/css" href="css/960_12_col.css" />
 </head>
-
 <body>
-	<ul>
-		<li>
-		<div id="android" onClick="window.open('movie.php?id=traq&movieid=13', 'movie', 'width=950,height=600,toolbar=yes,location=yes,directories=yes, status=yes,menubar=yes,scrollbar=yes,copyhistory=yes,resizable=yes')">
-		    <img src="images/android.png" width="237" height="465" />
-			<p> The Big Lebowski </p>   
-	    </div>
-		</li>
-		<li>	    
-	    <div id="iphone" onClick="window.open('movie.php?id=traq&movieid=46', 'movie', 'width=950,height=600,toolbar=yes,location=yes,directories=yes, status=yes,menubar=yes,scrollbar=yes,copyhistory=yes,resizable=yes')">
-		    <img src="images/iphone.png" width="237" height="465" />
-		    <p> Armadillo </p>
+<script>
+var openMovie = function(movieid) {
+	var id = "demo" + Math.floor(Math.random() * 100);
+	window.open('movie.php?id=' + id + '&movieid=' + movieid, 'movie', 'width=1024,height=850,toolbar=yes,location=yes,directories=yes, status=yes,menubar=yes,scrollbar=yes,copyhistory=yes,resizable=yes,screenX=0');
+}
+</script>
+<div id="header">
+	<div class="container_12 clearfix">
+		<div id="logo" class="grid_5" alt="Linklib.org">
+		    	<p>Linklib.org<p> 
 		</div>
-		</li>
-		<li>	   	
-	   	<div id="windowsPhone" onClick="window.open('movie.php?id=traq&movieid=16', 'movie', 'width=950,height=600,toolbar=yes,location=yes,directories=yes, status=yes,menubar=yes,scrollbar=yes,copyhistory=yes,resizable=yes')">
-	   	 	<img src="images/windowsPhone.png" width="237" height="465" />
-	   	 	<p> Mad Men </p>
-	    </div>
-		</li>
-	</ul>
+		<div id="navHome" class="grid_7">
+			<ul>
+				<li><a href="">Sign in</a><li><a href=""></a>
+				<img src="icons/search.svg" alt="" width="30" height="30"/>
+			</ul>
+		</div>	 
+	</div>
+	  
+	<div class="container_12 clearfix">
+		<div id="column" class="grid_6">
+			<div id="movieImage">
+				<p><strong>Add links to any film and send them to your phone while watching</strong></p>
+				<p>
+				No need to google movies and TV-shows while watching, no more YouTube popups.
+				<br>
+				We are building a way to add links to any video and send them to your phone while watching.
+				</p>
+			</div>
+			<div id="movieImage" onClick="openMovie(13)">
+				<img src="img/thebig.jpg" class="movie" alt="" />
+				<div id="movieText"> The Big Lebowski (Coen, 1998) </div>					
+			</div>
+		</div>
+
+		<div id="column" class="grid_6">
+			<div id="movieImage" onClick="openMovie(16)">
+				<img src="img/madmen.jpg" class="movie" alt="" />
+				<div id="movieText"> Mad Men S04E20 (Weiner, 2011) </div>					
+			</div>
+			<div id="movieImage" onClick="openMovie(44)">
+				<img src="img/timbukpromoe.jpg" class="movie" alt="Mamma's gata" />
+				<div id="movieText"> Promoe feat Timbuktu "Mamma's Gata" (2009) </div>					
+			</div>
+		</div>
+	</div>
+</div>
 </body>
-
-
-<style type="text/css">
-
-	body {
-		background-color: #000;
-		font-family: "Helvetica Neue", Helvetica, Arial, Verdana, sans-serif;
-		font-weight: 100;
-		font-size: 30px;
-		text-align: center;
-		color:white;
-		padding-top: 80px;
-	}
-	
-	li {
-		display: inline-block;
-		height:600px;
-		width:300px;opacity:1;
-		transition:opacity 0.1s;
-			-webkit-transition:opacity 0.1s;
-			-moz-transition:opacity 0.1s;
-			-o-transition:opacity 0.1s;
-	}
-	li:hover {
-	opacity:0.7;
-	}
-
-	
-	#android {
-		background:url(images/QRcode.png) center center no-repeat;
-	}
-	
-	#iphone {
-	 	background:url(images/QRcode.png) center center no-repeat;
-	}
-	
-	#windowsPhone {
-		background:url(images/QRcode.png) center center no-repeat;
-	}
-	
-	</style>
-
-
 </html>
