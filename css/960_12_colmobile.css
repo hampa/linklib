@@ -1,0 +1,141 @@
+body {
+		font-family: "Helvetica Neue", Helvetica, Arial, Verdana, sans-serif;
+		color: cccccc;
+		font-weight: 300;
+		text-align: center;
+		margin: 0;
+		}
+
+img.movie {
+	width:inherit;
+	height:auto;
+	opacity:1;
+		transition:opacity 0.1s;
+		-webkit-transition:opacity 0.1s;
+		-moz-transition:opacity 0.1s;
+		-o-transition:opacity 0.1s;
+		
+	}
+	
+	img.movie:hover {
+	opacity:0.7;
+	}
+	
+	
+/*----------------------------
+
+  Mobile Portrait 0 - 479px  
+  
+----------------------------*/
+@media screen and (min-width: 0px) and (max-width: 480px) {
+	  
+	#movieImage {
+		position: relative;
+		width:160px;
+		float:left;
+		}
+	
+	#movieText {
+		background-color: blue;
+		position: absolute;
+		height:20px;
+		width:100%;
+		background: rgba(0, 0, 0, 0.6);
+		color:white;
+		position: absolute;
+		bottom:0px;
+		line-height: 20px;
+		text-align: center;
+		font-size: 10
+		} 
+}
+
+
+
+/*----------------------------
+
+  Mobile Landscape /
+  Tablet Portrait 480 - 768px  
+  
+----------------------------*/
+@media screen and (min-width: 481px) and (max-width: 768px) {
+	  
+	#movieImage {
+		position: relative;
+//		width:256px;
+		width:384px;
+		float:left;
+		}
+	
+	#movieText {
+		background-color: blue;
+		position: absolute;
+		height:20px;
+		width:100%;
+		background: rgba(0, 0, 0, 0.6);
+		color:white;
+		position: absolute;
+		bottom:0px;
+		line-height: 20px;
+		text-align: center;
+		font-size: 10
+		} 
+}
+
+/*----------------------------
+
+  Mobile Landscape /
+  Tablet Portrait 769 - 1024px  
+  
+----------------------------*/
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+	  
+	#movieImage {
+		position: relative;
+		width:341px;
+		float:left;
+		}
+	
+	#movieText {
+		background-color: blue;
+		position: absolute;
+		height:20px;
+		width:100%;
+		background: rgba(0, 0, 0, 0.6);
+		color:white;
+		position: absolute;
+		bottom:0px;
+		line-height: 20px;
+		text-align: center;
+		font-size: 10
+		} 
+}
+
+/*----------------------------
+
+  Desktop 1025px+  
+  
+----------------------------*/
+@media screen and (min-width: 1025px) {
+	  
+	#movieImage {
+		position: relative;
+		width:160px;
+		float:left;
+		}
+	
+	#movieText {
+		background-color: blue;
+		position: absolute;
+		height:20px;
+		width:100%;
+		background: rgba(0, 0, 0, 0.6);
+		color:white;
+		position: absolute;
+		bottom:0px;
+		line-height: 20px;
+		text-align: center;
+		font-size: 10
+		} 
+}
+
