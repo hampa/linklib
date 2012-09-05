@@ -12,15 +12,17 @@ var openMovie = function(movieid) {
 </script>
 <div id="header">
 	<div class="container_12 clearfix">
-		<div id="logo" class="grid_5" alt="Linklib.org">
+		<div id="logo" class="grid_12" alt="Linklib.org">
 		    	<p>Linklib.org<p> 
 		</div>
+		<!--
 		<div id="navHome" class="grid_7">
 			<ul>
 				<li><a href="">Sign in</a><li><a href=""></a>
 				<img src="icons/search.svg" alt="" width="30" height="30"/>
 			</ul>
 		</div>	 
+		-->
 	</div>
 	  
 	<div class="container_12 clearfix">
@@ -28,29 +30,33 @@ var openMovie = function(movieid) {
 			<div id="movieImage">
 				<p><strong>Add links to any film and send them to your phone while watching</strong></p>
 				<p>
-				Do you google movies and TV-shows while watching them?
-				<br />
-				Do you think Youtube's pop ups are too much in your face?
-				<!-- 
-				<br />
-				We are building a way to add links to any video and send them to your phone while watching.i 
-				-->
+				Do you google movies and TV-shows while watching them? <br />
+				Do you think Youtube's pop ups are too much in your face? <br />
+				We're building a tool for filmmakers and filmlovers to send links from videos to phones.
 				</p>
 			</div>
 			<div id="movieImage" onClick="openMovie(13)">
-				<img src="img/thebig.jpg" class="movie" alt="" />
+				<img src="img/thebig.jpg" class="movie" alt="Click to watch" />
 				<div id="movieText"> The Big Lebowski (Coen, 1998) </div>					
+			</div>
+			<div id="movieImage" onClick="openMovie(24)">
+				<img src="img/black.jpg" class="movie" alt="Click to watch" />
+				<div id="movieText"> The Black Keys - Tighten Up </div>
 			</div>
 		</div>
 
 		<div id="column" class="grid_6">
 			<div id="movieImage" onClick="openMovie(16)">
-				<img src="img/madmen.jpg" class="movie" alt="" />
+				<img src="img/madmen.jpg" class="movie" alt="Click to watch" />
 				<div id="movieText"> Mad Men S04E20 (Weiner, 2011) </div>					
 			</div>
-			<div id="movieImage" onClick="openMovie(44)">
-				<img src="img/timbukpromoe.jpg" class="movie" alt="Mamma's gata" />
-				<div id="movieText"> Promoe feat Timbuktu "Mamma's Gata" (2009) </div>					
+			<div id="movieImage" onClick="openMovie(1)">
+				<img src="img/tpbafk.jpg" class="movie" alt="Click to watch" />
+				<div id="movieText"> TPB AFK (Klose, 2013) </div>					
+			</div>
+			<div id="movieImage" onClick="openMovie(18)">
+				<img src="img/top100.jpg" class="movie" alt="Click to watch" />
+				<div id="movieText"> 100 Greatest Hits of YouTube </div>
 			</div>
 		</div>
 	</div>
