@@ -58,7 +58,8 @@
                 .text(options.href)
                 .click( function () {
 			console.log("click.handlePause");
-                    handlePause();
+                    //handlePause();
+                    player.pause();
             });
             el.click( function () {
                 if( player.paused() ) {
