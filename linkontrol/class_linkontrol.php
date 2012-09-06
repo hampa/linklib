@@ -131,7 +131,7 @@ class linkontrol {
 			'<tr>' .
 			'<td>' . $index . '</td>' . 
 			'<td><input name=start size=4 value="' . $val['start'] . '"></td>' . 
-			'<td><input name=title size=35 value="' . $val['body'] . '"></td>' . 
+			'<td><input name=body size=35 value="' . $val['body'] . '"></td>' . 
 			#'<td><textarea name=body rows=1 cols=35>' . $val['body'] . '</textarea></td>' . 
 			'<td><input name=img size=10 value="' . $val['img'] . '"></td>' . 
 			'<td><input name=href size=35 value="' . $val['href'] . '"></td>' . 
