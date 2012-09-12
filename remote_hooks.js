@@ -73,7 +73,10 @@ var handleFeed = function(data) {
 		var item = items[i];
 		var start =  item.getAttribute("start");
 		if ((data.time) >= start) {
-			$(item).slideDown("slow");
+			if (item.style.display == 'none') {
+				//$(item).slideDown("fast");
+				$(item).fadeIn("fast");
+			}
 		}
 		else {
 			item.style.display = 'none';

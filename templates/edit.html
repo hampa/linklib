@@ -7,14 +7,15 @@
 </form>
 
 <table>
-<tr><td></td><td>Start (sec)</td><td>body</td><td>img</td><td>href</td><td>type</td><td colspan=3></td></tr>
+<tr><td></td><td>Start (sec)</td><td>Title</td><td>body (if empty href is used)</td><td>href</td><td>img</td><td>type</td><td colspan=3></td></tr>
 <form method=post action="?do=add_time_feed&movieid=$movieid" >
 <tr bgcolor="#AAAAAA">
 <td></td>
 <td><input size=4 name=start value="10"></td>
-<td><input size=35 name=body value="This is a feed body"></td>
-<td><input size=10 name=img value="pp.png"></td>
+<td><input size=35 name=title value="Ttile"></td>
+<td><input size=35 name=body value="Body"></td>
 <td><input size=35 name=href value="http://en.wikipedia.org/wiki/"></td>
+<td><input size=10 name=img value="pp.png"></td>
 <td>$linktype_select</td>
 <td colspan=3><input type=submit value="Add Time Feed"></td>
 </form>

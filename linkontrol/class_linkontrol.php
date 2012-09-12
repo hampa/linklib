@@ -99,7 +99,7 @@ class linkontrol {
 	function timeFeedToHtml($val) {
 		return "<tr><td>" . $val['timefeedid'] . "</td><td>" . 
 			$val['start'] . ',' . $val['end'] . "</td><td>" . 
-			#$val['title'] . "</td><td>" . 
+			$val['title'] . "</td><td>" . 
 			$val['body'] . "</td><td>" . 
 			$val['img'] . "</td><td>" . 
 			$val['href'] . "</td><td>" . 
@@ -131,10 +131,10 @@ class linkontrol {
 			'<tr>' .
 			'<td>' . $index . '</td>' . 
 			'<td><input name=start size=4 value="' . $val['start'] . '"></td>' . 
+			'<td><input name=title size=35 value="' . $val['title'] . '"></td>' . 
 			'<td><input name=body size=35 value="' . $val['body'] . '"></td>' . 
-			#'<td><textarea name=body rows=1 cols=35>' . $val['body'] . '</textarea></td>' . 
-			'<td><input name=img size=10 value="' . $val['img'] . '"></td>' . 
 			'<td><input name=href size=35 value="' . $val['href'] . '"></td>' . 
+			'<td><input name=img size=10 value="' . $val['img'] . '"></td>' . 
 			'<td>';
 			$html .= $this->getLinkTypeSelectHtml($val['linktypeid']);
 
@@ -153,7 +153,7 @@ class linkontrol {
 			"start: " . $val['start'] . ",\n" . 
 			//"end:" . $val['end'] . ",\n" .
 			"target: '#feeddiv',\n" .
-			"body: '" . $val['body'] . "',\n" .
+			"body: '" . $val['title'] . "',\n" .
 			"img: 'Icons/" . $val['img'] . "',\n" .
 			"href: '" . $val['href'] . "'\n" .
 		"});\n";
@@ -165,28 +165,36 @@ class linkontrol {
 		$start = $val['start'];
 		$img = "Icons/" . $val['img'];
 		$href = $val['href'];
-		$title = $linktypeid . " " . $val['linktypename'] . " " . $val['title'];
-		$body = $val['body'];
+		$title = $val['title'];
+		if ($val['body'] != "") {
+			$body = $val['body'];
+		}
+		else {
+			$body = $val['href'];
+		}
 
+		$height = 80;
+		$width = $height;
 		if ($linktypeid == 3) { // video
                                 return "<li style='display: none' start='$start'>" .
 					'<div data-role="collapsible" data-theme="a">' .
-                                        "<h3>$body</h3>" .
+                                        "<h3>$title</h3>" .
                                         "<iframe width='288' height='200' src='$href' frameborder='0' allowfullscreen></iframe>" .
                                         "</div>" .
                                 "</li>\n";
 		}
 		else if ($linktypeid == 5) { // Text 
-			return "<li style='display: none' start='$start'><img src='$img' /><h3>$head</h3><p>$body</p></li>\n";
+			return "<li style='display: none' start='$start'><img width='$width' height='$height' src='$img' /><h3>$title</h3><p>$body</p></li>\n";
 		}
 		else if ($linktypeid == 7) {
-			return "<li><a href='#page_$timefeedid'><img src='$img' /><h3>$head</h3><p>$body</p></a></li>\n";
+			return "<li style='display: none' start='$start'><a href='#page_$timefeedid'><img width='$width' height='$height' src='$img' /><h3>$title</h3><p>$body</p></a></li>\n";
 		}
 		else {
 			return "<li style='display: none' start='" . $val['start'] . "'>\n" .
 			'<a href="' . $val['href'] . '">' . "\n" .
-			'<img width="200" height="200" src="Icons/' . $val['img'] . '" />' . "\n" . 
-			"<p>" . $val['body'] . "</p>\n" .
+			'<img width="' . $height . '" height="' . $height . '" src="Icons/' . $val['img'] . '" />' . "\n" . 
+			"<h3>" . $title . "</h3>\n" .
+			"<p>" . $body . "</p>\n" .
 			"</a>" .
 			"</li>\n";
 		}

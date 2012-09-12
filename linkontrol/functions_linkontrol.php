@@ -139,11 +139,13 @@ else if ($_GET['do'] == 'update_time_feed') {
 		$alert = "error";
 		return;
 	}
+	/*
 	if ($body == '') {
 		$msg = "Body cannot be empty";
 		$alert = "error";
 		return;
 	}
+	*/
 	$rows = $linkontrol->updateTimeFeed($feedid, $start, $end, $title, $img, $body, $href, $linktypeid);
 	$msg = "time feed updated $rows row affected";
 }
