@@ -114,7 +114,7 @@ var streamId = "someStreamId";
         	// play
 		handlePlay({'streamId':streamId});
 
-		popcorn.play();
+		popcorn.pause();
 
 		toggleOverlay();
 
