@@ -158,6 +158,24 @@ class linkontrol {
 			"href: '" . $val['href'] . "'\n" .
 		"});\n";
 	}
+	
+	function timeFeedToLine($val) {
+		$linktypeid = $val['linktypeid'];
+		$timefeedid = $val['timefeedid'];
+		$start = $val['start'];
+		$img = "Icons/" . $val['img'];
+		$href = $val['href'];
+		$title = $val['title'];
+		if ($val['body'] != "") {
+			$body = $val['body'];
+		}
+		else {
+			$body = $val['href'];
+		}
+		$length = 170.0;
+		$percent = ($start / $length) * 100.0; 
+		return "<a title='$title - $body' class='feed-event' style='left: " . $percent . "%;'></a>\n";
+	}
 
 	function timeFeedToList($val) {
 		$linktypeid = $val['linktypeid'];
