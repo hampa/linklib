@@ -1,4 +1,5 @@
 .htaccess
 .htpasswd
 .DS_Store
+.*
 *.ogv

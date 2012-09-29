@@ -228,25 +228,36 @@ class linkontrol {
 		else {
 			$body = $val['href'];
 		}
+		if (preg_match('@^(?:http://)?([^/]+)(.*)@i', $href, $matches)) {
+                	$host = $matches[1]; 
+        		$name = $matches[2]; 
+			$body = "<strong>" . $host . "</strong>" . $name;
+        	}
 
 		$height = 80;
 		$width = $height;
 		if ($linktypeid == 3) { // video
+				/*
                                 return "<li style='display: none' start='$start'>" .
 					'<div data-role="collapsible" data-theme="a">' .
                                         "<h3>$title</h3>" .
                                         "<iframe width='288' height='200' src='$href' frameborder='0' allowfullscreen></iframe>" .
                                         "</div>" .
                                 "</li>\n";
+				*/
+                                return "<li style='display: none; padding 0px 0px' start='$start'>" .
+                                        "<iframe width='288' height='200' src='$href' frameborder='0' allowfullscreen></iframe>" .
+					"</li>\n";
 		}
 		else if ($linktypeid == 5) { // Text 
-			return "<li style='display: none' start='$start'><img width='$width' height='$height' src='$img' /><h3>$title</h3><p>$body</p></li>\n";
+			return "<li style='display: none' start='$start' data-icon='gear'><div id='fade'></div><img width='$width' height='$height' src='$img' /><h3>$title</h3><p>$body</p></li>\n";
 		}
 		else if ($linktypeid == 7) {
-			return "<li style='display: none' start='$start'><a href='#page_$timefeedid'><img width='$width' height='$height' src='$img' /><h3>$title</h3><p>$body</p></a></li>\n";
+			return "<li style='display: none' start='$start' data-icon='gear'><div id='fade'></div><a href='#page_$timefeedid'><img width='$width' height='$height' src='$img' /><h3>$title</h3><p>$body</p></a></li>\n";
 		}
 		else {
-			return "<li style='display: none' start='" . $val['start'] . "'>\n" .
+			return "<li style='display: none' start='" . $val['start'] . "' data-icon='gear'>\n" .
+			'<div id="fade"></div>' . "\n" .
 			'<a href="' . $val['href'] . '">' . "\n" .
 			'<img width="' . $height . '" height="' . $height . '" src="Icons/' . $val['img'] . '" />' . "\n" . 
 			"<h3>" . $title . "</h3>\n" .

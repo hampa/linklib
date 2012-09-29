@@ -4,10 +4,30 @@
     background: black /* background color of body */
 }
 
+/* clip text and add fade */
+
+
 .ui-btn-hidden {
     background: black;
     background-image: none
     
+}
+
+#youtubelink {
+	padding: 0px;
+}
+
+#fade {
+        position: absolute;
+        height: 55px;
+        right:0; top 0px;
+        width:100px;
+        float:right;
+        background-image: -webkit-gradient(linear,top left,top bottom,color-stop(0, transparent),color-stop(1, black));
+        background-image: -webkit-linear-gradient(left, transparent, black);
+        background-image: -moz-linear-gradient(left, transparent, black);
+        background-image: -ms-linear-gradient(left, transparent, black);
+        background-image: -o-linear-gradient(left, transparent, black);
 }
 
 /*
@@ -19,28 +39,41 @@
 
 /* header "Text" */
 .ui-li-heading {
-    font-family: "Helvetica Neue", Helvetica, Arial, Verdana, sans-serif;
-   
-    font-weight: 100;
-    display: block;
-    margin: 0.6em 0px;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-    font-size: 20px;
+	font-family: "Helvetica Neue", Helvetica, Arial, Verdana, sans-serif;
+	font-weight: 700;
+	display: block;
+	margin: 0.6em 0px;
+	white-space: nowrap;
+	font-size: 15px;
+	color: #eeeeee;
+	text-overflow: clip;
+	overflow: hidden;
 }
 
 /* formatted text */
+/* second line - contains the url/body*/
 .ui-li-desc {
-    font-family: "Helvetica Neue", Helvetica, Arial, Verdana, sans-serif;
-    font-size: 16px;
-    font-weight: 100;
-    display: block;
-    margin: -0.5em 0px 0.6em;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap
+	font-family: "Helvetica Neue", Helvetica, Arial, Verdana, sans-serif;
+	font-size: 13px;
+	font-weight: 300;
+	display: block;
+	margin: -0.5em 0px 0.6em;
+	white-space: nowrap;
+	color: rgb(102, 102, 102); 
+	text-overflow: clip;
+	overflow: hidden;
 }
+
+/* used for http:// part of url */
+.ui-li-desc strong {
+	color: rgb(204, 204, 204); 
+}
+
+/* icon on right side */
+.ui-li-thumb {
+	border-radius: 10px;	
+}
+
 
 /* Header - Name of Movie */
 .ui-title {
@@ -61,8 +94,10 @@
     display: block;
     margin: 0.6em 2% 0.8em;
     padding: 0px;
+	/* hampa
     text-overflow: ellipsis;
     overflow: hidden;
+	*/
     white-space: nowrap;
     outline: 0px none !important;
 }
@@ -379,7 +414,7 @@ a.ui-link-inherit {
 
 /* delete/close */
 .ui-icon-delete {
-	background-position: 	-72px 50%;
+	background-position: 	-72px 50%; 
 }
 
 /* arrows */
@@ -402,6 +437,8 @@ a.ui-link-inherit {
 }
 .ui-icon-gear {
 	background-position: 	-288px 50%;
+	/* hampa.. used gear as no-icon */
+	display: none;
 }
 .ui-icon-refresh {
 	background-position: 	-324px 50%;
