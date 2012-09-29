@@ -1,0 +1,60 @@
+	#apialert {
+		position: absolute !important;
+		top: 100px;
+		width: 640px;
+		height: 100px;
+	}
+	#timeline {
+		position: absolute !important;
+		width: 640px;
+		height: 100px;
+		top: 480px;
+		background-color: #333333;
+		cursor: pointer;
+                text-align:center;
+	  	margin-left: auto ;
+  		margin-right: auto ;
+	}
+	.feed-event { 
+		padding: 0 0 0 0; 
+		bottom: 0; 
+		position: absolute !important; 
+		color: white; 
+		height: 100px; 
+		width: 2px; 
+		font-size: 20px !important; 
+		z-index: 1000; 
+		border-right:2px dotted white;
+		cursor: pointer;
+	}
+	#tooltip {
+		position: absolute;
+		z-index: 3000;
+		border: 1px solid #111;
+		background-color: #eee;
+		padding: 5px;
+		opacity: 0.85;
+	}
+	#tooltip.pretty {
+		font-family: Arial;
+		border: none;
+		width: 210px;
+		padding:20px;
+		height: 135px;
+		opacity: 0.8;
+	}
+	#tooltip.pretty h3 {
+		font-size: 12pt;
+		width: 220px;
+		text-align: center;
+	}
+
+	#tooltip.pretty div { 
+		width: 220px; 
+		text-align: left;
+		margin: 0;
+	}
+	#tooltip.fancy {
+		padding-top: 5em;
+		height: 100px;
+	}

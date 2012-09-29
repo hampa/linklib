@@ -6,6 +6,8 @@ require_once('linkontrol/class_scrape.php');
 $linkontrol = new linkontrol;
 $alert = "info";
 $userid = intval($userid);
+$response_array = array();
+$msg = "";
 
 if ($_GET['do'] == 'scrape') {
 	if ($_REQUEST['url'] == '') {
@@ -111,6 +113,10 @@ else if ($_GET['do'] == 'add_time_feed') {
 	$href = mysql_real_escape_string($_REQUEST['href']);
 	$feedid = $linkontrol->addTimeFeed($movieid, $start, $end, $title, $img, $body, $href, $linktypeid);
 	$msg = "added time feed $feedid";
+	$arr = $linkontrol->getTimeFeed($feedid);
+	if (isset($arr)) {
+		$json_feed = $linkontrol->timeFeedToArray($arr);
+	}	
 }
 else if ($_GET['do'] == 'update_time_feed') {
 	$feedid = intval($_REQUEST['feedid']);
@@ -265,13 +271,30 @@ else if ($_GET['do'] == 'get_session') {
 		$alert = "warning";
 	}
 }
-else if ($_GET['do'] == 'dump_time_feed') {
+else if ($_GET['do'] == 'time_feed_to_json') {
 	$movieid = intval($_GET['movieid']);
-        $arr = $linkontrol->getTimeFeed($movieid);
+        $arr = $linkontrol->getTimeFeeds($movieid);
+        if (isset($arr)) {
+		$json = array();
+                foreach ($arr as $key => $val) {
+			$json[] = $linkontrol->timeFeedToArray($val);
+                }
+		die(json_encode($json));
+        }
+}
+else if ($_GET['do'] == 'movie_to_json') {
+	$movieid = intval($_GET['movieid']);
+	$arr = $linkontrol->getMovie($movieid);
+	//print_r($arr);
+	$json_movie = array("name" => $arr['name'], "movieid" => $arr['movieid']);
+	$json_feed = array();
+        $arr = $linkontrol->getTimeFeeds($movieid);
         if (isset($arr)) {
                 foreach ($arr as $key => $val) {
-                        echo($linkontrol->timeFeedToJson($val));
+			$json_feed[] = $linkontrol->timeFeedToArray($val);
                 }
         }
+	$response_array = array("movie" => $json_movie, "timefeed" => $json_feed);
+	//die(json_encode($json));
 }
 ?>

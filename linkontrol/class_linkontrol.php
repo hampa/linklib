@@ -147,7 +147,7 @@ class linkontrol {
 			return $html;
 	}
 
-	function timeFeedToJson($val) {
+	function timeFeedToPopcorn($val) {
 		// if end: 0, it will not show
 		return "popcorn.timefeed({\n" .
 			"start: " . $val['start'] . ",\n" . 
@@ -175,6 +175,44 @@ class linkontrol {
 		$length = 170.0;
 		$percent = ($start / $length) * 100.0; 
 		return "<a title='$title - $body' class='feed-event' style='left: " . $percent . "%;'></a>\n";
+	}
+
+	function timeFeedToJson($val) {
+		$linktypeid = $val['linktypeid'];
+		$timefeedid = $val['timefeedid'];
+		$start = $val['start'];
+		$img = "Icons/" . $val['img'];
+		$href = $val['href'];
+		$title = $val['title'];
+		if ($val['body'] != "") {
+			$body = $val['body'];
+		}
+		else {
+			$body = $val['href'];
+		}
+		$length = 170.0;
+		$percent = ($start / $length) * 100.0; 
+		$arr = array('title' => $title, 'body' => $body, 'percent' => $percent);
+		return json_encode($arr);
+		//return '{"title":"' . $title . '";"body":"' . $body . '";"percent:"' . $percent. "},\n"; 
+	}
+
+	function timeFeedToArray($val) {
+		$linktypeid = $val['linktypeid'];
+		$timefeedid = $val['timefeedid'];
+		$start = $val['start'];
+		$img = "Icons/" . $val['img'];
+		$href = $val['href'];
+		$title = $val['title'];
+		if ($val['body'] != "") {
+			$body = $val['body'];
+		}
+		else {
+			$body = $val['href'];
+		}
+		$length = 170.0;
+		$percent = ($start / $length) * 100.0; 
+		return array('title' => $title, 'body' => $body, 'percent' => $percent);
 	}
 
 	function timeFeedToList($val) {
