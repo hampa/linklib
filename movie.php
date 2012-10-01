@@ -104,7 +104,7 @@ var streamId = "someStreamId";
 		$arr = $linkontrol->getTimeFeeds($movieid);
 		if (isset($arr)) {
         		foreach ($arr as $key => $val) {
-                		echo($linkontrol->timeFeedToJson($val));
+                		echo($linkontrol->timeFeedToPopcorn($val));
         		}
 		}
 ?>
