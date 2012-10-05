@@ -24,6 +24,12 @@ if (isset($arr)) {
 		"<input type=\"button\" value=\"Open Remote\" onClick=\"window.open('remote.php?id=$id', " .
 		"'remote', 'width=800,height=600,toolbar=yes,location=yes,directories=yes, status=yes,menubar=yes,scrollbar=yes,copyhistory=yes,resizable=yes,screenX=600')\")>" .
 		'</form>' .
+		'</td>' .
+		'<td>' .
+		"<input type=\"button\" value=\"Open Ipadmote\" onClick=\"window.open('ipad.html?id=$id&autosurf=1', " .
+		"'remote', 'width=800,height=600,toolbar=yes,location=yes,directories=yes, status=yes,menubar=yes,scrollbar=yes,copyhistory=yes,resizable=yes,screenX=600')\")>" .
+		'</form>' .
+		'</td>' .
 		'<td><a href="edit.php?movieid=' . $val['movieid'] . '">' . Edit . '</a></td>' .
 		'<td><a href="?do=delete_movie&movieid=' . $val['movieid'] . '">' . Delete . '</a></td>' .
 		"</tr>\n";
