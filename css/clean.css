@@ -1,0 +1,124 @@
+body {
+	width: 960px;
+	font-family: "Helvetica Neue", Helvetica, Arial, Verdana, sans-serif;
+	color: #ffffff;
+	font-weight: 300;
+	text-align: center;
+	background: #1e1e1e;
+	margin: 0;
+}
+
+#item {
+	padding:8px;
+	height:55px;
+	width: 300px;
+	background-color: black;
+	box-shadow: 0px 0px 0px 1px #333333;
+	cursor: pointer;
+}
+
+#dynamicItem {
+	padding:8px;
+	height:105px;
+	background-color: black;
+	box-shadow:0 0 0 1px #333333;
+}
+
+	
+#fade {
+	position: absolute; 
+	height: 55px;
+	right:0; top 0px;
+	width:20px; 
+	float:right;
+	/*
+	background-image: -webkit-gradient(linear,top left,top bottom,color-stop(0, transparent),color-stop(1, black));
+        background-image: -webkit-linear-gradient(left, transparent, black);
+        background-image: -moz-linear-gradient(left, transparent, black);
+        background-image: -ms-linear-gradient(left, transparent, black);
+        background-image: -o-linear-gradient(left, transparent, black);
+	*/
+        background-image: -webkit-gradient(linear,top left,top bottom,color-stop(0, transparent),color-stop(1, yellow));
+        background-image: -webkit-linear-gradient(left, transparent, yellow);
+        background-image: -moz-linear-gradient(left, transparent, yellow);
+        background-image: -ms-linear-gradient(left, transparent, yellow);
+        background-image: -o-linear-gradient(left, transparent, yellow);
+}
+
+img {
+	border-radius: 4px;	
+}
+
+#icon {
+	float:left;	
+}
+
+#header {
+	font-size: 30px;
+	font-weight: 700;
+	position: fixed;
+	background-color: #000;
+	height: 40px;
+	left: 350px;
+	width: 100%;
+	color: #eeeeee;
+	padding: 10px;
+	overflow: hidden;
+	text-align: left;
+	float:left;	
+	margin-left: 8px;	
+	overflow: hidden;
+	text-overflow: ellipsis;
+	/* border: 1px solid red; */
+	z-index: 100;
+}
+
+#itemText{
+	text-align: left;
+	float:left;	
+	margin-left: 8px;	
+	overflow: hidden;
+	text-overflow: ellipsis;
+	max-width: 300px;
+}
+
+#firstLine{
+	font-size: 13px;
+	font-weight: 700;
+	height: 28px;
+	padding: 0px;
+	line-height: 34px;
+	color:#eeeeee;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	width: 200px;
+	/* max-width: 300px; */
+}
+
+#contentframe {
+	overflow-y: scroll;
+	-webkit-overflow-scrolling: touch;
+}
+
+
+#secondLine{
+	font-size: 13px;
+	height:27px;
+	padding: 0px;
+	line-height: 21px;
+	color:#666666;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	max-width: 200px;
+}
+
+#secondLine strong {
+	color:#cccccc;
+	font-weight: 300;
+}
+
+/*
+* {
+	border: 1px solid red !important;
+}
+*/

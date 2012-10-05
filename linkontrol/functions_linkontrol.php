@@ -5,6 +5,7 @@ require_once('linkontrol/class_scrape.php');
 
 $linkontrol = new linkontrol;
 $alert = "info";
+$sessionkey = "";
 $userid = intval($userid);
 $response_array = array();
 $msg = "";
@@ -283,7 +284,14 @@ else if ($_GET['do'] == 'time_feed_to_json') {
         }
 }
 else if ($_GET['do'] == 'movie_to_json') {
-	$movieid = intval($_GET['movieid']);
+	$sessionkey = mysql_real_escape_string($_REQUEST['sessionkey']);
+	if ($sessionkey != "") {
+		$arr = $linkontrol->getSession($sessionkey);
+		$movieid = intval($arr['movieid']);
+	}
+	else {
+		$movieid = intval($_GET['movieid']);
+	}
 	$arr = $linkontrol->getMovie($movieid);
 	//print_r($arr);
 	$json_movie = array("name" => $arr['name'], "movieid" => $arr['movieid']);

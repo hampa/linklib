@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="css/clean.css" rel="stylesheet"/>
+</head>
+<body>
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="lib/socket.io/socket.io.js"></script>
+<script src="ipad_hooks.js"></script>
+<script type="text/javascript">
+var autosurf = false;
+var streamId = "h";
+var serverLocation = 'http://23.20.12.188:1337';
+var json;
+var userid = 0
+var username = "";
+var movieid = 0;
+
+$(document).ajaxError(function(e, xhr, settings, exception) {
+	console.log('error in: ' + settings.url + ' \\n'+'error:\\n' + exception);
+});
+
+var setAlert = function(message) {
+	$('#apialert').html('<div class="alert"><a class="close" data-dismiss="alert">x</a><span>'+message+'</span></div>');
+	$("#apialert").show();
+}
+
+var openUrl = function(url) {
+	$("#contentframe").attr("src", url);
+}
+
+var enableLogin = function(on) {
+	if (on) {
+		$("#loginbar").hide();
+		$("#logoutbar").show();
+	}
+	else {
+		$("#loginbar").show();
+		$("#logoutbar").hide();
+	}
+}
+
+var hidePopover = function(x) {
+	console.log("do it2" + x);
+	$("#kuk").popover('hide');
+	$.post('api.php?do=add_time_feed&movieid=' + movieid, { title: $('[name=url]').val() }, function(data) { 
+		myData = data;
+		console.log(data.alert + " " + data.userid + " " + data.username + " " + data.timefeed.title);
+		//if (data.alert == "error") {
+			setAlert(data.msg);
+		//}
+		//addFeedEvent("a title", "http://www.wut.com", Math.floor((Math.random() * 100) + 1));
+  		//$('.result').html(data);
+	}, "json")
+	.success(function() { console.log("second success"); })
+	.error(function(xhr, status, error) { console.log("error" + xhr.responseText + " status: " + status); })
+	.complete(function() { console.log("complete"); });
+
+}
+
+var timeFeed;
+var myData;
+
+var dumpFeed = function(currenttime) {
+	var data = timeFeed;
+	$.each(data.timefeed, function(i, item) {
+		var x = document.getElementById('item' + item.feedid);
+		console.log(i + " " + item.feedid + " ct: " + currenttime + " start: " + item.start +  " " + x);
+		if (x == null) {
+			console.log("cant find " + item.feedid);
+		}
+		else if (currenttime >= item.start) {
+			console.log("showing");
+			//console.log(i + " " + item.feedid + " " + item.start);
+			if (x.style.display == 'none') {
+				$(x).fadeIn("fast");
+				//x.style.display = '';
+			}
+		}
+		else {
+			console.log("hiding");
+			x.style.display = 'none';
+		}
+	});
+}
+
+var fetchEvents = function(movieid, sessionkey) {
+	console.log("fetching events for movie" + movieid);
+	$.getJSON('api.php?abc=xxx&do=movie_to_json&movieid=' + movieid + "&sessionkey=" + sessionkey, function(data) { 
+		//addFeedEvent("a title", "http://www.wut.com", Math.floor((Math.random() * 100) + 1));
+		timeFeed = data;
+		console.log(data.movie.name + " " + data.userid + " " + data.username + " " + data.feedid + " " + data.feedid);
+		$("#topusername").html(data.username);
+		enableLogin(data.userid);
+		if (data.movie && data.movie.name) {
+			$("#moviename").html(data.movie.name);
+		}
+		//console.log(data[0]);
+		clearFeed();
+		$.each(data.timefeed, function(i, item) {
+			//console.log(i + " " + item.title);
+			addFeedEvent(item.title, item.body, item.url, item.img, item.type, item.percent, item.start, item.feedid);
+		});
+		connect();
+	})
+	.success(function() { console.log("second success"); })
+	.error(function(xhr, status, error) { console.log("error" + xhr.responseText); })
+	.complete(function() { console.log("complete"); });
+}
+
+var addFeedEvent = function(title, body, url, img, type, percent, start, feedid) {
+	var h = '<div id="item' + feedid + '">' + 
+		'<div id="item" onClick="openUrl(\'' + url + '\')" start=' + start + '>' + 
+			'<div id="icon"><img src="' + img + '" alt="twitter" width="55" height="55"/></div>' +
+			'<div id="itemText">' + 
+			//'<div id="fade"></div>' +
+			'<div id="firstLine"> ' + title + '</div>' +
+			'<div id="secondLine">' + url + '</div>' + 
+		'</div>' + 
+		"</div>\n";
+	$("#feeddata").append(h);
+}
+
+var clearFeed = function() {
+	console.log("clearFeed");
+	$("#feeddata").html("");
+}
+
+var hidePopover2 = function() {
+	console.log("from input type");
+	//$("#kuk").popover('hide');
+}
+
+function getParams() {
+        var idx = document.URL.indexOf('?');
+        if (idx != -1) {
+                var tempParams = new Object();
+                var pairs = document.URL.substring(idx+1, document.URL.length).split('&');
+                for (var i=0; i< pairs.length; i++) {
+                        nameVal = pairs[i].split('=');
+                        tempParams[nameVal[0]] = nameVal[1];
+			console.log(nameVal);
+                }
+                return tempParams;
+        }
+}
+
+$(function() {
+        params = getParams();
+        if (params) { 
+		if (params["id"]) {
+                	streamId = params["id"];
+			fetchEvents(movieid, streamId);
+		}
+        	else if (params["movieid"]) {
+                	movieid = params["movieid"];
+			fetchEvents(movieid, -1);
+		}
+		if (params["autosurf"]) {
+			autosurf = true;
+		}
+        }
+
+        var onTooltipUpdate = function(tooltip, x, y) {
+                console.log(tooltip);
+                //console.log("yey" + x + " " + y);
+        }       
+	// Setup drop down menu
+	$('.dropdown-toggle').dropdown();
+ 
+  	// Fix input element click problem
+	$('.dropdown input, .dropdown label').click(function(e) {
+		e.stopPropagation();
+	});
+
+	$('form[name=loginform]').submit(function() {
+		console.log("loginform submit");
+		console.log("username" + $('[name=username]').val());
+		$.post('api.php?do=login',{
+			username: $('[name=username]').val(), 
+			password: $('[name=password]').val() }, 
+			function(data) {
+				setAlert(data.alert + " " + data.msg);
+				console.log(data.alert + " " + data.msg);
+				/*
+				if (data.success) {
+					console.log("success");
+				}
+				else {
+					console.log("fail");
+				}
+				*/
+			}, 'json');
+		return false;
+	});
+
+        $("#timeline a").tooltip({
+                track: true,
+                delay: 0,
+                showURL: false,
+                fixPNG: false,
+                showBody: " - ",
+                extraClass: "pretty fancy",
+                top: -15,
+                onUpdate: onTooltipUpdate,
+                left: 5
+        });
+	$("#timeline").click(function(e) {
+		var posX = $(this).position().left;
+		var posY = $(this).position().top;
+		var offsetX = e.pageX - posX;
+		//console.log("click" + e.pageX+ ' , ' + e.pageY);
+		//console.log("click" + posX + ' , ' + posY);
+		//console.log( (e.pageX - posX) + ' , ' + (e.pageY - posY));
+		//$("#myModal").modal('toggle');
+		//$('#myPopover').popover('show')
+		$("#kuk").css("left", offsetX + "px");
+		$("#kuk").popover('show');
+		$("#addlink").focus();
+	});
+
+	$("#kuk").popover({placement: "bottom", live:true, 
+			title: '5m32s', 
+			//content: '<form><input id="addlink" type="text" placeholder="paste link or type comment" onSubmit="hidePopover2(); return false;"/><button class="btn" onclick="hidePopover(44);">Save</button></form>', 
+			content: '<input name="url" id="addlink" type="text" placeholder="paste link or type comment" onSubmit="hidePopover2(); return false;"/><button class="btn" onclick="hidePopover(44);">Save</button>', 
+			html:true
+	});
+});
+</script>
+	<div id="header"><div id="moviename">This is a movie</div></div>
+	<div id="apialert"></div>
+	<div id="feeddata" style="top:100px; max-width:400px"></div>
+	<!-- <div style="position:fixed; top:100px; left:350px; right:35px; height:100%; border:solid 1px red;">  -->
+	<div style="position:absolute; top:100px; left:350px; right:35px; height:100%; border:solid 0px red;"> 
+		<iframe 
+			id="contentframe"
+			name="iframe"
+			src=""
+			width="600px"
+			height="1000px"
+			scrolling="yes"
+			align="left"
+			frameborder="1"
+			class="wrapper">
+			Your browser doesn't support iframes.. didn't see that coming.
+		</iframe>
+	</div>
+</body>
+</html>

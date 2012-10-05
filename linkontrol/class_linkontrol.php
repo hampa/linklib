@@ -16,7 +16,7 @@ class linkontrol {
 				"FROM linkontrol.timefeed, linkontrol.linktype " .
 				"WHERE timefeed.linktypeid = linktype.linktypeid " .
 				"AND movieid = $movieid " .
-				"AND deleted = 0 ORDER BY start ASC LIMIT 1000");
+				"AND deleted = 0 ORDER BY start DESC LIMIT 1000");
 	}
 
 	function getTimeFeed($timefeedid) {
@@ -192,7 +192,7 @@ class linkontrol {
 		}
 		$length = 170.0;
 		$percent = ($start / $length) * 100.0; 
-		$arr = array('title' => $title, 'body' => $body, 'percent' => $percent);
+		$arr = array('title' => $title, 'body' => $body, 'img' => $img, 'url' => $href, 'percent' => $percent, 'start' => $start);
 		return json_encode($arr);
 		//return '{"title":"' . $title . '";"body":"' . $body . '";"percent:"' . $percent. "},\n"; 
 	}
@@ -212,7 +212,12 @@ class linkontrol {
 		}
 		$length = 170.0;
 		$percent = ($start / $length) * 100.0; 
-		return array('title' => $title, 'body' => $body, 'percent' => $percent);
+                if (preg_match('@^(?:http://)?([^/]+)(.*)@i', $href, $matches)) {
+                        $host = $matches[1];
+                        $name = $matches[2];
+                        $body = "<strong>" . $host . "</strong>" . $name;
+                }
+		return array('title' => $title, 'body' => $body, 'img' => $img, 'url' => $href, 'percent' => $percent, 'start' => $start, 'linktype' => $linktypeid, 'feedid' => $timefeedid);
 	}
 
 	function timeFeedToList($val) {
