@@ -296,7 +296,7 @@ else if ($_GET['do'] == 'movie_to_json') {
 	//print_r($arr);
 	$json_movie = array("name" => $arr['name'], "movieid" => $arr['movieid']);
 	$json_feed = array();
-        $arr = $linkontrol->getTimeFeeds($movieid);
+        $arr = $linkontrol->getTimeFeeds($movieid, $_REQUEST['sort']);
         if (isset($arr)) {
                 foreach ($arr as $key => $val) {
 			$json_feed[] = $linkontrol->timeFeedToArray($val);

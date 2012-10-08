@@ -10,13 +10,22 @@ class linkontrol {
 		return $arr[0];
 	}
 
-	function getTimeFeeds($movieid) {
+	function getTimeFeeds($movieid, $sort = "asc") {
 		$movieid = intval($movieid);
-		return $this->runSqlMulti("SELECT timefeed.*, linktype.name as linktypename " .
-				"FROM linkontrol.timefeed, linkontrol.linktype " .
-				"WHERE timefeed.linktypeid = linktype.linktypeid " .
-				"AND movieid = $movieid " .
-				"AND deleted = 0 ORDER BY start DESC LIMIT 1000");
+		$sql = "SELECT timefeed.*, linktype.name as linktypename " .
+			"FROM linkontrol.timefeed, linkontrol.linktype " .
+			"WHERE timefeed.linktypeid = linktype.linktypeid " .
+			"AND movieid = $movieid " .
+			"AND deleted = 0 ";
+		if ($sort == "desc") {
+			$sql .= "ORDER BY start DESC LIMIT 1000";
+		}
+		else {
+			$sql .= "ORDER BY start ASC LIMIT 1000";
+		}
+		//print_r($sql);
+		//die();
+		return $this->runSqlMulti($sql);
 	}
 
 	function getTimeFeed($timefeedid) {

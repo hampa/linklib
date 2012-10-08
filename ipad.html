@@ -85,23 +85,32 @@ var dumpFeed = function(currenttime) {
 	});
 }
 
+var hideFeeds = function() {
+	var data = timeFeed;
+	$.each(data.timefeed, function(i, item) {
+		var x = document.getElementById('item' + item.feedid);
+		if (x) {
+			x.style.display = 'none';
+		}
+	});
+}
+
 var fetchEvents = function(movieid, sessionkey) {
 	console.log("fetching events for movie" + movieid);
-	$.getJSON('api.php?abc=xxx&do=movie_to_json&movieid=' + movieid + "&sessionkey=" + sessionkey, function(data) { 
+	$.getJSON('api.php?sort=asc&do=movie_to_json&movieid=' + movieid + "&sessionkey=" + sessionkey, function(data) { 
 		//addFeedEvent("a title", "http://www.wut.com", Math.floor((Math.random() * 100) + 1));
 		timeFeed = data;
-		console.log(data.movie.name + " " + data.userid + " " + data.username + " " + data.feedid + " " + data.feedid);
-		$("#topusername").html(data.username);
-		enableLogin(data.userid);
+		//console.log(data.movie.name + " " + data.userid + " " + data.username + " " + data.feedid + " " + data.feedid);
+		//$("#topusername").html(data.username);
+		//enableLogin(data.userid);
 		if (data.movie && data.movie.name) {
 			$("#moviename").html(data.movie.name);
 		}
-		//console.log(data[0]);
 		clearFeed();
 		$.each(data.timefeed, function(i, item) {
-			//console.log(i + " " + item.title);
 			addFeedEvent(item.title, item.body, item.url, item.img, item.linktype, item.percent, item.start, item.feedid);
 		});
+		hideFeeds();
 		connect();
 	})
 	.success(function() { console.log("second success"); })
@@ -137,13 +146,7 @@ var addFeedEvent = function(title, body, url, img, type, percent, start, feedid)
 }
 
 var clearFeed = function() {
-	console.log("clearFeed");
 	$("#feeddata").html("");
-}
-
-var hidePopover2 = function() {
-	console.log("from input type");
-	//$("#kuk").popover('hide');
 }
 
 function getParams() {
@@ -175,78 +178,12 @@ $(function() {
 			autosurf = true;
 		}
         }
-
-        var onTooltipUpdate = function(tooltip, x, y) {
-                console.log(tooltip);
-                //console.log("yey" + x + " " + y);
-        }       
-	// Setup drop down menu
-	$('.dropdown-toggle').dropdown();
- 
-  	// Fix input element click problem
-	$('.dropdown input, .dropdown label').click(function(e) {
-		e.stopPropagation();
-	});
-
-	$('form[name=loginform]').submit(function() {
-		console.log("loginform submit");
-		console.log("username" + $('[name=username]').val());
-		$.post('api.php?do=login',{
-			username: $('[name=username]').val(), 
-			password: $('[name=password]').val() }, 
-			function(data) {
-				setAlert(data.alert + " " + data.msg);
-				console.log(data.alert + " " + data.msg);
-				/*
-				if (data.success) {
-					console.log("success");
-				}
-				else {
-					console.log("fail");
-				}
-				*/
-			}, 'json');
-		return false;
-	});
-
-        $("#timeline a").tooltip({
-                track: true,
-                delay: 0,
-                showURL: false,
-                fixPNG: false,
-                showBody: " - ",
-                extraClass: "pretty fancy",
-                top: -15,
-                onUpdate: onTooltipUpdate,
-                left: 5
-        });
-	$("#timeline").click(function(e) {
-		var posX = $(this).position().left;
-		var posY = $(this).position().top;
-		var offsetX = e.pageX - posX;
-		//console.log("click" + e.pageX+ ' , ' + e.pageY);
-		//console.log("click" + posX + ' , ' + posY);
-		//console.log( (e.pageX - posX) + ' , ' + (e.pageY - posY));
-		//$("#myModal").modal('toggle');
-		//$('#myPopover').popover('show')
-		$("#kuk").css("left", offsetX + "px");
-		$("#kuk").popover('show');
-		$("#addlink").focus();
-	});
-
-	$("#kuk").popover({placement: "bottom", live:true, 
-			title: '5m32s', 
-			//content: '<form><input id="addlink" type="text" placeholder="paste link or type comment" onSubmit="hidePopover2(); return false;"/><button class="btn" onclick="hidePopover(44);">Save</button></form>', 
-			content: '<input name="url" id="addlink" type="text" placeholder="paste link or type comment" onSubmit="hidePopover2(); return false;"/><button class="btn" onclick="hidePopover(44);">Save</button>', 
-			html:true
-	});
 });
 </script>
 	<div id="header"><div id="moviename">This is a movie</div></div>
 	<div id="apialert"></div>
-	<div id="feeddata" style="top:100px; max-width:400px"></div>
-	<!-- <div style="position:fixed; top:100px; left:350px; right:35px; height:100%; border:solid 1px red;">  -->
-	<div style="position:absolute; top:100px; left:350px; right:35px; height:100%; border:solid 0px red;"> 
+	<div id="feeddata" style="top:100px; max-width:320px"></div>
+	<div style="position:absolute; top:80px; left:320px; right:35px; height:100%; border:solid 0px red;"> 
 		<iframe 
 			id="contentframe"
 			name="iframe"

@@ -26,7 +26,7 @@ if (isset($arr)) {
 		'</form>' .
 		'</td>' .
 		'<td>' .
-		"<input type=\"button\" value=\"Open Ipadmote\" onClick=\"window.open('ipad.html?id=$id&autosurf=1', " .
+		"<input type=\"button\" value=\"Open Ipadmote\" onClick=\"window.open('ipad.html?id=$id', " .
 		"'remote', 'width=800,height=600,toolbar=yes,location=yes,directories=yes, status=yes,menubar=yes,scrollbar=yes,copyhistory=yes,resizable=yes,screenX=600')\")>" .
 		'</form>' .
 		'</td>' .
