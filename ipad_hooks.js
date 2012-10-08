@@ -11,8 +11,14 @@ function connect() {
 	console.log("connecting to " + serverLocation + " using streamId " + streamId);
 	socket = io.connect(serverLocation);
 	socket.emit("join", {'streamId': streamId});
+	socket.emit("getTime", {'emptystuff': streamId});
 	socket.on('onPlay', handleOnPlay);
 	socket.on('onPause', handleOnPause);
+	socket.on('time', handleTime);
+}
+
+var getTime = function() {
+	socket.emit("getTime", {'emptystuff': streamId});
 }
 
 var handleFeed = function(currenttime) {
@@ -46,6 +52,11 @@ var handleFeed = function(currenttime) {
 			openUrl(topItem.url);
 		}
 	}
+}
+
+var handleTime = function(data) {
+	console.log("handleTime");
+	handleFeed(data.time);
 }
 
 var handleOnPlay = function(data) {

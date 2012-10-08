@@ -44,7 +44,6 @@ var enableLogin = function(on) {
 
 var hidePopover = function(x) {
 	console.log("do it2" + x);
-	$("#kuk").popover('hide');
 	$.post('api.php?do=add_time_feed&movieid=' + movieid, { title: $('[name=url]').val() }, function(data) { 
 		myData = data;
 		console.log(data.alert + " " + data.userid + " " + data.username + " " + data.timefeed.title);
@@ -101,7 +100,7 @@ var fetchEvents = function(movieid, sessionkey) {
 		clearFeed();
 		$.each(data.timefeed, function(i, item) {
 			//console.log(i + " " + item.title);
-			addFeedEvent(item.title, item.body, item.url, item.img, item.type, item.percent, item.start, item.feedid);
+			addFeedEvent(item.title, item.body, item.url, item.img, item.linktype, item.percent, item.start, item.feedid);
 		});
 		connect();
 	})
@@ -111,15 +110,29 @@ var fetchEvents = function(movieid, sessionkey) {
 }
 
 var addFeedEvent = function(title, body, url, img, type, percent, start, feedid) {
-	var h = '<div id="item' + feedid + '">' + 
-		'<div id="item" onClick="openUrl(\'' + url + '\')" start=' + start + '>' + 
-			'<div id="icon"><img src="' + img + '" alt="twitter" width="55" height="55"/></div>' +
-			'<div id="itemText">' + 
-			//'<div id="fade"></div>' +
-			'<div id="firstLine"> ' + title + '</div>' +
-			'<div id="secondLine">' + url + '</div>' + 
-		'</div>' + 
-		"</div>\n";
+	var h = "";
+	if (type == 5) { // text
+		var h = '<div id="item' + feedid + '">' + 
+			'<div id="itemText" start=' + start + '>' + 
+				'<div id="icon"><img src="' + img + '" alt="twitter" width="55" height="55"/></div>' +
+				'<div id="itemContent">' + 
+					'<div id="itemTitle">' + title + '</div>' +
+					'<div id="itemBody">' + body + '</div>' + 
+				'</div>' + 
+			'</div>' + 
+			"</div>\n";
+	}
+	else {
+		var h = '<div id="item' + feedid + '">' + 
+			'<div id="itemLink" onClick="openUrl(\'' + url + '\')" start=' + start + '>' + 
+				'<div id="icon"><img src="' + img + '" alt="twitter" width="55" height="55"/></div>' +
+				'<div id="itemContent">' + 
+					'<div id="itemTitle"> ' + title + '</div>' +
+					'<div id="itemBody">' + body + '</div>' + 
+				'</div>' + 
+			'</div>' + 
+			"</div>\n";
+	}
 	$("#feeddata").append(h);
 }
 

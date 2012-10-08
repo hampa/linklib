@@ -31,6 +31,12 @@ var handleRewind = function (data) {
 	jumpTo(data, -5);
 }
 
+var handleGetTime = function(data) {
+	console.log("handleGetTime sending");
+	data.time = popcorn.video.currentTime;
+	emit("time", data);
+}
+
 var handleForward = function(data) {
 	jumpTo(data, 5);
 }
@@ -67,6 +73,11 @@ var handleHrefInPlayerOverlay = function (data) {
 	window.open(data.href);
 };
 
+var handleGetTime = function (data) {
+	data.time = popcorn.video.currentTime;
+	emit("time", data);
+}
+
 function connect() {
 	console.log("connecting");
 	socket = io.connect(serverLocation);
@@ -77,7 +88,9 @@ function connect() {
 	socket.on('forward', handleForward);
 	socket.on('showOverlay', handleShowOverlay);
 	socket.on('hideOverlay', handleHideOverlay);
-	socket.on('hrefInPlayer', handleHrefInPlayerOverlay)
+	socket.on('hrefInPlayer', handleHrefInPlayerOverlay);
+	console.log("setting hook handleGetTime");
+	socket.on('getTime', handleGetTime);
 }
 
 function emit(command, data) {

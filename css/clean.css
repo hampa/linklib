@@ -8,13 +8,20 @@ body {
 	margin: 0;
 }
 
-#item {
+#itemLink, #itemText {
 	padding:8px;
 	height:55px;
 	width: 300px;
 	background-color: black;
 	box-shadow: 0px 0px 0px 1px #333333;
+}
+
+#itemLink {
 	cursor: pointer;
+}
+
+#itemLink:hover {
+	background: none repeat scroll 0% 0% rgba(99, 99, 99, 0.5);
 }
 
 #dynamicItem {
@@ -73,7 +80,7 @@ img {
 	z-index: 100;
 }
 
-#itemText{
+#itemContent {
 	text-align: left;
 	float:left;	
 	margin-left: 8px;	
@@ -82,7 +89,7 @@ img {
 	max-width: 300px;
 }
 
-#firstLine{
+#itemTitle {
 	font-size: 13px;
 	font-weight: 700;
 	height: 28px;
@@ -92,7 +99,6 @@ img {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	width: 200px;
-	/* max-width: 300px; */
 }
 
 #contentframe {
@@ -100,8 +106,7 @@ img {
 	-webkit-overflow-scrolling: touch;
 }
 
-
-#secondLine{
+#itemBody {
 	font-size: 13px;
 	height:27px;
 	padding: 0px;
@@ -112,7 +117,7 @@ img {
 	max-width: 200px;
 }
 
-#secondLine strong {
+#itemBody strong {
 	color:#cccccc;
 	font-weight: 300;
 }

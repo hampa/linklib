@@ -28,8 +28,8 @@ else if (stristr($movie_href, "http://player.vimeo.com")) {
 <!doctype html>
 <html>
 <head>
-<script type="text/javascript" src="//use.typekit.net/gtv1fsm.js"></script>
-<script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+<!-- <script type="text/javascript" src="//use.typekit.net/gtv1fsm.js"></script> -->
+<!-- <script type="text/javascript">try{Typekit.load();}catch(e){}</script> -->
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
 <!-- <script src="lib/popcorn/popcorn.js"></script> -->
 <script src="http://popcornjs.org/code/dist/popcorn-complete.js"></script>
@@ -153,6 +153,11 @@ var streamId = "someStreamId";
 		emit("onPause", data);
 	};
 
+	var handleGetTime = function (data) {
+		data.time = popcorn.currentTime();
+		emit("time", data);
+	}
+
 	var handleRewind = function (data) {
 		jumpTo(data, -5);
 	}
@@ -201,6 +206,7 @@ var streamId = "someStreamId";
 		socket.on('play', handlePlay);
 		socket.on('pause', handlePause);
 		socket.on('rewind', handleRewind);
+		socket.on('getTime', handleGetTime);
 		socket.on('forward', handleForward);
 		socket.on('showOverlay', handleShowOverlay);
 		socket.on('hideOverlay', handleHideOverlay);
