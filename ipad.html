@@ -97,7 +97,7 @@ var hideFeeds = function() {
 
 var fetchEvents = function(movieid, sessionkey) {
 	console.log("fetching events for movie" + movieid);
-	$.getJSON('api.php?sort=asc&do=movie_to_json&movieid=' + movieid + "&sessionkey=" + sessionkey, function(data) { 
+	$.getJSON('api.php?sort=desc&do=movie_to_json&movieid=' + movieid + "&sessionkey=" + sessionkey, function(data) { 
 		//addFeedEvent("a title", "http://www.wut.com", Math.floor((Math.random() * 100) + 1));
 		timeFeed = data;
 		//console.log(data.movie.name + " " + data.userid + " " + data.username + " " + data.feedid + " " + data.feedid);
