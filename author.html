@@ -14,12 +14,14 @@
 -->
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <script src="js/bootstrap.min.js"></script>
+<script src="http://popcornjs.org/code/dist/popcorn-complete.js"></script>
 <script>
 
 var json;
 var userid = 0
 var username = "";
 var movieid = 0;
+var popcorn;
 
 $(document).ajaxError(function(e, xhr, settings, exception) {
 	console.log('error in: ' + settings.url + ' \\n'+'error:\\n' + exception);
@@ -30,15 +32,24 @@ var setAlert = function(message) {
 	$("#apialert").show();
 }
 
-var enableLogin = function(on) {
-	if (on) {
+var enableLogin = function(userid, username) {
+	if (userid) {
 		$("#loginbar").hide();
 		$("#logoutbar").show();
+		$("#topusername").html(username);
 	}
 	else {
 		$("#loginbar").show();
 		$("#logoutbar").hide();
+		$("#topusername").html("");
 	}
+}
+
+var loadMovie = function(url) {
+	console.log("loadMovie " + url);
+	//popcorn = Popcorn.smart('#youtube', '$movie_href');
+	//popcorn = Popcorn.smart('#youtube', '$movie_href');
+	popcorn = Popcorn.smart('#video', url);
 }
 
 var hidePopover = function(x) {
@@ -66,16 +77,18 @@ var fetchEvents = function(movieid) {
 		//addFeedEvent("a title", "http://www.wut.com", Math.floor((Math.random() * 100) + 1));
 		myData = data;
 		console.log(data.movie.name + " " + data.userid + " " + data.username);
-		$("#topusername").html(data.username);
-		enableLogin(data.userid);
+		
+		enableLogin(data.userid, data.username);
 		if (data.movie && data.movie.name) {
 			$("#moviename").html(data.movie.name);
 		}
+		loadMovie(data.movie.url);
+		var duration = popcorn.movie.duration;
 		//console.log(data[0]);
 		clearFeed();
 		$.each(data.timefeed, function(i, item) {
 			//console.log(i + " " + item.title);
-			addFeedEvent(item.title, item.body, item.percent);
+			addFeedEvent(item.title, item.body, item.start / duration);
 		});
 	})
 	.success(function() { console.log("second success"); })
@@ -97,6 +110,17 @@ var clearFeed = function() {
 var hidePopover2 = function() {
 	console.log("from input type");
 	//$("#kuk").popover('hide');
+}
+
+var logout = function() {
+	console.log("logout");
+	$.getJSON('api.php?do=logout&movieid=' + movieid, function(data) { 
+		enableLogin(data.userid, "");
+		setAlert(data.msg);
+	})
+	.success(function() { console.log("second success"); })
+	.error(function(xhr, status, error) { console.log("error" + xhr.responseText); })
+	.complete(function() { console.log("complete"); });
 }
 
 function getParams() {
@@ -140,6 +164,7 @@ $(function() {
 			function(data) {
 				setAlert(data.alert + " " + data.msg);
 				console.log(data.alert + " " + data.msg);
+				enableLogin(data.userid, data.username);
 				/*
 				if (data.success) {
 					console.log("success");
@@ -232,7 +257,8 @@ $(function() {
     		</div>
 		-->
 		<div id="videodiv" class="videodiv">
-			<div id="youtube" style="padding-top:50px;width:640px;height:480px;background-color:#00ff00"></div>
+			<!-- <div id="youtube" style="padding-top:50px;width:640px;height:480px;background-color:#00ff00"></div> -->
+			<div id="video" style="padding-top:50px;width:640px;height:480px;background-color:#00ff00"></div>
 			<div id="timeline">
 				<div id="feeddata">
 					<a title='Wikipedia US Presidential Election, 2008 - http://en.wikipedia.org/wiki/United_States_presidential_election,_2008' class='feed-event' style='left: 10%;'></a>
