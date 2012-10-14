@@ -5,13 +5,6 @@
 <link href="css/movieline.css" rel="stylesheet"/>
 </head>
 <body>
-<!--
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
-<script src="http://popcornjs.org/code/dist/popcorn-complete.js"></script>
-<script src="lib/jquery/jquery.bgiframe.js" type="text/javascript"></script>
-<script src="lib/jquery/jquery.dimensions.js" type="text/javascript"></script>
-<script src="lib/jquery/jquery.tooltip.js" type="text/javascript"></script>
--->
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="http://popcornjs.org/code/dist/popcorn-complete.js"></script>
@@ -39,8 +32,8 @@ var setAlert = function(message) {
 
 var addQrCode = function(id) {
 	$("#qrcodediv").html(
-			'<img id="qrcode" src="http://chart.apis.google.com/chart?chs=64x64&cht=qr&chld=L|0&chl=http%3A%2F%2Fwww.linkontrol.com%2Fipad.html%3Fid%3D' 
-			+ id + '" alt="Get links in your mobile" widthHeight="64" widthHeight="64"/>');
+			'<img id="qrcode" src="http://chart.apis.google.com/chart?chs=128x128&cht=qr&chld=L|0&chl=http%3A%2F%2Fwww.linkontrol.com%2Fremote.php%3Fid%3D' 
+			+ id + '" alt="Get links in your mobile">');  // widthHeight="64" widthHeight="64"/>');
 }
 
 var getTimestamp = function() {
@@ -74,9 +67,22 @@ var loadMovie = function(url) {
 		$.each(data.timefeed, function(i, item) {
 			var p = (item.start / duration) * 100;	
 			//console.log(i + " " + item.title + " " + item.start + " / " + duration);
-			addFeedEvent(item.title, item.body, p); 
+			addFeedEvent(item.title, item.body, item.url, p); 
 		});
+		addTooltip();
 	});
+}
+
+var addTooltip = function() {
+	//$("#feeddata a").tooltip();
+        $("#feeddata a").tooltip({
+                animation: true,
+                html: true,
+                placement: "top",
+                //title: "hejsan",
+                trigger: "hover",
+                delay: { show: 1, hide: 100 }
+        });
 }
 
 var hidePopover = function(x) {
@@ -119,8 +125,9 @@ var fetchEvents = function(movieid, sessionid) {
 	.complete(function() { console.log("complete"); });
 }
 
-var addFeedEvent = function(title, url, percent) {
-	var h = "<a title='" + title + " - " + url + "' class='feed-event' style='left: " + percent + "%;'></a>";
+var addFeedEvent = function(title, body, url, percent) {
+	//var h = '<a href="#" id="bajs" rel="tooltip" title="' + title + " - " + url + '" class="feed-event" style="left: ' + percent + '%;"></a>';
+	var h = '<a href="#" id="bajs" rel="tooltip" title="' + body + '" class="feed-event" style="left: ' + percent + '%;"></a>';
 	$("#feeddata").append(h);
 }
 
@@ -190,10 +197,6 @@ $(function() {
 		}
         }
 
-        var onTooltipUpdate = function(tooltip, x, y) {
-                console.log(tooltip);
-                //console.log("yey" + x + " " + y);
-        }       
 	// Setup drop down menu
 	$('.dropdown-toggle').dropdown();
  
@@ -224,22 +227,6 @@ $(function() {
 		return false;
 	});
 
-        $("#timeline a").tooltip({
-                track: true,
-                delay: 0,
-                showURL: false,
-                fixPNG: false,
-                showBody: " - ",
-                //extraClass: "pretty fancy",
-                top: -15,
-                onUpdate: onTooltipUpdate,
-                left: 5
-        });
-
-        var onTooltipUpdate = function(tooltip, x, y) {
-                console.log(tooltip);
-        } 
-
         setInterval(function () {
 		if (socket == null) {
 			return;
@@ -258,7 +245,7 @@ $(function() {
 		var diff = t - mouseMoveTime;
 		if (diff > 8000) { 
 			$("#qrcode").fadeOut('slow', function() {
-				console.log("fade done " + $('#qrcode').css("style"));
+				//console.log("fade done " + $('#qrcode').css("style"));
 			});
 		}
 		//console.log(t - mouseMoveTime);
@@ -293,18 +280,11 @@ $(function() {
 
 });
 </script>
-
 	<div class="navbar navbar-fixed-top">
 		<div class="navbar-inner">
 			<div class="container">
-				<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				</a>
- 
 				<a class="brand" id="moviename">linklib.org</a>
-
+				<!--
 				<div class="nav-collapse">
 					<ul class="nav pull-right" id="loginbar">
 						<li><a href="/users/sign_up">Sign Up</a></li>
@@ -321,21 +301,27 @@ $(function() {
 						</li>
 					</ul>
 					<ul class="nav pull-right" id="logoutbar">
-						<li id="topusername">username</li>
+						<li><a href="#" id="topusername">username</a></li>
 						<li class="divider-vertical"></li>
 						<li><button class="btn" onclick="logout();">Logout</button></li>
 					</ul>
 				</div>
+				-->
 			</div>
 		</div>
 	</div>
 
-	<div class="container" style="height:800px;background-color:#ff00f0;width:100%;height:800px">
+	<div class="container" style="height:800px;background-color:#000000;width:100%;height:1000px">
 		<div id="videodiv" class="videodiv">
-			<div id="video" style="position:absolute;top:43px;width:100%;height:600px;background-color:#00ff00"></div>
+			<div id="video" style="position:absolute;top:43px;width:100%;height:600px;background-color:#000000"></div>
 		</div>
 		<div id="timeline">
-			<div id="feeddata"></div>
+			<div id="feeddata">
+				<!--
+				<a href="#" rel="tooltip" title="hej - <strong>was</strong>" class="feed-event" style="left: 50%;"></a>
+				<a href="#" rel="tooltip" title="hej - <strong>was</strong>" class="feed-event" style="left: 10%;"></a>
+				-->
+			</div>
 		</div>
 		<div id="apialert"></div>
 		<div id="qrcodediv" style="position:absolute;top:695px;right:0px;">
