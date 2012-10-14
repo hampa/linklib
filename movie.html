@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <link href="css/bootstrap.min.css" rel="stylesheet">
-<link href="css/timeline.css" rel="stylesheet"/>
+<link href="css/movieline.css" rel="stylesheet"/>
 </head>
 <body>
 <!--
@@ -15,13 +15,18 @@
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="http://popcornjs.org/code/dist/popcorn-complete.js"></script>
+<script src="lib/socket.io/socket.io.js"></script>
 <script>
 
-var json;
+var socket = null;
+var json = null;
 var userid = 0
 var username = "";
 var movieid = 0;
-var popcorn;
+var popcorn = null;
+var serverLocation = 'http://linkontrol.toribash.com:1337';	
+var streamId = "someStreamId";
+var mouseMoveTime = 0;
 
 $(document).ajaxError(function(e, xhr, settings, exception) {
 	console.log('error in: ' + settings.url + ' \\n'+'error:\\n' + exception);
@@ -30,6 +35,16 @@ $(document).ajaxError(function(e, xhr, settings, exception) {
 var setAlert = function(message) {
 	$('#apialert').html('<div class="alert"><a class="close" data-dismiss="alert">x</a><span>'+message+'</span></div>');
 	$("#apialert").show();
+}
+
+var addQrCode = function(id) {
+	$("#qrcodediv").html(
+			'<img id="qrcode" src="http://chart.apis.google.com/chart?chs=64x64&cht=qr&chld=L|0&chl=http%3A%2F%2Fwww.linkontrol.com%2Fipad.html%3Fid%3D' 
+			+ id + '" alt="Get links in your mobile" widthHeight="64" widthHeight="64"/>');
+}
+
+var getTimestamp = function() {
+	return +new Date();
 }
 
 var enableLogin = function(userid, username) {
@@ -47,9 +62,21 @@ var enableLogin = function(userid, username) {
 
 var loadMovie = function(url) {
 	console.log("loadMovie " + url);
-	//popcorn = Popcorn.smart('#youtube', '$movie_href');
-	//popcorn = Popcorn.smart('#youtube', '$movie_href');
 	popcorn = Popcorn.smart('#video', url);
+	popcorn.listen("error", function(e) {
+		console.log("popcorn error " + e);
+	});
+	popcorn.listen("durationchange", function() {
+		console.log("popcorn duration " + popcorn.duration());
+		var duration = popcorn.duration();
+		clearFeed();
+		var data = myData;
+		$.each(data.timefeed, function(i, item) {
+			var p = (item.start / duration) * 100;	
+			//console.log(i + " " + item.title + " " + item.start + " / " + duration);
+			addFeedEvent(item.title, item.body, p); 
+		});
+	});
 }
 
 var hidePopover = function(x) {
@@ -71,9 +98,9 @@ var hidePopover = function(x) {
 }
 
 var myData;
-var fetchEvents = function(movieid) {
+var fetchEvents = function(movieid, sessionid) {
 	console.log("fetching events for movie" + movieid);
-	$.getJSON('api.php?abc=xxx&do=movie_to_json&movieid=' + movieid, function(data) { 
+	$.getJSON('api.php?abc=xxx&do=movie_to_json&movieid=' + movieid + '&sessionid=' + sessionid, function(data) { 
 		//addFeedEvent("a title", "http://www.wut.com", Math.floor((Math.random() * 100) + 1));
 		myData = data;
 		console.log(data.movie.name + " " + data.userid + " " + data.username);
@@ -83,14 +110,9 @@ var fetchEvents = function(movieid) {
 			$("#moviename").html(data.movie.name);
 		}
 		loadMovie(data.movie.url);
-		var duration = popcorn.movie.duration;
-		console.log("duration: " + duration);
-		clearFeed();
-		$.each(data.timefeed, function(i, item) {
-			var p = (item.start / duration) * 100;	
-			console.log(i + " " + item.title + " " + p);
-			addFeedEvent(item.title, item.body, p); 
-		});
+		streamId = "streamId" + sessionid;
+		addQrCode(sessionid);
+		connect();
 	})
 	.success(function() { console.log("second success"); })
 	.error(function(xhr, status, error) { console.log("error" + xhr.responseText); })
@@ -99,7 +121,6 @@ var fetchEvents = function(movieid) {
 
 var addFeedEvent = function(title, url, percent) {
 	var h = "<a title='" + title + " - " + url + "' class='feed-event' style='left: " + percent + "%;'></a>";
-	//console.log(h);
 	$("#feeddata").append(h);
 }
 
@@ -137,11 +158,36 @@ function getParams() {
         }
 }
 
+var handleGetTime = function(data) {
+	data.time = popcorn.currentTime();
+	emit("time", data);
+}
+
+function emit(command, data) {
+	if (!data) {
+		data = {};
+	}
+	data.streamId = streamId;
+	socket.emit(command, data);
+}
+
+var connect = function() {
+	console.log("connecting");
+	socket = io.connect(serverLocation);
+	socket.emit("join", {'streamId':streamId});
+	socket.on('getTime', handleGetTime);
+}
+
 $(function() {
+	mouseMoveTime = getTimestamp();
         params = getParams();
-        if (params && params["movieid"]) {
-                movieid = params["movieid"];
-		fetchEvents(movieid);
+	console.log("here");
+        if (params) {
+		if (params["movieid"]) {
+                	movieid = params["movieid"];
+			sessionid = params['id'];
+			fetchEvents(movieid, sessionid);
+		}
         }
 
         var onTooltipUpdate = function(tooltip, x, y) {
@@ -184,32 +230,67 @@ $(function() {
                 showURL: false,
                 fixPNG: false,
                 showBody: " - ",
-                extraClass: "pretty fancy",
+                //extraClass: "pretty fancy",
                 top: -15,
                 onUpdate: onTooltipUpdate,
                 left: 5
         });
-	$("#timeline").click(function(e) {
-		var posX = $(this).position().left;
-		var posY = $(this).position().top;
-		var offsetX = e.pageX - posX;
-		//console.log("click" + e.pageX+ ' , ' + e.pageY);
-		//console.log("click" + posX + ' , ' + posY);
-		//console.log( (e.pageX - posX) + ' , ' + (e.pageY - posY));
-		//$("#myModal").modal('toggle');
-		//$('#myPopover').popover('show')
-		$("#kuk").css("left", offsetX + "px");
-		$("#kuk").popover('show');
-		$("#addlink").focus();
+
+        var onTooltipUpdate = function(tooltip, x, y) {
+                console.log(tooltip);
+        } 
+
+        setInterval(function () {
+		if (socket == null) {
+			return;
+		}
+                var data = {};
+                if (!data.time) {
+                        data.time = popcorn.currentTime();
+                }
+                if (popcorn.paused()) {
+                        emit("onPause", data);
+                }
+                else {
+                        emit("onPlay", data);
+                }
+		var t = getTimestamp();
+		var diff = t - mouseMoveTime;
+		if (diff > 8000) { 
+			$("#qrcode").fadeOut('slow', function() {
+				console.log("fade done " + $('#qrcode').css("style"));
+			});
+		}
+		//console.log(t - mouseMoveTime);
+        }, 700);
+
+	$("#qrcode2").hover(function() {
+		// hover in
+		$(this).parent().parent().css("z-index", 1);
+		$(this).animate({
+			height: "128",
+			width: "128",
+			left: "-=50",
+			top: "-=50"
+		}, "fast");
+		}, function() {
+		// hover out
+		$(this).parent().parent().css("z-index", 0);
+		$(this).animate({
+			height: "64",
+			width: "64",
+			left: "+=50",
+			top: "+=50"
+		}, "fast");
 	});
 
-	$("#kuk").popover({placement: "bottom", live:true, 
-			title: '5m32s', 
-			//content: '<form><input id="addlink" type="text" placeholder="paste link or type comment" onSubmit="hidePopover2(); return false;"/><button class="btn" onclick="hidePopover(44);">Save</button></form>', 
-			content: '<input name="url" id="addlink" type="text" placeholder="paste link or type comment" onSubmit="hidePopover2(); return false;"/><button class="btn" onclick="hidePopover(44);">Save</button>', 
-			html:true
+	$("#timeline").mousemove(function(e) {
+		mouseMoveTime = getTimestamp();
+		$("#qrcode").fadeIn('fast', function() {
+			console.log("fade in done");
+		});
 	});
-	
+
 });
 </script>
 
@@ -249,75 +330,20 @@ $(function() {
 		</div>
 	</div>
 
-	<div class="container" style="height:800px;background-color:#ff00ff">
-		<!-- <button class="btn" onclick="hidePopover(44);">Save</button> -->
-		<!--
-    		<div class="alert" id="apialert">
-    			<button type="button" class="close" data-dismiss="alert"></button>
-    			<strong>Warning!</strong> Best check yo self, you're not looking too good.
-    		</div>
-		-->
+	<div class="container" style="height:800px;background-color:#ff00f0;width:100%;height:800px">
 		<div id="videodiv" class="videodiv">
-			<!-- <div id="youtube" style="padding-top:50px;width:640px;height:480px;background-color:#00ff00"></div> -->
-			<div id="video" style="padding-top:50px;width:640px;height:480px;background-color:#00ff00"></div>
-			<div id="timeline">
-				<div id="feeddata">
-					<a title='Wikipedia US Presidential Election, 2008 - http://en.wikipedia.org/wiki/United_States_presidential_election,_2008' class='feed-event' style='left: 10%;'></a>
-					<a title='Wikipedia Homer Simpsons - http://en.wikipedia.org/wiki/Homer_Simpson' class='feed-event' style='left: 50%;'></a>
-				</div>
-				<div id="kuk" style="position:absolute; height:100px;left:100px;width:10px;background-color:#ff0000"></div>
-			</div>
+			<div id="video" style="position:absolute;top:43px;width:100%;height:600px;background-color:#00ff00"></div>
+		</div>
+		<div id="timeline">
+			<div id="feeddata"></div>
 		</div>
 		<div id="apialert"></div>
-	</div>
-
-          <!-- sample modal content -->
-          <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-              <h3 id="myModalLabel">Modal Heading</h3>
-            </div>
-            <div class="modal-body">
-              <h4>Text in a modal</h4>
-              <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem.</p>
-
-              <h4>Popover in a modal</h4>
-              <p>This <a href="#" role="button" class="btn popover-test" title="A Title" data-content="And here's some amazing content. It's very engaging. right?">button</a> should trigger a popover on hover.</p>
-
-              <h4>Tooltips in a modal</h4>
-              <p><a href="#" class="tooltip-test" title="Tooltip">This link</a> and <a href="#" class="tooltip-test" title="Tooltip">that link</a> should have tooltips on hover.</p>
-
-              <hr>
-
-              <h4>Overflowing text to show optional scrollbar</h4>
-              <p>We set a fixed <code>max-height</code> on the <code>.modal-body</code>. Watch it overflow with all this extra lorem ipsum text we've included.</p>
-              <p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
-              <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.</p>
-              <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>
-              <p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
-              <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.</p>
-              <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>
-            </div>
-            <div class="modal-footer">
-              <button class="btn" data-dismiss="modal">Close</button>
-              <button class="btn btn-primary">Save changes</button>
-            </div>
-          </div>
-
-         <div id="myPopover" class="popover bottom">
-            <div class="arrow"></div>
-            <h3 class="popover-title">Popover bottom</h3>
-            <div class="popover-content">
-              <p>Sed posuere consectetur est at lobortis. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum.</p>
-            </div>
-          </div>
-
-
-	<a href="#" id="element2" rel="popover" title="A Title" data-content="And here's some amazing content. It's very engaging. right?">Yo</a>
-		<!--
-		<div class="bs-docs-example" style="padding-bottom: 24px;">
-			<a href="#" id="element2" class="btn btn-large btn-danger" rel="popover" title="A Title" data-content="And here's some amazing content. It's very engaging. right?">Click to toggle popover</a>
+		<div id="qrcodediv" style="position:absolute;top:695px;right:0px;">
+			<!--
+			<img id="qrcode" src="http://chart.apis.google.com/chart?chs=64x64&cht=qr&chld=L|0&chl=http%3A%2F%2Fwww.linkontrol.com%2Fipad.html%3Fid%3D_IDCODE_" 
+				alt="Get links in your mobile" widthHeight="64" widthHeight="64"/>
+			-->
 		</div>
-	-->
+	</div>
 </body>
 </html>

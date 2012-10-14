@@ -292,6 +292,14 @@ else if ($_GET['do'] == 'movie_to_json') {
 	else {
 		$movieid = intval($_GET['movieid']);
 	}
+	$sessionid = mysql_real_escape_string($_GET['sessionid']);
+	if ($sessionid == '') {
+		$sessionid = $linkontrol->createSession($movieid);
+	}
+	else {
+		$linkontrol->reuseSession($sessionid, $movieid);
+	}
+
 	$arr = $linkontrol->getMovie($movieid);
 	//print_r($arr);
 	$json_movie = array("name" => $arr['name'], "movieid" => $arr['movieid'], "url" => $arr['href']);
