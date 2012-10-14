@@ -116,7 +116,7 @@ var fetchEvents = function(movieid, sessionid) {
 			$("#moviename").html(data.movie.name);
 		}
 		loadMovie(data.movie.url);
-		streamId = "streamId" + sessionid;
+		streamId = sessionid;
 		addQrCode(sessionid);
 		connect();
 	})
