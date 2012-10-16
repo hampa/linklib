@@ -1,0 +1,434 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="http://www.facebook.com/2008/fbml"><!-- InstanceBegin template="/Templates/1_1_0_Home.dwt" codeOutsideHTMLIsLocked="false" -->
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<meta http-equiv="content-language" content="en" />
+
+<meta name="author" content="soundism" />
+<meta name="copyright" content="SOUNDISM 1999-2011. All rights reserved." />
+
+
+
+
+<!-- InstanceBeginEditable name="doctitle" -->
+<title>Music Producers, Sound Engineers, Songwriters and Music Production Studios - SOUNDISM</title>
+<!-- InstanceEndEditable -->
+
+
+
+<link href="_global/oneColFixCtrHdr.css" rel="stylesheet" type="text/css" />
+<link href="_spry/SpryMenuBarHorizontal.css" rel="stylesheet" type="text/css" />
+<link href="_global/globallayout.css" rel="stylesheet" type="text/css" />
+<link href="_global/globaltext.css" rel="stylesheet" type="text/css" />
+
+<script src="_spry/SpryMenuBar.js" type="text/javascript"></script>
+
+<link rel="shortcut icon" href="http://www.soundism.com/favicon.ico" type="image/x-icon" /> 
+
+<link href="https://plus.google.com/102145775379373318677" rel="publisher" />
+<!-- InstanceBeginEditable name="head" -->
+
+    <meta property="og:title" content="SOUNDISM STUDIO MUSIC PRODUCTION"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:url" content="http://www.soundism.com"/>
+    <meta property="og:image" content="http://www.soundism.com/_xfb/s.jpg"/>
+    <meta property="og:site_name" content="SOUNDISM STUDIO MUSIC PRODUCTION"/>
+  
+    <meta property="og:description"
+          content="Studios for professional music production, mixing, and mastering. Music producers and sound engineers. Company established 1988."/>
+    <meta property="og:email" content="studio@soundism.com"/>
+    <meta property="og:phone_number" content="+46 21 4444777"/>
+    <meta property="og:street-address" content="Stora Gatan 21"/>
+    <meta property="og:locality" content="Vasteras"/>
+    <meta property="og:postal-code" content="722 12"/>
+    <meta property="og:country-name" content="Sweden"/>
+
+<meta name="robots" content="index, follow"/>
+<meta name="robots" content="noarchive, nocache"/>
+
+<meta name="description" content="Soundism is a music production group with the music producers Embee, Jimmy Ledrac, Mats Nyman, and Vladi Vargas and music recording studios in V&auml;ster&aring;s/Stockholm and Gothenburg (Sweden). Sound engineers of Good Things with Looptroop Rockers and other albums. Promoe, Grammis winner 2010. Songwriters and music producers of Hip-hop, Reggae, RnB, and Soul music for the international music scene. Soundism works with record companies, composers, songwriters, and artists. Contact us for collaborations on songs."/>
+
+<meta name="keywords" content="soundism,official,official page,good things,standard bearer,green heart,roots tonic,lead,rasta should be deeper,vp,tough life,real life,joy,white man's burden, ,headache,recording,mix,mixing,mastering,producer,producers,production,productions,studio,studios,sound,music,album,single,riddim,track,chart,musician,musicians,lyric,lyrics,song,songs,songwriting,vladi,vargas,reggae,hip hop,rap,rnb,looptroop,looptroop rockers,promoe,embee,embee studio,looptroop studio,ledrac studio,vladi studio,mats nyman studio,junior kelly,YT,grammis,grammy,awards,rockbjörnen,manifest,dj awards,p3 guld,p3 rytm,1extra"/>
+
+<link rel="canonical" href="http://www.soundism.com/" />
+
+<!--[if IE 6]> <meta http-equiv="refresh" content="3; url=http://www.soundism.com/oldbrowser.htm"> <![endif]-->
+<!-- TradeDoubler site verification 1495828 --><!-- InstanceEndEditable -->
+
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-335461-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+</head>
+
+<body class="oneColFixCtrHdr">
+
+<!-- fb like script BEGIN -->
+<div id="fb-root"></div>
+<script type="text/javascript">(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<!-- fb like script END -->
+
+<div id="container">
+  <div id="header">
+      
+    <div id="banner">
+  <a href="http://www.soundism.com/"><img src="_images/noindex/logobig_green.jpg" alt="SOUNDISM" width="201" height="60" border="0" /></a>  </div>
+  
+
+  
+  
+  <ul id="MenuBar1" class="MenuBarHorizontal">
+    <li><a href="http://www.soundism.com/">Soundism Home</a> </li>
+    <li><a href="en/services/index.htm" class="MenuBarItemSubmenu">What We Do</a>
+      <ul>
+        <li><a href="en/services/hip-hop-beat-makers.htm">Beat Making</a></li>
+        <li><a href="en/services/remixes.htm">Remixes</a></li>
+        <li><a href="en/services/songwriting.htm">Songwriting</a></li>
+        <li><a href="en/services/recording.htm">Recording</a></li>
+        <li><a href="en/services/mixing.htm">Mixing</a></li>
+        <li><a href="en/services/mastering.htm">Mastering</a></li>
+        <li><a href="en/services/studio-musicians.htm">Studio Musicians</a></li>
+        <li><a href="en/services/music-production.htm">Music Production</a></li>
+      </ul>
+      </li>
+    <li><a href="en/music-producers/index.htm" class="MenuBarItemSubmenu">Music Producers </a>
+      <ul>
+        <li><a href="en/music-producers/embee.htm">Embee</a></li>
+        <li><a href="en/music-producers/jimmy-ledrac.htm">Jimmy Ledrac</a></li>
+        <li><a href="en/music-producers/mats-nyman.htm">Mats Nyman</a></li>
+        <li><a href="en/sound-engineers/vladi-vargas.htm">Vladi Vargas</a></li>
+      </ul>
+      </li>
+    <li><a href="en/sound-engineers/index.htm" class="MenuBarItemSubmenu">Sound Engineers</a>
+      <ul>
+        <li><a href="en/sound-engineers/vladi-vargas.htm">Vladi Vargas</a></li>
+      </ul>
+        </li>
+    <li><a href="en/music-recording-studios/index.htm" class="MenuBarItemSubmenu">Music Studios</a>
+      <ul>
+        <li><a href="en/music-recording-studios/vasteras/soundism-studio-vasteras.htm">Soundism Studio</a></li>
+        <li><a href="en/music-recording-studios/gothenburg/the-wax-cabinet-embee.htm">Wax Cabinet</a></li>
+      </ul>
+      </li>
+    <li><a href="en/discography/index.htm" class="MenuBarItemSubmenu">Discography</a>
+      <ul>
+        <li><a href="en/discography/embee.htm">Embee</a></li>
+        <li><a href="en/discography/jimmy-ledrac.htm">Jimmy Ledrac</a></li>
+        <li><a href="en/discography/mats-nyman.htm">Mats Nyman</a></li>
+        <li><a href="en/discography/vladi-vargas.htm">Vladi Vargas</a></li>
+      </ul>
+      </li>
+    <li><a href="en/contacts/index.htm" class="MenuBarItemSubmenu">Contact Us</a>
+      <ul>
+        <li><a href="en/contacts/sweden-stockholm.htm">Stockholm</a></li>
+        <li><a href="en/contacts/sweden-vasteras.htm">Vasteras</a></li>
+        <li><a href="en/contacts/faq.htm">FAQ</a></li>
+      </ul>
+      </li>
+  </ul>
+  
+
+
+    
+  <!-- end #header --></div>
+
+ 
+  <div id="mainContent">
+  
+
+ 
+ 
+    <div id="maincontenteditable"><!-- InstanceBeginEditable name="maincontentedit" -->
+    <div id="page">
+    
+    <div id="homecolumnleft">
+    <div id="homemediabox"> 
+      <p><img src="_images/en/facebook-invite_340-165.png" width="340" height="165" /></p>
+      <p>&nbsp; </p>
+      <div class="fb-like" data-href="http://www.facebook.com/pages/SOUNDISM/7347987770" data-send="true" data-layout="button_count" data-width="140" data-show-faces="false"></div>
+      </div>
+    
+<div id="homeabouttext">
+    	      <h2>Soundism: Producers, Engineers, and Composers</h2>
+              <p>Soundism&#8482; is a group of <a href="en/music-producers/index.htm" >music producers</a>, <a href="en/sound-engineers/vladi-vargas.htm">sound engineers</a>, and <a href="en/music-producers/index.htm" >songwriters</a>. The group has full access to dedicated <a href="en/music-recording-studios/index.htm" >music recording studios</a>. The musical journey includes several first-rate artists on the international music scene. The natural area of exploration for Soundism is music played by DJs and Selectors. We are primarily involved with Dancehall, Funk, Hip-hop, Jazz, Ragga, Reggae, RnB, Ska, and Soul projects. </p>
+            
+          <p>It's difficult to pinpoint exactly where Soundism started. A milestone event was the finals of the of Swedish Rap Championship in 1989, where Soundism producer <a href="en/sound-engineers/vladi-vargas.htm">Vladi Vargas</a>' track was performed, perhaps the earliest <a href="en/services/music-production.htm">music production</a>. At that time, tunes were produced with the simplest means routed in DJ style, yet the <a href="en/services/hip-hop-beat-makers.htm">beats</a> were already for real. A groove has always been crucial on the roads that Soundism has taken. The beats are essential, regardless if people call it Hip-Hop, Reggae, or something else.</p>
+            
+            <p>Finding that final tweak on the tune in the  <a href="en/services/mixing.htm">mixing</a> is probably one of Soundism's most reliable strengths. Soundism has continuously changed and is endlessly moving on, riding the flow its own way. See &quot;<a href="en/discography/index.htm">Discography</a>&quot; for a list of artists, projects, and recordings our music journey has included so far.</p>
+    </div>
+    <div id="homemediabox2"><img src="_images/embee-the-mellow-turning-moment.jpg" alt="Embee The Mellow Turning Moment" width="340" height="340" border="0" /> </div>
+    
+    </div>
+    
+    <div id="homenewstext">
+    <h1>Music Production and Friends News</h1>
+                <p>2012-02-14<br />
+                <strong>Looptroop Rockers</strong> &ldquo;Music Sounds Better At Night&rdquo; is nominated to a Swedish Grammy award in the Innovator of the Year category with the song's video. The award gala is held tonight and broadcasted on Sveriges Televison.          </p>
+          <p>2011-03-09<br />
+         Looptroop Rockers 2011 album is out. <a href="en/music-producers/embee.htm">Music producer</a><strong> <a href="en/music-producers/embee.htm">Embee</a></strong>  is once again behind the production of the group's recordings. The new album is called &quot;<a href="en/discography/embee.htm">Professional Dreamers</a>&quot;, see the discography for track listing.</p>
+          <p>2010-10-27<br />
+          <a href="en/music-producers/embee.htm">Music producer</a> <strong><a href="en/music-producers/embee.htm">Embee's</a></strong> &quot;<a href="en/discography/embee.htm">Skuggpoeten</a>&quot; album can be pre-ordered <a href="https://www.bengans.se/popup/skuggpoeten/se.aspx" target="_blank" onclick="javascript: pageTracker._trackPageview('/xlinkhomenewsout/bengansembeeskuggpoeten');">here</a>. The new Embee album could be described as &quot;Urban Folk&quot; music, with elements of urban music and folk music. It builds on lyrics by Roger Bergkvist, taken from his poetry book <span lang="sv">&quot;Dikter från världens mitt med omnejd&quot;</span> and joined with music by Embee and Esmeralda Moberg. Skuggpoeten is also the name of the band constellation with Embee and Esmeralda Moberg. Strings by Samuel Andersson, artwork by Johan Reinhold, and photo by Rikard Laving. Embee's new album is released November 10, 2010. See <a href="en/discography/embee.htm">Embee's discography</a> for track listing.</p>
+        <p>2010-05-01<br />
+       <a href="en/music-producers/jimmy-ledrac.htm">Music producer <strong>Jimmy Ledrac's</strong></a> new side project <a href="http://www.theachtungachtung.com/" target="_blank">The Achtung Achtung</a> is live! Check  out the gig in Berlin.</p>
+        <p>2010-02-24<br />
+          <a href="en/music-producers/embee.htm">Music producer </a><strong><a href="en/music-producers/embee.htm">Embee's</a></strong> &quot;<a href="en/discography/embee.htm">The Mellow Turning Moment</a>&quot; album is out now. You can order your <a href="http://www.bengans.se/Product.aspx?skivkod=829763&amp;section=music" target="_blank" onclick="javascript: pageTracker._trackPageview('/xlinkhomenewsout/bengans.se');">CD here</a> or get the album on <a href="http://itunes.apple.com/se/album/the-mellow-turning-moment/id350551803" target="_blank" onclick="javascript: pageTracker._trackPageview('/xlinkhomenewsout/itunesembeemellowturningmoment');">iTunes</a>. Carl-Michael Herlöfsson directed the <a href="http://www.youtube.com/soundismstudios#p/c/3DB46BBFB5EB5E0E/12/GzItZF6D4ik" target="_blank" onclick="javascript: pageTracker._trackPageview('/xlinkhomenewsout/youtubeembeedesiretobefree');">Desire to be Free video</a> (featuring Nina Ramsby). Also see the slide show video of <a href="http://www.youtube.com/soundismstudios#p/c/3DB46BBFB5EB5E0E/13/m8yhvNJcYBI" target="_blank" onclick="javascript: pageTracker._trackPageview('/xlinkhomenewsout/youtubeembeedayatatime');">A Day at A Time</a> (featuring Daniel Lemma), another album song.</p>
+        <p>2010-01-15<br />
+          <strong>Promoe</strong> won a Swedish Grammy Award (Grammis) in the category <em>Best Club/Hip Hop</em> with his album &quot;Kr&aring;ks&aring;ngen&quot;. <a href="en/music-producers/jimmy-ledrac.htm">Music producer <strong>Jimmy Ledrac</strong></a> contributed with the  song &quot;<a href="en/discography/jimmy-ledrac.htm">Ondskan</a>&quot; to the album.</p>
+    <p>2010-01-12<br />
+          <strong><a href="en/music-producers/embee.htm">Embee's</a></strong> &quot;<a href="en/discography/embee.htm">The Mellow Turning Moment</a>&quot; album will be released 24th February. For his solo album, Soundism <a href="en/music-producers/embee.htm">music producer Embee</a> has invited some nice featuring artists: Erik Undéhn (The Early Days), Annika Norlin (Hello Saferide), Daniel Lemma, J.P   George, Maia Hirasawa, Nikola Sarcevic (Millencolin), Nina Ramsby, Mariam   Wallentin (Wildbirds &amp; Peacedrums), san (antennasia), H&aring;kan Svensson (Nationalteatern) Fabian Kallerdahl (Music Music Music). <a href="http://www.inkgraphix.com/" target="_blank">Ink Graphix</a> did the album cover.</p>
+          <p>2010-01-11<br />
+          <strong>Promoe</strong> is nominated to Manifestgalan in the category <em>Best Hip Hop</em> with his album &quot;Kr&aring;ks&aring;ngen&quot;. <a href="en/music-producers/jimmy-ledrac.htm"><strong>Jimmy Ledrac</strong></a> produced the  song &quot;<a href="en/discography/jimmy-ledrac.htm">Ondskan</a>&quot; on the album. The Manifest gala is held 29th January 2010 at Nalen, Stockholm. More  <a href="http://www.manifestgalan.se/" target="_blank" onclick="javascript: pageTracker._trackPageview('/xlinkhomenewsout/manifestgalan.se');">info</a>.</p>
+    <p>2009-12-27<br />
+          <strong>Promoe</strong> is nominated twice to the Swedish Grammy Award in the category <em>Best Music Video</em> with his songs &quot;Svennebanan&quot; and &quot;Mammas Gata&quot;. Both videos are directed by Magnus H&auml;rdner at <a href="http://www.kamisol.se/" target="_blank" onclick="javascript: pageTracker._trackPageview('/xlinkhomenewsout/kamisol.se');">Kamisol</a>. The <a href="http://www.youtube.com/watch?v=FEPZ3HwOgbY" target="_blank" onclick="javascript: pageTracker._trackPageview('/xlinkhomenewsout/youtube.com');">official &quot;Svennebanan&quot; video</a> has been viewed 1.3 million times on YouTube, including unofficial versions and <a href="http://www.youtube.com/soundismstudios#p/c/3DB46BBFB5EB5E0E/11/02Ezpf9hGWI" target="_blank" onclick="javascript: pageTracker._trackPageview('/xlinkhomenewsout/youtube.com');">remixes</a> the total views are over 3 million for the Swedish language song after eight months of its release. The Grammis gala is held 15th January 2010 at Münchenbryggeriet, Stockholm.  View videos and vote on MTV:s web page <a href="http://www.grammis.mtv.se/pages/rosta" target="_blank" onclick="javascript: pageTracker._trackPageview('/xlinkhomenewsout/grammis.mtv.se');">here</a>.</p>
+          <p>2009-12-16<br />
+          <strong>Promoe</strong> is selected to be among the finalists with his nomination to the Swedish Grammy Award in the category <em>Best Club/Hip Hop</em>with his album &quot;Kr&aring;ks&aring;ngen&quot;. <a href="en/music-producers/jimmy-ledrac.htm"><strong>Jimmy Ledrac</strong></a> produced the  song &quot;<a href="en/discography/jimmy-ledrac.htm">Ondskan</a>&quot; on the album. The Grammis gala is held 15th January 2010 at Münchenbryggeriet, Stockholm.  More info <a href="http://www.grammis.se/" target="_blank" onclick="javascript: pageTracker._trackPageview('/xlinkhomenewsout/grammis.se');">here</a>.</p>
+          <p>2009-12-08<br />
+          <strong>Promoe</strong> moves up to the second round of voting with his nomination to the Swedish Grammy Award in the category <em>Best Sond of the Year </em>with &quot;Svennebanan&quot; from  his album &quot;Kr&aring;ks&aring;ngen&quot;.  The Grammis gala is held 15th January 2010 at Münchenbryggeriet, Stockholm.  More info and vote <a href="http://www.grammis.se/" target="_blank" onclick="javascript: pageTracker._trackPageview('/xlinkhomenewsout/grammis.se');">here</a>.</p>
+          
+          <p>2009-12-04<br />
+          <strong>Promoe</strong> is nominated to the Swedish Grammy Award in the category <em>Best Club/HipHop </em>with his album &quot;Kr&aring;ks&aring;ngen&quot;. <a href="en/music-producers/jimmy-ledrac.htm"><strong>Jimmy Ledrac</strong></a> produced the  song &quot;<a href="en/discography/jimmy-ledrac.htm">Ondskan</a>&quot; on the album. The Grammis gala is held 15th January 2010 at Münchenbryggeriet, Stockholm.  More info and vote <a href="http://www.grammis.se/" target="_blank" onclick="javascript: pageTracker._trackPageview('/xlinkhomenewsout/grammis.se');">here</a>.</p>
+          <p>2009-12-02<br />
+          <strong>Promoe</strong> is nominated to three awards: <em>The Gold Microphone - Best Live Act</em>, <em>Song of the Year</em>, and <em>Best Hip Hop/Soul</em>. All of the music awards are for the Swedish National Radio's (Sveriges Radio) P3 Guld gala 19th January 2010 at Scaninavium in Gothenburg. Swedish National Television, SVT 1, will broadcast the award gala the same night. More info and vote <a href="http://www.sr.se/cgi-bin/p3/p3guld/" target="_blank" onclick="javascript: pageTracker._trackPageview('/xlinkhomenewsout/p3guld');">here</a>.</p>
+          
+          <p>2009-11-04<br />
+            <strong>Embee</strong> is releasing &quot;The Mellow Turning Moment&quot;, his new solo album on 24th Februrary, 2010. With <strong>Daniel Lemma</strong> as guest, the first single &quot;A Day at a Time&quot; will be released in mid November, 2009. Other album guests include: <strong>Erik Undéhn</strong> (The Early Days), <strong>Annika Norlin</strong> (Hello Saferide), <strong>J.P   George</strong>, <strong>Maia Hirasawa</strong>, <strong>Nikola Sarcevic</strong> (Millencolin), <strong>Nina Ramsby</strong>, <strong>Mariam   Wallentin</strong> (Wildbirds &amp; Peacedrums), <strong>san</strong> (antennasia), <strong>Håkan Svensson</strong>   (Nationalteatern) <strong>Fabian Kallerdahl</strong> (Music Music Music).</p
+          >
+          <p>2009-09-11<br />
+            <strong>Promoe</strong> is nominated to the MTV Europe Music Awards 2009 (EMA) in the category<em> Best Swedish Act</em>. The gala is broadcasted on MTV  November 5th.</p>
+          <p>2009-05-12<br />
+          <a href="en/music-producers/jimmy-ledrac.htm">Music producer <strong>Jimmy Ledrac</strong></a> has mixed the music of and produced &quot;Monday Morning&quot;, a new English language track with <strong>Promoe</strong>. It is available <a href="http://www.looptrooprockers.com/sunday-morning/" target="_blank" onclick="javascript: pageTracker._trackPageview('/xlinkhomenewsout/looptrooprockers.com');">here</a>. </p>
+          <p>2009-05-08<br />
+             &quot;Kr&aring;ks&aring;ngen&quot; by <strong>Promoe</strong> enters spot number four on the <em>Swedish Album Chart</em>   and number one on the <em>Swedish Hip Hop Album Chart.</em> <a href="en/music-producers/jimmy-ledrac.htm"><strong>Jimmy Ledrac</strong></a> produced  the song &quot;<a href="en/discography/jimmy-ledrac.htm">Ondskan</a>&quot;. <strong>Promoe's</strong> &quot;White Man's Burden&quot; reenters the Hip Hop Chart at number eighteen, the album was mixed by  <a href="en/sound-engineers/vladi-vargas.htm">sound engineer <strong>Vladi Vargas</strong></a>.</p>
+          <p>2009-04-26<br />
+            Sound engineer <strong><a href="en/sound-engineers/vladi-vargas.htm">Vladi Vargas</a></strong> gave a hand to Estonia's <strong>Toe Tag</strong> by mixing their album &quot;Kõik On Formuleerimise Küsimus&quot;.  Release party at <a href="http://www.clubhollywood.ee/est/parties/hiphopcafe/formuleerim" target="_blank">Club Hollywood</a> in Tallinn on 1st May.</p>
+          <p>2009-04-11<br />
+            <strong>Promoe</strong> is releasing the album &quot;Kr&aring;ks&aring;ngen&quot; (in Swedish) on 29th April, 2009. Music producer <a href="en/music-producers/jimmy-ledrac.htm">Jimmy Ledrac</a> has contributed with the song &quot;<a href="en/discography/jimmy-ledrac.htm">Ondskan</a>&quot;. Order Promoe's album <a href="http://www.bengans.se/Product.aspx?skivkod=798886&amp;section=music" target="_blank" onclick="javascript: pageTracker._trackPageview('/xlinkhomenewsout/benganspromoekraksangen');">here</a>.</p>
+          <p>2009-03-14<br />
+            <strong>M&aring;ns Zelmerl&ouml;w </strong>performs in the Swedish final of the Eurovision song contest (Melodifestivalen). His 2007 album &quot;Stand by for...&quot; has already received a Platinum sales award in Sweden. It contains the song &quot;<a href="en/discography/index.htm">The Prayer</a>&quot; that was recorded and produced by  <a href="en/music-producers/mats-nyman.htm">music producer </a><strong><a href="en/music-producers/mats-nyman.htm">Mats Nyman</a></strong> and mixed by him and <a href="en/sound-engineers/vladi-vargas.htm">sound engineer </a><strong><a href="en/sound-engineers/vladi-vargas.htm">Vladi Vargas</a></strong> at Soundism.</p>
+          <p>2008-11-26<br />
+            <strong>Looptroop Rockers</strong> has got a Swedish <a href="http://vote.grammis.se/kategorier/arets-danship-hopsoul.aspx" target="_blank">Grammy (Grammis) nomination</a> for &quot;Good Things&quot;, with <a href="en/discography/index.htm">tracks mixed</a> by <a href="en/sound-engineers/vladi-vargas.htm"><strong>Vladi Vargas</strong></a>. </p>
+          <p>2008-09-11<br />
+          &quot;Good Things&quot; by <strong>Looptroop Rockers</strong>, with <a href="en/discography/index.htm">tracks mixed</a> by <a href="en/sound-engineers/vladi-vargas.htm"><strong>Vladi Vargas</strong></a>, has been a top ten Hip Hop album for twenty  weeks on the <em>Hip-Hop album chart</em> in Sweden. The group's European tour is still rolling and has until now exceeded 50 performances. The hip hop group has shared Europe's prime live stages with other top billing hip hop artists such as Jay-Z, Ice Cube, and Afrika Bambaataa.</p>
+          <p>2008-06-19<br />
+          Six weeks at number one on the <em>Hip-Hop album chart</em> in Sweden and some additional top spots so far for &quot;Good Things&quot; by <strong>Looptroop Rockers</strong>, with Soundism's <a href="en/sound-engineers/vladi-vargas.htm"><strong>Vladi Vargas</strong></a> <a href="en/discography/index.htm">mixing</a>.</p>
+          <p>2008-05-01<br/>
+            <strong>Looptroop Rockers'</strong> &quot;Good Things&quot; is the number one album on the <em>Hip Hop Chart</em> in Sweden. It also enters the top of the Swedish sales chart for all music genres with position five. <strong><a href="en/sound-engineers/vladi-vargas.htm">Vladi Vargas</a></strong> at Soundism mixed most of the <a href="en/discography/index.htm" class="maintext">Good Things tracks</a>.</p>
+          <p>2008-02-24<br/>
+        &quot;Good Things&quot; is the title of <strong>Looptroop Rockers'</strong> new album with a planned release on 23rd April, 2008. Most of the songs were <a href="en/discography/index.htm" >mixed by <strong>Vladi Vargas</strong></a> at Soundism. The first single, &quot;The Building&quot;, is  released 27th February. You can find the video on Looptroop's new website <a target="_blank" href="http://www.looptrooprockers.com/"  onclick="javascript: pageTracker._trackPageview('/xlinkhomenewsout/looptrooprockers.com');">looptrooprockers.com</a>. This David vs. Goliath album is distributed by Bad Taste Records. Order <strong>Looptroop's</strong> &quot;Good Things&quot; album <a target="_blank" href="https://www.bengans.se/popup/looptroop_good/popup_mall_se.asp"  onclick="javascript: pageTracker._trackPageview('/xlinkhomenewsout/bengans.se');">here</a>.</p>
+                    
+            <p>2008-01-24<br/>
+              The <em>Swedish New Comer</em> award went to <strong>M&aring;ns Zelmerl&ouml;w</strong> at the Rockbj&ouml;rnen Gala held at Hovet Arena, Stockholm. <a href="en/music-producers/mats-nyman.htm"><strong>Mats Nyman</strong></a> recorded and produced the album song &quot;<a href="en/discography/index.htm">The Prayer</a>&quot;, it was mixed by <strong><a href="en/sound-engineers/vladi-vargas.htm">Vladi Vargas</a></strong> and <strong><a href="en/music-producers/mats-nyman.htm">Mats Nyman</a></strong> at Soundism.</p>
+              
+      <p>2007-12-11<br/>
+                <strong>M&aring;ns Zelmerl&ouml;w</strong> is nominated as <em>Artist of the Year</em> to the Swedish Grammy Awards, Grammisgalan, held at the Globe Arena in Stockholm on 9th January, 2008. <strong>M&aring;ns Zelmerl&ouml;w</strong> released &quot;Stand by for...&quot; early summer 2007, which resulted in this Grammy nomination. The song &quot;<a href="en/discography/index.htm">The Prayer</a>&quot; was mixed by <strong><a href="en/sound-engineers/vladi-vargas.htm">Vladi Vargas</a></strong> and <strong><a href="en/music-producers/mats-nyman.htm">Mats Nyman</a></strong> at Soundism.</p>
+                
+            <p>2007-06-14<br/>
+              &quot;<a href="en/discography/index.htm">The Standard Bearer</a>&quot; by <strong>Promoe</strong> released on Bad Taste Records reaches number one on the <em>Swedish DVD Album Chart</em>. Both the DVD soundtrack and the CD songs were mixed by <strong><a href="en/sound-engineers/vladi-vargas.htm">Vladi Vargas</a></strong> at Soundism.</p>
+              
+            <p>2007-05-31<br/>
+                      <strong>M&aring;ns Zelmerl&ouml;w</strong> enters straight into number one on the <em>Swedish Album Chart</em> with &quot;Stand by for...&quot; released on Warner Music. The album song &quot;<a href="en/discography/index.htm">The Prayer</a>&quot; was recorded and produced by music producer <a href="en/music-producers/mats-nyman.htm"><strong>Mats Nyman</strong></a> and mixed by sound engineer <strong><a href="en/sound-engineers/vladi-vargas.htm">Vladi Vargas</a></strong> and <strong><a href="en/music-producers/mats-nyman.htm">Mats Nyman</a></strong> at Soundism.</p>
+                      
+         <p>2007-05-24<br/>
+          <strong>M&aring;ns Zelmerl&ouml;w</strong> is awarded with a <em>Gold Record</em> in Sweden for &quot;Stand by for...&quot; Music producer <a href="en/music-producers/mats-nyman.htm"><strong>Mats Nyman</strong></a> recorded and produced the album song &quot;The Prayer&quot;, it was mixed by <strong>Vladi Vargas</strong> and <strong>Mats Nyman</strong> at Soundism.</p>
+        
+         <p>2007-03-01<br/>
+          <strong>Promoe</strong> is awarded <em>Best 12&quot;</em> with &quot;Songs of Joy&quot; at the  <a target="_blank" href="http://www.aboutsmc.com/awards.asp"  onclick="javascript: pageTracker._trackPageview('/xlinkhomenewsout/aboutsmc.com');">Swedish DeeJay Awards 2007</a>. <strong>Capleton</strong> is a featuring  artist on the track that is also found on the album &quot;White Man's Burden&quot;. &quot;Songs of Joy&quot; was mixed by <a href="en/sound-engineers/vladi-vargas.htm">sound engineer <strong>Vladi Vargas</strong></a> at Soundism. <strong>Embee</strong> composed and arranged the music of the song.</p>
+
+         <p>2007-01-10<br/>       
+  &quot;White Man's Burden&quot; with <strong>Promoe</strong> is nominated in the category <em>Hip Hop/R'n'B/Soul</em> of the <a target="_blank" href="http://www.manifestgalan.se/122.aspx"  onclick="javascript: pageTracker._trackPageview('/xlinkhomenewsout/manifestgalan.se');">Manifest 2007</a> award. The Manifest Gala celebrates five years and will be held at Nalen in Stockholm on 9 February, 2007. Soundism's <strong>Vladi Vargas</strong> added his shaping of &quot;White Man's Burden&quot; in the studio with mixing etc.</p>
+  
+         <p>2007-01-05<br/>
+  <a target="_blank" href="http://www.aboutsmc.com/voting.asp"  onclick="javascript: pageTracker._trackPageview('/xlinkhomenewsout/aboutsmc.com');">Swedish DeeJay Awards 2007</a> adds nominations to this year's accolades to our friends: <strong>Promoe</strong> is nominated with &quot;Songs of Joy&quot; in the <em>12&quot; single</em> category.  &quot;Songs of Joy&quot; was mixed by <strong>Vladi Vargas</strong> at Soundism. <strong>Embee</strong> composed and arranged the music of the song, he is nominated in <em>Producer/Remixer</em> category. The Swedish DJ Awards 2007 also has Klubb Solid as a nominee. Winners will be presented at the Scandinavian Music Convention 1-2 March, 2007, held at M&uuml;nchen-Bryggeriet in Stockholm.</p>
+        
+         <p>2007-01-03<br/>        
+        Sveriges Radio <a target="_blank" href="http://www.sr.se/p3/listor/arsbasta/2006/individuellt.stm#dw"  onclick="javascript: pageTracker._trackPageview('/xlinkhomenewsout/sr.se');">Musikjournalen's Sara Andersson</a> picks <strong>Promoe's</strong> &quot;Songs of Joy&quot; featuring <strong>Capleton</strong> from the album &quot;White Man's Burden&quot; as one of the top ten best songs 2006.</p>
+        
+         <p>2006-12-06<br/>
+  <a target="_blank" href="http://www.grammis.se/?page=31"  onclick="javascript: pageTracker._trackPageview('/xlinkhomenewsout/grammis.se');">The Swedish Grammy Award 2007 (Grammis 2007)</a> has <strong>Promoe</strong> nominated in the category <em>Hip Hop/Soul of the Year</em> with the album &quot;White Man's Burden&quot;. <strong><a href="en/sound-engineers/vladi-vargas.htm">Vladi Vargas</a></strong> at Soundism contributed to the album and singles with recording, mixing, and mastering. The award gala is hosted at Hovet in Stockholm on 30 January 2007. TV4 will broadcast nationally 20:00-22:00 and TV400 continues 22:00-23:00.</p>
+       
+         <p>2006-12-05<br/>
+  <strong>Promoe</strong> is nominated in the category <em>Hip Hop/Soul of the Year</em> at <a target="_blank" href="http://www.sr.se/cgi-bin/p3/nyhetssidor/artikel.asp?ProgramID=2753&amp;Artikel=1060285"  onclick="javascript: pageTracker._trackPageview('/xlinkhomenewsout/sr.se');">P3 Guld 2007</a> with &quot;<a href="en/discography/vladi-vargas.htm">White Man's Burden</a>&quot;. <a href="en/sound-engineers/vladi-vargas.htm">Sound engineer <strong>Vladi Vargas</strong></a> at Soundism recorded and mixed the album single &quot;<a href="en/discography/vladi-vargas.htm">Headache</a>&quot;, amongst other tracks. The P3 Guld 2007 gala takes place 20 January at Storan in Gothenburg. The gala is broadcasted live  nationally on  Swedish Radio P3 20:03-22:00, via both terrestrial and web radio. It is also TV broadcasted nationally on 24 January 20:30-22:00 at Swedish public service SVT 1.</p>
+       
+         <p>2006-11-12<br/>
+        The <em>Best UK Reggae Act</em> price was awarded <strong>YT</strong> at the Urban Music Awards 2006.</p>
+       
+         <p>2006-10-20<br/>
+  <strong>Promoe</strong> is number one. Sweden's most sold hip hop album of the week is Promoe's &quot;<a href="en/discography/vladi-vargas.htm">White Man's Burden</a>&quot;. It takes #1 on the chart that includes national and international releases. The album is mixed and mastered by <strong><a href="en/sound-engineers/vladi-vargas.htm">Vladi Vargas</a></strong> at Soundism, who also recorded several of the songs.</p>
+       
+         <p>2006-10-10<br/>
+  &quot;Straight Outta Britain&quot; is nominated to the <em>Best Album 2006</em> category at the Urban Music Awards 2006 of the <a target="_blank" href="http://www.britishmusicweek.com/voting_uma_2006.php"  onclick="javascript: pageTracker._trackPageview('/xlinkhomenewsout/britishmusicweek.com');">British Music Week</a>. The opening song &quot;Real Life&quot; with <strong>YT</strong> was mixed and partially recorded by <strong><a href="en/sound-engineers/vladi-vargas.htm">Vladi Vargas</a></strong> at Soundism. YT is also nominated as <em>Best UK Reggae Act/DJ</em>. <strong>Prince B</strong> and <strong>Chilli</strong> produced the track.</p>
+       
+         <p>2006-10-06<br/>
+  &quot;<a href="en/discography/vladi-vargas.htm">White Man's Burden</a>&quot; by <strong>Promoe</strong> enters the Top 10 chart of most sold albums in Sweden. The album contains the singles &quot;<a href="en/discography/vladi-vargas.htm">Songs of Joy</a>&quot; featuring <strong>Capleton</strong> and &quot;<a href="en/discography/vladi-vargas.htm">Headache</a>&quot;. <strong><a href="en/sound-engineers/vladi-vargas.htm">Vladi Vargas</a></strong> at Soundism did all the mixing of the album. Some of the tracks, such as &quot;<a href="en/discography/vladi-vargas.htm">Headache</a>&quot;, are also recorded there by Vladi. <strong><a href="en/music-producers/embee.htm">Embee</a></strong>, <strong><a href="en/music-producers/jimmy-ledrac.htm">Jimmy Lecdrac</a></strong>, and <strong>DJ Large</strong> produced the songs.</p>
+        
+         <p>2006-09-27<br/>
+  <strong>Promoe's</strong> newly released album &quot;White Man's Burden&quot; is reviewed in the two major national newspapers in Sweden. Fredrik Strage at <a  target="_blank" href="http://www.dn.se/DNet/jsp/polopoly.jsp?d=&amp;a=575748&amp;sb1088i0=1_575748"  onclick="javascript: pageTracker._trackPageview('/xlinkhomenewsout/dn.se');">Dagens Nyheter</a> (DN) writes: <em>&quot;It sounds jazzy, slightly abstract, yet super phat [svin tungt].&quot;</em> Paulina Stoltz at <a  target="_blank" href="http://www.svd.se/dynamiskt/rec_skivor/did_13748368.asp"  onclick="javascript: pageTracker._trackPageview('/xlinkhomenewsout/svd.se');">Svenska Dagbladet</a> (SvD) writes: <em>&quot;Thus, genius lyrics combined with a heavy sound that is tight all the way.&quot;</em> (Quotes translated from Swedish).</p>
+        
+         <p>2006-07-06<br/>
+  <strong>Promoe's</strong> &quot;<a href="en/discography/vladi-vargas.htm">Songs of Joy</a>&quot; featuring <strong>Capleton</strong> takes a leap up to the third position on the German Reggae Chart (Deutsche Reggae Charts) for week 27.</p>
+       
+         <p>2006-06-12<br/>
+        Gussy, Viper, and Randy of the <a  target="_blank" href="http://www.bbc.co.uk/1xtra/silverstar/"  onclick="javascript: pageTracker._trackPageview('/xlinkhomenewsout/bbc.co.uk');">Silver Star show at BBC 1Xtra</a> picks up the single &quot;Songs of Joy&quot; by <strong>Promoe</strong> featuring <strong>Capleton</strong>.</p>
+      
+         <p>2006-06-06<br/>
+  &quot;Songs of Joy&quot; by <strong>Promoe</strong> featuring <strong>Capleton</strong> is single of the week on <a  target="_blank" href="http://www.bbc.co.uk/1xtra/robboranx/"  onclick="javascript: pageTracker._trackPageview('/xlinkhomenewsout/bbc.co.uk');">Dancehall Splurt show at BBC 1Xtra with Robbo Ranx</a> for week 23. DJ star Robbo Ranx and his Dancehall Splurt is currently the most popular show on BBC 1Xtra.</p>
+       
+         <p>2006-05-18<br/>
+        Sveriges Radio's P3 Rytm places <strong>Promoe</strong> on their Top 10 chart <em>Best Right Now</em>. The new <strong>Promoe</strong> single &quot;Songs of Joy&quot;, featuring <strong>Capleton</strong>, is a first release from his coming album &quot;White man's burden&quot;. &quot;Songs of Joy&quot; is produced by <strong>Embee</strong>, on the B-side of the 12&quot; you also find &quot;Time Bandit&quot;, a track by <strong>DJ Large</strong>. The new album is due for release in fall 2006 on <strong>DvsG</strong>.</p>
+       
+         <p>2006-02-23<br/>
+  <strong>Looptroop</strong> won the award as <em>Artist / Group</em> of the year 2005. <strong>Embee</strong> was awarded as best <em>Producer / Remixer</em>, <strong>David vs Goliath</strong> as <em>Label</em> of the year. All awards were given in the Urban Cuts group of <a  target="_blank" href="http://www.aboutsmc.com/"  onclick="javascript: pageTracker._trackPageview('/xlinkhomenewsout/aboutsmc.com');">The Swedish DeeJay Awards 2006</a> at the Scandinavian Music Convention at Berns in Stockholm (Sweden).</p>
+        
+         <p>2006-01-30<br/>
+  <strong>Bombay Vikings</strong> with &quot;<a href="en/discography/vladi-vargas.htm">Zara Nazron Se Kehdo</a>&quot; is on the A Playlist of BBC Asian Network.</p>
+        
+         <p>2006-01-25<br/>
+        Neeraj Shridhar and <strong>Bombay Vikings'</strong> &quot;<a href="en/discography/vladi-vargas.htm">Zara Nazron Se Kehdo</a>&quot;, <a href="en/sound-engineers/vladi-vargas.htm" >produced and mixed by <strong>Vladi Vargas</strong> at Soundism</a>, has reached third place on the music chart in India. It is the title song of the album released in 2006. The music video features lead singer Neeraj Shridhar and model Celina Jaitley. &quot;Zara Nazron Se Kehdo&quot; was earlier a soundtrack in the movie &quot;Munijimi&quot;.</p>
+        
+         <p>2006-01-15<br/>
+        The music staff of Swedish National Radio's P3 has compiled a list of <a  target="_blank" href="http://www.sr.se/p3/listor/arsbasta/2005/"  onclick="javascript: pageTracker._trackPageview('/xlinkhomenewsout/sr.se');">the best songs of the year 2005</a>. <strong>Junior Kelly's</strong> &quot;Rasta Should be Deeper&quot; (mixed by Soundism) is in the top 10 of the best songs of all categories 2005. The list was created by vote of 32 radio producers, music editors, hosts, and radio DJs representing diverse genres such as electronica, hip hop, reggae, pop, and rock. The <a target="_blank" href="http://www.sr.se/cgi-bin/p3/programsidor/index.asp?ProgramID=2291"  onclick="javascript: pageTracker._trackPageview('/xlinkhomenewsout/sr.se');">P3 Rytm</a> radio show's own list of the best songs of 2005 has <strong>Junior Kelly's</strong> &quot;Rasta Should be Deeper&quot; on #3.</p>
+        
+         <p>2006-01-10<br/>
+  <strong>Looptroop</strong> is nominated to <a  target="_blank" href="http://www.manifestgalan.se/"  onclick="javascript: pageTracker._trackPageview('/xlinkhomenewsout/manifestgalan.se');">Manifest 2006</a>, it is their fifth nomination this winter (not including <strong>Embee's</strong> or <strong>David vs Goliath's</strong> nominations). Once again &quot;Fort Europa&quot; (mixed by Soundism) is nominated, this time in the broader category <em>HipHop/RnB/Soul</em>. <strong>Form One</strong> is also nominated in <em>HipHop/RnB/Soul</em> with &quot;Meet Johnny Rhino&quot; (mastered by <a href="en/sound-engineers/vladi-vargas.htm"><strong>Vladi Vargas</strong></a> of Soundism). A jury of music journalists and promoters have made the nominations. The Manifest Gala is organized by Sveriges oberoende musikproducenter, the Swedish cofounders of IMPALA, and held at Nalen in Stockholm (Sweden) on 9th February 2006.</p>
+        
+         <p>2006-01-03<br/>
+  <a  target="_blank" href="http://www.aboutsmc.com"  onclick="javascript: pageTracker._trackPageview('/xlinkhomenewsout/aboutsmc.com');">Swedish DeeJay Awards 2006</a> announced <strong>Looptroop</strong> as award nominees in the <em>Artist / Group</em> category. <strong>Embee</strong> is nominated in <em>Producer / Remixer</em> category, <strong>David vs Goliath</strong> in <em>Label</em>, and <strong>Looptroop</strong> with &quot;Fort Europa&quot; in <em>12&quot;</em>. The Swedish Dee Jay Award artist, DJ, label, and release nominees are nominated by club DJs of Dee Jay Promotion in the Urban Cuts general category for Hip Hop and RnB music. These DJ awards will be presented at the Scandinavian Music Convention at Berns in Stockholm (Sweden) 23 February, 2006.</p>
+       
+         <p>2005-12-23<br/>
+  <a  target="_blank" href="http://www.mtve.com/"  onclick="javascript: pageTracker._trackPageview('/xlinkhomenewsout/mtve.com');">MTVe.com</a> have put together an album which they say is <em>&quot;[...] the ultimate alternative Christmas/New years album with the songs we think have rocked 2005&quot;.</em> <strong>Looptroop's</strong> is included with &quot;Fort Europa&quot;.</p>
+        
+         <p>2005-12-15<br/>
+  <strong>Looptroop's</strong> second music award nomination within a week's time... The 2006 Swedish Grammy Award, <a target="_blank" href="http://www.grammis.se/"  onclick="javascript: pageTracker._trackPageview('/xlinkhomenewsout/grammis.se');"><em>Grammis 2006</em></a>, has <strong>Looptroop</strong> as nominees in <em>Hip-Hop/Soul of the Year</em> for their &quot;Fort Europa&quot; album released on the label David vs Goliath (Burning Heart). Circus will host the award gala on February 7th and TV4, TV400, and Swedish National Radio P4 will broadcast live 20:00-21:30.</p>
+        
+         <p>2005-12-08<br/>
+  <strong>Looptroop</strong> is nominated to Swedish National Radio's <a target="_blank" href="http://www.sr.se/cgi-bin/p3/programsidor/artikel.asp?ProgramID=2450&amp;Artikel=746231"  onclick="javascript: pageTracker._trackPageview('/xlinkhomenewsout/sr.se');"><em>P3 Guld 2006</em></a> award in the category <em>Hip-Hop/Soul of the Year.</em> <strong>Looptroop's</strong> &quot;Fort Europa&quot; album, released in the beginning of 2005, was mixed by Soundism's <a href="en/sound-engineers/vladi-vargas.htm"><strong>Vladi Vargas</strong></a> and produced by <a href="en/music-producers/embee.htm"><strong>Embee</strong></a>. During the year, <strong>Looptroop</strong> toured extensively around Europe. All in all, their Fort Europa tour has included more than 50 gigs. <strong>Looptroop</strong> is now on the way to stages across the Atlantic, e.g. in New York (US) and Ottawa (Canada).  When <strong>Looptroop</strong> received the P3 Guld award in <em>Hiphop/Soul of the Year</em> in 2003 for the album &quot;The Struggle Continues&quot;, the motivation was: <em>&quot;A colossus within Swedish music who has refined and broadened a multi-year style as mic-terrorists and interpreters of contemporary times&quot;.</em> Other nominees for 2006 includes Timbuktu. The music award ceremony will be held in Gothenburg on January 21st, 2006.</p>
+        
+         <p>2005-12-02<br/>
+  &quot;Roots Tonic a Lead&quot; album with the Roots Tonic Riddim and Leader Riddim gets accolades from UK radio legend David Roligan. Hear the full interview including special mentions of <strong>Lady Saw's</strong> &quot;Too Abusive&quot; and <strong>Junior Kelly's</strong> &quot;Rasta Should be Deeper&quot; versions on Swedish National Radio's <a target="_blank" href="http://www.sr.se/cgi-bin/p3/programsidor/index.asp?ProgramID=2291"  onclick="javascript: pageTracker._trackPageview('/xlinkhomenewsout/sr.se')">P3 Rytm</a> radio show on 2 December at 10 PM. A couple of artists are also interviewed.</p>
+       
+         <p>2005-11-22<br/>
+  <strong>Hi-Score Music's</strong> double CD &quot;Roots Tonic a Lead&quot; is released including reggae hit tracks &quot;Rasta Should be Deeper&quot; with <strong>Junior Kelly</strong> and &quot;Mi Chalwa&quot; with <strong>Jah Mason</strong>. The album also contains previously unreleased tracks. Each of the CD's are on the Roots Tonic Riddim and Leader Riddim respectively.</p>
+       
+         <p>2005-10-25<br/>
+        Greensleeves releases the album &quot;The Biggest Reggae One Drop Anthems 2005&quot;, including Roots Tonic Riddim track &quot;Mi Chalwa&quot; with <strong>Jah Mason</strong>. Greensleeves has included tunes that represent <em>&quot;the ultimate chart hit selection of the best roots reggae songs of top hits from Jamaica's finest&quot;</em>. <a  target="_blank" href="http://www.jamaicaobserver.com/lifestyle/html/20051013T200000-0500_90300_OBS_RECORD_RACK.asp"  onclick="javascript: pageTracker._trackPageview('/xlinkhomenewsout/jamaicaobserver.com');">The Jamaica Observer</a> agrees and calls the CD a <em>&quot;must-have collection&quot;</em> and <em>&quot;the authoritative one-drop compilation of 2005&quot;</em>. Jah Mason's &quot;Mi Chalwa&quot; tune is a Hi-Score Music production and mixed by Soundism.</p>
+       
+         <p>2005-09-28<br/>
+  &quot;Rasta Should be Deeper&quot; with <strong>Junior Kelly</strong> gets nice comments in the &quot;Tough Life&quot; album review by <a  target="_blank" href="http://www.jamaica-gleaner.com/gleaner/20050928/ent/ent2.html"  onclick="javascript: pageTracker._trackPageview('/xlinkhomenewsout/jamaica-gleaner.com');">Jamaican Gleaner</a>.</p>
+        
+         <p>2005-09-14<br/>
+  <strong>Junior Kelly</strong> releases full length album &quot;Tough Life&quot; on VP Records containing the hit song &quot;<a href="en/discography/vladi-vargas.htm">Rasta Should be Deeper</a>&quot; (Soundism <a href="en/sound-engineers/vladi-vargas.htm">sound engineer <strong>Vladi Vargas</strong></a> did the mixing). This Roots Tonic Riddim track was released earlier on 7&quot; by Hi-Score Music.</p>
+        
+        <p> 2005-08-09<br/>
+  &quot;Chana Masala&quot; with <strong>Looptroop</strong> enters the MTV Up North Chart.</p>
+       
+        <p> 2005-06-19<br/>
+  <strong>Junior Kelly</strong> continues to enjoy success across the globe with &quot;Rasta Should Be Deeper&quot;, e.g. with a 4th position on German Dancehall Music Chart and 12th position at the Fresh 30 Chart of KISS 100 FM, the most listened radio station in Kenya. It is also on various play lists, e.g. London's BBC 1extra and Kiss FM.</p>
+       
+       <p>  2005-05-23<br/>
+  <strong>Luciano</strong> is on the German reggae chart with the track &quot;Ancient Memories&quot; (Roots Tonic Riddim) at number nine. <strong>Junior Kelly</strong> is reportedly well received on his tour with &quot;Rasta Should Be Deeper&quot;. <strong>Looptroop</strong> is moving up to 2nd place on the MTV UpNorth chart with &quot;Fort Europa&quot;, the title song from the album &quot;Fort Europa&quot;.</p>
+       
+       <p>  2005-05-06<br/>
+  <strong>Looptroop</strong> enters the Swedish album chart at number five with the album &quot;Fort Europa&quot; released on both CD and Vinyl.</p>
+       
+      <p> 2005-02-24<br/>
+  &quot;Not Tonite&quot; by <strong>Embee</strong> is on MTV's UpNorth chart for the fifth week running.  On the reggae side, <strong>Junior Kelly</strong> is doing well with &quot;Rasta Should Be Deeper&quot; on different charts across Europe.</p>
+        
+      <p> 2005-02-14<br/>
+        <a href="en/music-producers/embee.htm">Music producer<strong> Embee</strong></a><strong>'s</strong> &quot;<a href="en/discography/embee.htm">Send someone away</a>&quot; is on Sveriges Radio P3's Top 10 Most Played song list.</p>
+       
+       <p>  2005-02-07<br/>
+  <strong>Embee</strong> received the 2005 Swedish Grammy award (Grammis) in the category Hip Hop/Soul of the Year for his solo album &quot;Tellings from Solitaria&quot;. Congratulations! Post production, mixing, and mastering by Vladi Vargas at Soundism.</p>
+       
+      <p> 2004-12-16<br/>
+        Soundism's friends continue to get honorable appreciation... <strong>Promoe</strong> and <strong>Embee</strong> are both nominated for the 2005 Grammis award in the category Hip Hop/Soul of the Year for their solo albums &quot;The Long Distance Runner&quot; and &quot;Tellings from Solitaria&quot; respectively, released on the label David vs Goliath. IFPI's Grammis gala takes place at China Teatern in Stockholm on February 4th and will be broadcasted on TV4 the same evening.</p>
+       
+        <p> 2004-12-10<br/>
+        The nominees of Swedish National Public Radio award P3 Guld 2005 includes <strong>Embee</strong> in the category Hip-Hop/Soul of the Year for the album &quot;Tellings from Solitaria&quot; and <strong>Promoe</strong> who is nominated in both Hip-Hop/Soul of the Year and Male Artist of the Year with the album &quot;The Long Distance Runner&quot;. The winners will be announced during the award gala in Gothenburg on January 22nd, 2005. The gala is broadcasted live on P3 over FM and web at 20:03-22:00. It will also be broadcasted on TV nationally by SVT2, at 21:15-23:15.</p>
+       
+      <p>  2004-11-02<br/>
+        We are happy to announce that several of the Urban Cuts prices at the Swedish DJ Awards 2004 went to friends of ours: <strong>Promoe</strong> in <em>Artist/Group category</em>, <strong>Embee</strong> in <em>Producer/Remixer</em>, <strong>Promoe</strong> with &quot;These Walls Don't Lie&quot; in 12&quot;, and <strong>JuJu Records</strong> in <em>Label</em>. The nominees also included <strong>DJ Large</strong>, Latin Kings, Petter, and Timbuktu.</p>
+        
+       <p>  2004-09-12<br/>
+        Congratulations to <strong>Gentleman</strong> for the entry straight into the number 1 position on the German Album sales chart! Switzerland responded with a number 4 on their album chart. Also check his newly released Maxi-CD &quot;Superior&quot; with the AA track &quot;Overjoyed&quot;, a nice riddim by our <strong>Hi-Score</strong> friends produced in the Soundism Studio and Jamaica.</p>
+        
+       <p>  2004-07-24<br/>
+  <strong>Promoe</strong> has been ruling for weeks as number 1 on the MTV Up North chart with &quot;These Walls Don't Lie&quot; as he now passes the finishing line on this long distance run.</p>
+       
+    <p>     2004-02-08<br/>
+        The US Grammy Award <em>Best Pop Performance by A Duo or Group with Vocal</em> was given to No Doubt featuring <strong>Lady Saw</strong> for &quot;Underneath it All&quot;.</p>
+       
+    <p>     2003-06-24<br/>
+        Eight of the songs on SkaWar's top 10 list as voted by listeners are with Soundism's friends: <strong>59 Posse</strong>, <strong>Chilly</strong>, <strong>Tenor Diamond</strong>, <strong>The Cigarres</strong>, <strong>The Repeaters</strong>.</p>
+       
+       <p>  2003-04-26<br/>
+  <em>The Best Album award</em> went to <strong>Looptroop</strong> for &quot;The Struggle Continues&quot; at The Swedish HipHop Awards 2003.</p>
+       
+      <p>   2003-02-06<br/>
+  <strong>Looptroop</strong> receives the Swedish National Public Radio award P3 Guld <em>Hip-Hop/Soul of the Year</em> for the album &quot;The Struggle Continues&quot;.  </p>
+  <br/>
+	</div>
+ </div>    
+    <!-- InstanceEndEditable -->
+    <!-- end editable main content area-->  </div>
+  
+  <!-- end #mainContent --></div>
+  <div class="clearfloat"></div>
+  
+  <div id="footer">
+  	<p><span class="vcard"><a title="Soundism" href="http://www.soundism.com/" class="url uid fn org">Soundism</a></span> | <a title="What we do: beat making, remixes, songwriting, recording, mixing, mastering, studio musicians, music prodction in V&auml;ster&aring;s and Stockholm (Sweden)" href="en/services/index.htm">What We Do, Services</a> | <a title="List of Soundism music producers, record producers, beat makers, and songwriters in V&auml;ster&aring;s and Stockholm (Sweden)" href="en/music-producers/index.htm">Music Producers</a> | <a title="Soundism sound engineers in V&auml;ster&aring;s and Stockholm (Sweden)" href="en/sound-engineers/index.htm">Sound Engineers</a> | <a title="Soundism music production and recording studio in V&auml;ster&aring;s and Stockholm (Sweden)" href="en/music-recording-studios/index.htm">Music Recording Studios</a> | <a title="List of songs written, recorded, mixed, or produced by Soundism's Vladi Vargas" href="en/discography/vladi-vargas.htm">Soundism Discography</a> | <a title="Soundism contact information" href="en/contacts/index.htm">Contact Us</a> 
+    <br />
+  	  <a title="Hip hop beat makers in V&auml;ster&aring;s and Stockholm (Sweden)" href="en/services/hip-hop-beat-makers.htm">Beat Making</a> | <a title="Remixes of hip hop, rap, r'n'b, soul, jazz, reggae, pop, rock, electronica music in V&auml;ster&aring;s and Stockholm (Sweden)" href="en/services/remixes.htm">Remixes</a> | <a title="Songwriting of hip hop, rap, r'n'b, soul, jazz, reggae, pop, rock, electronica music in V&auml;ster&aring;s and Stockholm (Sweden)" href="en/services/songwriting.htm">Songwriting</a> | <a title="Recording of hip hop, rap, r'n'b, soul, jazz, reggae, pop, rock, electronica music in V&auml;ster&aring;s and Stockholm (Sweden)" href="en/services/recording.htm">Recording</a> | <a title="Mixing of hip hop, rap, r'n'b, soul, jazz, reggae, pop, rock, electronica music in V&auml;ster&aring;s and Stockholm (Sweden)" href="en/services/mixing.htm">Mixing</a> | <a title="Mastering of hip hop, rap, r'n'b, soul, jazz, reggae, pop, rock, electronica music in V&auml;ster&aring;s and Stockholm (Sweden)" href="en/services/mastering.htm">Mastering</a> | <a title="Studio musicians / session musicians for hip hop, rap, r'n'b, soul, jazz, reggae, pop, rock, electronica  music in V&auml;ster&aring;s and Stockholm (Sweden)" href="en/services/studio-musicians.htm">Studio Musicians</a> | <a title="Music production of hip hop, rap, r'n'b, soul, jazz, reggae, pop, rock, electronica music in V&auml;ster&aring;s and Stockholm (Sweden)" href="en/services/music-production.htm">Music Production</a> |
+     <br/>
+      <a title="Swedish music producer, songwriter, hip hop beat maker, musician, and DJ Embee" href="en/music-producers/embee.htm">Embee</a> | <a title="Swedish music producer, hip hop beat maker, and songwriter Jimmy Ledrac" href="en/music-producers/jimmy-ledrac.htm">Jimmy Ledrac</a> | <a title="Swedish music producer and songwriter Mats Nyman" href="en/music-producers/mats-nyman.htm">Mats Nyman</a> | <a title="Music producer, songwriter, and sound engineer Vladi Vargas" href="en/sound-engineers/vladi-vargas.htm">Vladi Vargas</a> | <a title="V&auml;ster&aring;s studio for recording, mixing, and mastering: Soundism Studio Vasteras" href="en/music-recording-studios/vasteras/soundism-studio-vasteras.htm">Soundism Studio V&auml;ster&aring;s</a> | <a title="G&ouml;teborg studio for recording and producing music: Wax Cabinet Gothenburg, Embee"  href="en/music-recording-studios/gothenburg/the-wax-cabinet-embee.htm">Wax Cabinet Studio G&ouml;teborg</a> | <a title="List of songs written, recorded, mixed, or produced by Soundism's Embee" href="en/discography/embee.htm">Embee Discography</a> | <a title="List of songs written, recorded, mixed, or produced by Soundism's Jimmy Ledrac" href="en/discography/jimmy-ledrac.htm">Jimmy Ledrac Discography</a> | <a title="List of songs written, recorded, mixed, or produced by Soundism's Mats Nyman" href="en/discography/mats-nyman.htm">Mats Nyman Discography</a> | <a title="List of songs written, recorded, mixed, or produced by Soundism's Vladi Vargas" href="en/discography/vladi-vargas.htm">Vladi Vargas Discography</a> <br />
+  	  <a title="Frequently asked questions on Soundism" href="en/contacts/faq.htm">FAQ</a> | <a title="Email, fax, and address details for Stockholm, Sweden" href="en/contacts/sweden-stockholm.htm">Contact Stockholm</a> | <a title="Email, fax, and address details for Vasteras, Sweden" href="en/contacts/sweden-vasteras.htm">Contact Vasteras</a></p>
+    <p>Copyright &copy; 1999-2011 Soundism and third-party rights holders. All rights reserved. &quot;Soundism&quot; is a trademark and service mark of Soundism and protected by US, European, and international law. <a href="_legal/index.htm" rel="nofollow">Terms of Use</a>. <a href="_legal/index.htm" rel="nofollow">Cookies</a> are used for <a title="Start page of Soundism's offical website" href="http://www.soundism.com/">soundism.com</a>. <a href="http://www.facebook.com/soundism">Soundism on Facebook</a> <a href="https://plus.google.com/102145775379373318677" rel="publisher">Soundism on Google+</a></p>
+ 
+  <!-- end #footer --></div>
+  
+<!-- end #container --></div>
+  <div class="boxright">
+    <div class="fb-like" data-href="http://www.facebook.com/pages/SOUNDISM/7347987770" data-send="true" data-layout="button_count" data-width="140" data-show-faces="false"></div>
+    <div class="boxrightspacer"></div>
+    <div class="g-plus" data-width="180" data-height="69" data-href="//plus.google.com/102145775379373318677?rel=publisher"></div>
+</div>
+
+
+<script type="text/javascript">
+<!--
+var MenuBar1 = new Spry.Widget.MenuBar("MenuBar1", {imgDown:"_spry/SpryMenuBarDownHover.gif", imgRight:"_spry/SpryMenuBarRightHover.gif"});
+//-->
+</script>
+
+<!-- google plus page script BEGIN-->
+
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+<!-- google plus page script END-->
+
+
+</body>
+<!-- InstanceEnd --></html>

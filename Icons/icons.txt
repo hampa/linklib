@@ -1,0 +1,14 @@
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="//s.ytimg.com/yt/mobile/img/apple-touch-icon-144x144-precomposed-vfl81aXex.png"/>
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="//s.ytimg.com/yt/mobile/img/apple-touch-icon-114x114-precomposed-vflH4x1Gk.png"/>
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="//s.ytimg.com/yt/mobile/img/apple-touch-icon-72x72-precomposed-vflG7qxXZ.png"/>
+    <link rel="apple-touch-icon-precomposed" href="//s.ytimg.com/yt/mobile/img/apple-touch-icon-57x57-precomposed-vflrjP-M7.png"/>
+	<meta property="og:image" content="http://cf.scdn.co/i/touch-icon.png">
+	<link rel="apple-touch-icon" href="http://cf.scdn.co/i/touch-icon-iphone.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="http://cf.scdn.co/i/touch-icon-ipad.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="http://cf.scdn.co/i/touch-icon-iphone4.png">
+    <link rel="apple-touch-icon" href="/bilder/apple-touch-icon.png" />
+        <link rel="apple-touch-icon-precomposed" href="http://slmobile.songlyricscom.netdna-cdn.com/images/apple-touch-icon-precomposed.png" />        
+				<link rel="apple-touch-icon-precomposed" sizes="114x114" href="http://slmobile.songlyricscom.netdna-cdn.com/images/apple-touch-icon4-precomposed.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/Content/graphics/apple-touch-icon-114x114-precomposed.png" />
+    <link rel="apple-touch-icon-precomposed" href="/Content/graphics/apple-touch-icon-precomposed.png" />
+<div id='iPhoneCallout'><div class='content'><a href='' class='close' data-role='button' data-icon='delete' data-iconpos='notext' data-theme='c'>&nbsp;</a><img class='logo' alt='Junkyard' src='/Content/graphics/apple-touch-icon-precomposed.png' /><div class='text'>Klicka nedan och v&#228;lj<br />&quot;L&#228;gg till p&#229; hemsk&#228;rmen&quot;<br />f&#246;r att p&#229; ett enkelt s&#228;tt hitta<br />tillbaka till oss p&#229; junkyard!</div><input type='hidden' name='cookieName' id='cookieName' value='JunkyardMobileRouter.BookmarkToHomeScreen' /><input type='hidden' name='cookieExpirationInDays' id='cookieExpirationInDays' value='3650' /></div></div>
