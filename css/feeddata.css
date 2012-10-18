@@ -1,13 +1,9 @@
-/*
 body {
 	font-family: "Helvetica Neue", Helvetica, Arial, Verdana, sans-serif;
-	color: #ffffff;
 	font-weight: 300;
-	text-align: center;
-	background: #1e1e1e;
+	background: #000;
 	margin: 0;
 }
-*/
 
 #itemLink, #itemText {
 	margin: 0;
@@ -104,6 +100,17 @@ img {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	width: 200px;
+}
+
+#moviename {
+	font-size: 15px;
+	font-weight: 700;
+	height: 28px;
+	padding: 0px;
+	line-height: 34px;
+	color:#eeeeee;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 #contentframe {

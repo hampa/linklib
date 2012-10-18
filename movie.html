@@ -2,9 +2,10 @@
 <html lang="en">
 <head>
 <link href="css/bootstrap.min.css" rel="stylesheet">
-<link href="css/movieline.css" rel="stylesheet"/>
+<link href="css/timeline2.css" rel="stylesheet"/>
+<link href="css/feeddata.css" rel="stylesheet"/>
 </head>
-<body>
+<body style="background-color:#000">
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="http://popcornjs.org/code/dist/popcorn-complete.js"></script>
@@ -20,6 +21,7 @@ var popcorn = null;
 var serverLocation = 'http://linkontrol.toribash.com:1337';	
 var streamId = "someStreamId";
 var mouseMoveTime = 0;
+var feeddata;
 
 $(document).ajaxError(function(e, xhr, settings, exception) {
 	console.log('error in: ' + settings.url + ' \\n'+'error:\\n' + exception);
@@ -63,52 +65,76 @@ var loadMovie = function(url) {
 		console.log("popcorn duration " + popcorn.duration());
 		var duration = popcorn.duration();
 		clearFeed();
-		var data = myData;
+		var data = feeddata;
 		$.each(data.timefeed, function(i, item) {
 			var p = (item.start / duration) * 100;	
 			//console.log(i + " " + item.title + " " + item.start + " / " + duration);
-			addFeedEvent(item.title, item.body, item.url, p); 
+			addTimeLineEvent(item.title, item.body, item.url, p); 
+			addFeedEvent(item.title, item.body, item.url, item.img, item.linktype, p, item.start, item.feedid);
 		});
+		hideFeeds();
 		addTooltip();
 	});
 }
 
+var handleFeed = function(currenttime) {
+	//console.log("hanleFeed currenttime " + currenttime);
+	var data = feeddata;
+	var topItem = null;
+	$.each(data.timefeed, function(i, item) {
+		var x = document.getElementById('item' + item.feedid);
+		//console.log(i + " " + item.feedid + " ct: " + currenttime + " start: " + item.start +  " " + x);
+		if (x == null) {
+			//console.log("cant find " + item.feedid);
+		}
+		else if (currenttime >= item.start) {
+			//console.log("showing");
+			//console.log(i + " " + item.feedid + " " + item.start);
+			if (x.style.display == 'none') {
+				$(x).fadeIn("slow");
+				//$(x).animate({'opacity': show});
+				topItem = item;
+						
+				//x.style.display = '';
+			}
+		}
+		else {
+			//console.log("hiding");
+			x.style.display = 'none';
+		}
+	});
+}
+
+var clearFeed = function() {
+	$("#feeddata").html("");
+	$("#timeline").html("");
+}
+
+var hideFeeds = function() { 
+        var data = feeddata;
+        $.each(data.timefeed, function(i, item) {
+                var x = document.getElementById('item' + item.feedid);
+                if (x) {
+                        x.style.display = 'none';
+                }
+        });
+}
+
+
 var addTooltip = function() {
-	//$("#feeddata a").tooltip();
-        $("#feeddata a").tooltip({
+        $("#timeline a").tooltip({
                 animation: true,
                 html: true,
-                placement: "top",
-                //title: "hejsan",
+                placement: "right",
                 trigger: "hover",
                 delay: { show: 1, hide: 100 }
         });
 }
 
-var hidePopover = function(x) {
-	console.log("do it2" + x);
-	$("#kuk").popover('hide');
-	$.post('api.php?do=add_time_feed&movieid=' + movieid, { title: $('[name=url]').val() }, function(data) { 
-		myData = data;
-		console.log(data.alert + " " + data.userid + " " + data.username + " " + data.timefeed.title);
-		//if (data.alert == "error") {
-			setAlert(data.msg);
-		//}
-		//addFeedEvent("a title", "http://www.wut.com", Math.floor((Math.random() * 100) + 1));
-  		//$('.result').html(data);
-	}, "json")
-	.success(function() { console.log("second success"); })
-	.error(function(xhr, status, error) { console.log("error" + xhr.responseText + " status: " + status); })
-	.complete(function() { console.log("complete"); });
-
-}
-
-var myData;
 var fetchEvents = function(movieid, sessionid) {
 	console.log("fetching events for movie" + movieid);
-	$.getJSON('api.php?abc=xxx&do=movie_to_json&movieid=' + movieid + '&sessionid=' + sessionid, function(data) { 
-		//addFeedEvent("a title", "http://www.wut.com", Math.floor((Math.random() * 100) + 1));
-		myData = data;
+	$.getJSON('api.php?do=movie_to_json&sort=desc&movieid=' + movieid + '&sessionid=' + sessionid, function(data) { 
+		feeddata = data;
 		console.log(data.movie.name + " " + data.userid + " " + data.username);
 		
 		enableLogin(data.userid, data.username);
@@ -125,15 +151,42 @@ var fetchEvents = function(movieid, sessionid) {
 	.complete(function() { console.log("complete"); });
 }
 
-var addFeedEvent = function(title, body, url, percent) {
-	//var h = '<a href="#" id="bajs" rel="tooltip" title="' + title + " - " + url + '" class="feed-event" style="left: ' + percent + '%;"></a>';
+var addTimeLineEvent = function(title, body, url, percent) {
 	var h = '<a href="#" id="bajs" rel="tooltip" title="' + body + '" class="feed-event" style="left: ' + percent + '%;"></a>';
-	$("#feeddata").append(h);
+	$("#timeline").append(h);
 }
 
-var clearFeed = function() {
-	console.log("clearFeed");
-	$("#feeddata").html("");
+var addFeedEvent = function(title, body, url, img, type, percent, start, feedid) {
+        var h = "";
+        if (type == 5) { // text
+                var h = '<div id="item' + feedid + '">' +
+                        '<div id="itemText" start=' + start + '>' +
+                                '<div id="icon"><img src="' + img + '" alt="twitter" width="55" height="55"/></div>' +
+                                '<div id="itemContent">' +
+                                        '<div id="itemTitle">' + title + '</div>' +
+                                        '<div id="itemBody">' + body + '</div>' +
+                                '</div>' +
+                        '</div>' +
+                        "</div>\n";
+        }
+        else {
+                var h = '<div id="item' + feedid + '">' +
+                        '<div id="itemLink" onClick="openUrl(\'' + url + '\')" start=' + start + '>' +
+                                '<div id="icon"><img src="' + img + '" alt="twitter" width="55" height="55"/></div>' +
+                                '<div id="itemContent">' +
+                                        '<div id="itemTitle"> ' + title + '</div>' +
+                                        '<div id="itemBody">' + body + '</div>' +
+                                '</div>' +
+                        '</div>' +
+                        "</div>\n";
+        }
+	
+        $("#feeddata").append(h);
+}
+
+var openUrl = function(url) {
+	//$("#contentframe").attr("src", url);
+	window.open(url, "_blank");
 }
 
 var hidePopover2 = function() {
@@ -231,6 +284,9 @@ $(function() {
 		if (socket == null) {
 			return;
 		}
+		if (feeddata == null) {
+			return;
+		}
                 var data = {};
                 if (!data.time) {
                         data.time = popcorn.currentTime();
@@ -248,7 +304,7 @@ $(function() {
 				//console.log("fade done " + $('#qrcode').css("style"));
 			});
 		}
-		//console.log(t - mouseMoveTime);
+		handleFeed(data.time);
         }, 700);
 
 	$("#qrcode2").hover(function() {
@@ -280,55 +336,29 @@ $(function() {
 
 });
 </script>
-	<div class="navbar navbar-fixed-top">
+	<!--
+	<div class="navbar-inverse navbar-fixed-top">
 		<div class="navbar-inner">
 			<div class="container">
 				<a class="brand" id="moviename">linklib.org</a>
-				<!--
-				<div class="nav-collapse">
-					<ul class="nav pull-right" id="loginbar">
-						<li><a href="/users/sign_up">Sign Up</a></li>
-						<li class="divider-vertical"></li>
-						<li class="dropdown">
-							<a class="dropdown-toggle" href="#" data-toggle="dropdown">Sign In <strong class="caret"></strong></a>
-							<div class="dropdown-menu" style="padding: 15px; padding-bottom: 0px;">
-								<form action="" method="post" accept-charset="UTF-8" name="loginform">
-								<input id="username" style="margin-bottom: 15px;" type="text" name="username" size="30" />
-								<input id="password" style="margin-bottom: 15px;" type="password" name="password" size="30" />
-								<input class="btn btn-primary" style="clear: left; width: 100%; height: 32px; font-size: 13px;" type="submit" name="commit" value="Sign In" />
-								</form>
-							</div>
-						</li>
-					</ul>
-					<ul class="nav pull-right" id="logoutbar">
-						<li><a href="#" id="topusername">username</a></li>
-						<li class="divider-vertical"></li>
-						<li><button class="btn" onclick="logout();">Logout</button></li>
-					</ul>
-				</div>
-				-->
 			</div>
 		</div>
 	</div>
+	-->
+	<div style="background-color:#000000; padding-right: 0px; padding-left:20px;padding-top:0px; border-radius: 0px 0px 0px 0px;min-height:40px">
+		<div id="moviename">linklib.org</div>
+	</div>
 
 	<div class="container" style="height:800px;background-color:#000000;width:100%;height:1000px">
-		<div id="videodiv" class="videodiv">
-			<div id="video" style="position:absolute;top:43px;width:100%;height:600px;background-color:#000000"></div>
+		<div id="videodiv" class="videodiv" style="position:relative; margin: 40px 310px 10px 0px;background-color:#000000;min-height:600px">
+			<div id="video" style="height:600px"></div>
 		</div>
-		<div id="timeline">
-			<div id="feeddata">
-				<!--
-				<a href="#" rel="tooltip" title="hej - <strong>was</strong>" class="feed-event" style="left: 50%;"></a>
-				<a href="#" rel="tooltip" title="hej - <strong>was</strong>" class="feed-event" style="left: 10%;"></a>
-				-->
-			</div>
+		<div id="timelinecontainer" style="position:relative;margin-right: 310px;margin-top:10px">
+			<div id="timeline"></div>
 		</div>
+		<div id="feeddata" style="position:absolute;top:43px;width:300px;height:100%;right:0px;background-color:#000000"></div>
 		<div id="apialert"></div>
-		<div id="qrcodediv" style="position:absolute;top:695px;right:0px;">
-			<!--
-			<img id="qrcode" src="http://chart.apis.google.com/chart?chs=64x64&cht=qr&chld=L|0&chl=http%3A%2F%2Fwww.linkontrol.com%2Fipad.html%3Fid%3D_IDCODE_" 
-				alt="Get links in your mobile" widthHeight="64" widthHeight="64"/>
-			-->
+		<div id="qrcodediv" style="position:absolute;margin-right:310px;margin-top:20px">
 		</div>
 	</div>
 </body>
