@@ -8,7 +8,7 @@
 <script>
 var openMovie = function(movieid) {
 	var id = "demo" + Math.floor(Math.random() * 100);
-	window.open('movie.php?id=' + id + '&movieid=' + movieid, 'movie', 'width=1024,height=850,toolbar=yes,location=yes,directories=yes, status=yes,menubar=yes,scrollbar=yes,copyhistory=yes,resizable=yes,screenX=0');
+	window.open('movie.html?id=' + id + '&movieid=' + movieid, 'movie', 'width=1024,height=850,toolbar=yes,location=yes,directories=yes, status=yes,menubar=yes,scrollbar=yes,copyhistory=yes,resizable=yes,screenX=0');
 }
 </script>
 <div id="header">
@@ -98,8 +98,13 @@ var openMovie = function(movieid) {
 		<div id="column" class="grid_6">
 		-->
 			<div id="movieImage" onClick="openMovie(44)">
-				<img src="img/460/timbukpromoe.png" class="movie" alt="" />
+				<img src="img/460/mammasgata.png" class="movie" alt="" />
 				<div id="movieText"> Promoe feat Timbuktu "Mamma's Gata" (2009) </div>
+			</div>
+
+			<div id="movieImage" onClick="openMovie(53)">
+				<img src="img/460/businesscanvas.png" class="movie" alt="" />
+				<div id="movieText"> Business Model Generation (Osterwalder, 2011)</div>
 			</div>
 		<!--
 		</div>
