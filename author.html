@@ -2,16 +2,10 @@
 <html lang="en">
 <head>
 <link href="css/bootstrap.min.css" rel="stylesheet">
-<link href="css/timeline.css" rel="stylesheet"/>
+<link href="css/timeline2.css" rel="stylesheet"/>
+<link href="css/feeddata.css" rel="stylesheet"/>
 </head>
 <body>
-<!--
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
-<script src="http://popcornjs.org/code/dist/popcorn-complete.js"></script>
-<script src="lib/jquery/jquery.bgiframe.js" type="text/javascript"></script>
-<script src="lib/jquery/jquery.dimensions.js" type="text/javascript"></script>
-<script src="lib/jquery/jquery.tooltip.js" type="text/javascript"></script>
--->
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="http://popcornjs.org/code/dist/popcorn-complete.js"></script>
@@ -22,6 +16,8 @@ var userid = 0
 var username = "";
 var movieid = 0;
 var popcorn;
+var lastclicked = null;
+var feeddata = null;
 
 $(document).ajaxError(function(e, xhr, settings, exception) {
 	console.log('error in: ' + settings.url + ' \\n'+'error:\\n' + exception);
@@ -31,6 +27,48 @@ var setAlert = function(message) {
 	$('#apialert').html('<div class="alert"><a class="close" data-dismiss="alert">x</a><span>'+message+'</span></div>');
 	$("#apialert").show();
 }
+
+var updateLinkPreview = function() {
+	var url = "a link";
+	var type = $('[name=linktype]:checked').val(); 
+	var img = $('[name=linkimage]:checked').val(); 
+	var title = $('[name=title]').val(); 
+	var body = $('[name=body]').val(); 
+	var percent = 0;
+	var start = 0;
+	var feedid = 0;
+	var h = feedToHtml(title, body, url, img, type, percent, start, feedid);
+	$('#linkpreview').html(h);
+}
+
+var feedToHtml = function(title, body, url, img, type, percent, start, feedid) {
+	var h = "";
+        if (type == 5) { // text
+                var h = '<div id="item' + feedid + '">' +
+                        '<div id="itemText" start=' + start + '>' +
+                                '<div id="icon"><img src="' + img + '" alt="twitter" width="55" height="55"/></div>' +
+                                '<div id="itemContent">' +
+                                        '<div id="itemTitle">' + title + '</div>' +
+                                        '<div id="itemBody">' + body + '</div>' +
+                                '</div>' +
+                        '</div>' +
+                        "</div>\n";
+        }
+        else {
+                var h = '<div id="item' + feedid + '">' +
+                        //'<div id="itemLink" onClick="openUrl(\'' + url + '\')" start=' + start + '>' +
+                        '<div id="itemLink" start=' + start + '>' +
+                                '<div id="icon"><img src="' + img + '" alt="twitter" width="55" height="55"/></div>' +
+                                '<div id="itemContent">' +
+                                        '<div id="itemTitle"> ' + title + '</div>' +
+                                        '<div id="itemBody">' + body + '</div>' +
+                                '</div>' +
+                        '</div>' +
+                        "</div>\n";
+        }
+	return h;
+}
+
 
 var enableLogin = function(userid, username) {
 	if (userid) {
@@ -50,13 +88,31 @@ var loadMovie = function(url) {
 	//popcorn = Popcorn.smart('#youtube', '$movie_href');
 	//popcorn = Popcorn.smart('#youtube', '$movie_href');
 	popcorn = Popcorn.smart('#video', url);
+	popcorn.listen("error", function(e) {
+		console.log("popcorn error " + e);
+	});
+	popcorn.listen("durationchange", function() {
+		console.log("popcorn duration " + popcorn.duration());
+		var duration = popcorn.duration();
+		clearFeed();
+		var data = feeddata;
+		$.each(data.timefeed, function(i, item) {
+			var p = (item.start / duration) * 100;	
+			//console.log(i + " " + item.title + " " + item.start + " / " + duration);
+			addTimeLineEvent(i, item.feedid, item.title, item.body, item.url, p); 
+			//addFeedEvent(item.title, item.body, item.url, item.img, item.linktype, p, item.start, item.feedid);
+			//addFeedEvent(item.title, item.body, p); 
+		});
+		//hideFeeds();
+		addTooltip();
+	});
 }
 
 var hidePopover = function(x) {
 	console.log("do it2" + x);
-	$("#kuk").popover('hide');
+	$("#timelinebar").popover('hide');
 	$.post('api.php?do=add_time_feed&movieid=' + movieid, { title: $('[name=url]').val() }, function(data) { 
-		myData = data;
+		feeddata = data;
 		console.log(data.alert + " " + data.userid + " " + data.username + " " + data.timefeed.title);
 		//if (data.alert == "error") {
 			setAlert(data.msg);
@@ -70,19 +126,47 @@ var hidePopover = function(x) {
 
 }
 
-var myData;
+var addTooltip = function() {
+	console.log("addToolTip");
+        $("#timeline a").tooltip({
+                animation: true,
+                html: true,
+                placement: "right",
+                trigger: "hover",
+                delay: { show: 1, hide: 100 }
+        });
+
+	$("#timeline a").click(function(e) {
+		lastclicked = $(this);
+		var idx = $(this).attr('idx');
+		var data = feeddata.timefeed[idx];
+		//console.log("feed event, click function" + $(this).attr('idx'));
+		var h = feedToHtml(data.title, data.body, data.url, data.img, data.type, data.percent, data.start, data.feedid);
+		console.log("linktype " + data.linktype);
+		$('#linkpreview').html(h);
+		$('[name=title]').val(data.title);
+		$('[name=url]').val(data.url);
+		$('[name=linktype]')[data.linktype].checked = true;
+		openEditFeed();
+		e.stopPropagation();
+	});
+}
+
 var fetchEvents = function(movieid) {
 	console.log("fetching events for movie" + movieid);
 	$.getJSON('api.php?abc=xxx&do=movie_to_json&movieid=' + movieid, function(data) { 
 		//addFeedEvent("a title", "http://www.wut.com", Math.floor((Math.random() * 100) + 1));
-		myData = data;
+		//feeddata = data;
+		feeddata = data;
 		console.log(data.movie.name + " " + data.userid + " " + data.username);
 		
 		enableLogin(data.userid, data.username);
 		if (data.movie && data.movie.name) {
 			$("#moviename").html(data.movie.name);
 		}
+		clearFeed();
 		loadMovie(data.movie.url);
+		/*
 		var duration = popcorn.movie.duration;
 		console.log("duration: " + duration);
 		clearFeed();
@@ -91,10 +175,16 @@ var fetchEvents = function(movieid) {
 			console.log(i + " " + item.title + " " + p);
 			addFeedEvent(item.title, item.body, p); 
 		});
+		*/
 	})
 	.success(function() { console.log("second success"); })
 	.error(function(xhr, status, error) { console.log("error" + xhr.responseText); })
 	.complete(function() { console.log("complete"); });
+}
+
+var addTimeLineEvent = function(idx, feedid, title, body, url, percent) {
+	var h = '<a href="#" idx="' + idx + '" feedid="' + feedid + '" rel="tooltip" title="' + body + '" class="feed-event" style="left: ' + percent + '%;"></a>';
+	$("#timeline").append(h);
 }
 
 var addFeedEvent = function(title, url, percent) {
@@ -105,12 +195,12 @@ var addFeedEvent = function(title, url, percent) {
 
 var clearFeed = function() {
 	console.log("clearFeed");
-	$("#feeddata").html("");
+	$("#timeline").html("");
 }
 
 var hidePopover2 = function() {
 	console.log("from input type");
-	//$("#kuk").popover('hide');
+	//$("#timelinebar").popover('hide');
 }
 
 var logout = function() {
@@ -137,6 +227,11 @@ function getParams() {
         }
 }
 
+var openEditFeed = function() {
+	//$("#editfeed").popover('show');
+	$("#editModal").modal('show');
+}
+
 $(function() {
         params = getParams();
         if (params && params["movieid"]) {
@@ -154,6 +249,14 @@ $(function() {
   	// Fix input element click problem
 	$('.dropdown input, .dropdown label').click(function(e) {
 		e.stopPropagation();
+	});
+
+	$('form[name=previewform]').change(function() {
+		var linktype = $('[name=linktype]:checked').val();
+		var img = $('[name=linkimage]:checked').val();
+		//console.log("linktype: " + linktype + " img: " + img);
+		//console.log("here" + $('[name=linktype]:checked').val());
+		updateLinkPreview();
 	});
 
 	$('form[name=loginform]').submit(function() {
@@ -189,28 +292,35 @@ $(function() {
                 onUpdate: onTooltipUpdate,
                 left: 5
         });
+
 	$("#timeline").click(function(e) {
 		var posX = $(this).position().left;
 		var posY = $(this).position().top;
 		var offsetX = e.pageX - posX;
-		//console.log("click" + e.pageX+ ' , ' + e.pageY);
+		console.log("click" + e.pageX+ ' , ' + e.pageY);
 		//console.log("click" + posX + ' , ' + posY);
 		//console.log( (e.pageX - posX) + ' , ' + (e.pageY - posY));
 		//$("#myModal").modal('toggle');
 		//$('#myPopover').popover('show')
-		$("#kuk").css("left", offsetX + "px");
-		$("#kuk").popover('show');
+		$("#timelinebar").css("left", offsetX + "px");
+		$("#timelinebar").popover('show');
 		$("#addlink").focus();
 	});
 
-	$("#kuk").popover({placement: "bottom", live:true, 
+	$("#timelinebar").popover({placement: "bottom", live:true, 
 			title: '5m32s', 
-			//content: '<form><input id="addlink" type="text" placeholder="paste link or type comment" onSubmit="hidePopover2(); return false;"/><button class="btn" onclick="hidePopover(44);">Save</button></form>', 
 			content: '<input name="url" id="addlink" type="text" placeholder="paste link or type comment" onSubmit="hidePopover2(); return false;"/><button class="btn" onclick="hidePopover(44);">Save</button>', 
 			html:true
 	});
-	
+
+	$("#editfeedxxx").popover({
+		placement: "bottom", live:true, 
+		title: '5m32s', 
+		content: '<input name="url" id="addlink" type="text" placeholder="paste link or type comment" onSubmit="hidePopover2(); return false;"/><button class="btn" onclick="hidePopover(44);">Save</button>', 
+		html:true
+	});
 });
+
 </script>
 
 	<div class="navbar navbar-fixed-top">
@@ -249,7 +359,7 @@ $(function() {
 		</div>
 	</div>
 
-	<div class="container" style="height:800px;background-color:#ff00ff">
+	<div class="container" style="position:absolute; left:0; width:100%; height:800px;background-color:#ff00ff">
 		<!-- <button class="btn" onclick="hidePopover(44);">Save</button> -->
 		<!--
     		<div class="alert" id="apialert">
@@ -257,52 +367,87 @@ $(function() {
     			<strong>Warning!</strong> Best check yo self, you're not looking too good.
     		</div>
 		-->
-		<div id="videodiv" class="videodiv">
-			<!-- <div id="youtube" style="padding-top:50px;width:640px;height:480px;background-color:#00ff00"></div> -->
-			<div id="video" style="padding-top:50px;width:640px;height:480px;background-color:#00ff00"></div>
+		<div id="videodiv" class="videodiv"> 
+			<div id="video" style="position:relative; padding-top:50px;width:100%;height:480px;background-color:#00ff00"></div>
+			<!--
 			<div id="timeline">
 				<div id="feeddata">
 					<a title='Wikipedia US Presidential Election, 2008 - http://en.wikipedia.org/wiki/United_States_presidential_election,_2008' class='feed-event' style='left: 10%;'></a>
 					<a title='Wikipedia Homer Simpsons - http://en.wikipedia.org/wiki/Homer_Simpson' class='feed-event' style='left: 50%;'></a>
 				</div>
-				<div id="kuk" style="position:absolute; height:100px;left:100px;width:10px;background-color:#ff0000"></div>
+				<div id="editfeed" style="position:absolute; height:20px;left:100px;width:10px;background-color:#ff00ff"></div>
+			</div>
+			-->
+			<div id="timelinecontainer" style="position:relative; width:100%; margin-top:10px">
+				<div id="timeline"></div>
+				<div id="timelinebar"></div>
 			</div>
 		</div>
 		<div id="apialert"></div>
 	</div>
 
-          <!-- sample modal content -->
-          <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-              <h3 id="myModalLabel">Modal Heading</h3>
-            </div>
-            <div class="modal-body">
-              <h4>Text in a modal</h4>
-              <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem.</p>
-
-              <h4>Popover in a modal</h4>
-              <p>This <a href="#" role="button" class="btn popover-test" title="A Title" data-content="And here's some amazing content. It's very engaging. right?">button</a> should trigger a popover on hover.</p>
-
-              <h4>Tooltips in a modal</h4>
-              <p><a href="#" class="tooltip-test" title="Tooltip">This link</a> and <a href="#" class="tooltip-test" title="Tooltip">that link</a> should have tooltips on hover.</p>
-
-              <hr>
-
-              <h4>Overflowing text to show optional scrollbar</h4>
-              <p>We set a fixed <code>max-height</code> on the <code>.modal-body</code>. Watch it overflow with all this extra lorem ipsum text we've included.</p>
-              <p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
-              <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.</p>
-              <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>
-              <p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
-              <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.</p>
-              <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>
-            </div>
-            <div class="modal-footer">
-              <button class="btn" data-dismiss="modal">Close</button>
-              <button class="btn btn-primary">Save changes</button>
-            </div>
-          </div>
+	<!--
+	<div id="fitta" style="position: absolute; left: 100px; top: 100px; width:500px; height:500px; background-color:#0000ff: z-index: 100">
+		<p>hello</p>
+	</div>
+	-->
+	<div id="editModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			<h3 id="editModalLabel">Edit Feed</h3>
+		</div>
+		<div class="modal-body">
+			<p>Link preview</p>
+			<p>
+			<div id="linkpreview">
+                        	<div id="itemText">
+                                	<div id="icon">
+						<img src="Icons/twitter.svg" alt="twitter" width="55" height="55"/>
+					</div>
+                                	<div id="itemContent">
+                                       		<div id="itemTitle">Title</div>
+						<div id="itemBody">body</div>
+					</div>
+                        	</div>
+			</div>
+			</p>
+			<form name="previewform">
+				<label class="control-label" for="linktitle">Title
+					<input class="input-xlarge" name="title" id="linktitle" type="text" value="title"><span class="help-inline">title</span>
+				</label>
+				<label class="control-label" for="linkurl">Url
+					<input class="input-xlarge" name="url" id="linkurl" type="text" value="url"><span class="help-inline">url</span>
+				</label>
+				<p>Link Type</p>
+				<label class="radio inline">
+					<input type="radio" name="linktype" id="optionsRadios1" value="1" checked> Bajs 
+				</label>
+			<label class="radio">
+				<input type="radio" name="linktype" id="optionsRadios2" value="2"> HOra
+			</label>
+			<p>Choose Image</p>
+			<label class="radio inline">
+				<input type="radio" name="linkimage" id="optionsRadios1" value="Icons/twitter.svg" checked> 
+					<img src="Icons/twitter.svg" width="55" height="55" style="background-color:#000" /> 
+			</label>
+			<label class="radio inline">
+				<input type="radio" name="linkimage" id="optionsRadios1" value="Icons/facebook.svg" checked>
+					<img src="Icons/facebook.svg" width="55" height="55" style="background-color:#000" /> 
+			</label>
+			</form>
+			<!--
+    			<div class="btn-group">
+    				<button class="btn">1</button>
+				<button class="btn">2</button>
+				<button class="btn">3</button>
+			</div>
+			-->
+		</div>
+		<div class="modal-footer">
+			<button class="btn" data-dismiss="modal">Close</button>
+			<button class="btn btn-primary">Save changes</button>
+		</div>
+	</div>
 
          <div id="myPopover" class="popover bottom">
             <div class="arrow"></div>
