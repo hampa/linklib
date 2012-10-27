@@ -25,7 +25,9 @@ class scrape {
 			curl_close($handle);
 
 			// Write request data into cache file.
-			file_put_contents($request_url_cache_file, $source);
+			if (file_put_contents($request_url_cache_file, $source) === FALSE) {
+				#echo("unable to write file" . $request_url_cache_file);
+			}
 		}
 
 		preg_match("/charset=([\w|\-]+);?/", $source, $match);

@@ -16,6 +16,7 @@ if ($_GET['do'] == 'scrape') {
 		$alert = "error";
 		return;
 	}
+	$url = $_REQUEST['url'];
 	$scrape = new scrape(); 
         header("Content-type: text/json;charset=utf-8");
 	echo($scrape->getUrl($url));
@@ -155,6 +156,10 @@ else if ($_GET['do'] == 'update_time_feed') {
 	*/
 	$rows = $linkontrol->updateTimeFeed($feedid, $start, $end, $title, $img, $body, $href, $linktypeid);
 	$msg = "time feed updated $rows row affected";
+	$arr = $linkontrol->getTimeFeed($feedid);
+	if (isset($arr)) {
+		$json_feed = $linkontrol->timeFeedToArray($arr);
+	}
 }
 else if ($_GET['do'] == 'delete_time_feed') {
 	if ($userid == 0) {
@@ -282,6 +287,77 @@ else if ($_GET['do'] == 'time_feed_to_json') {
                 }
 		die(json_encode($json));
         }
+}
+else if ($_GET['do'] == 'create_time_feed') {
+	$movieid = intval($_REQUEST['movieid']);
+	$start = intval($_REQUEST['start']);
+	$text = mysql_real_escape_string($_REQUEST['text']);
+	$arr = $linkontrol->getMovie($movieid);
+	if (!isset($arr)) {
+		$msg = "could not find movie";
+		$alert = "error";
+		return;
+	}
+	if ($text == "") {
+		$msg = "text cannot be empty";
+		$alert = "error";
+		return;
+	}
+	$images = array();
+	$images[0] = "ll.png";
+	$img = "ll.png";
+	$host = "";
+	$url = "";
+	$linktype = 0;
+	$title = "";
+	if (preg_match('@^(?:http://)?([^/]+)(.*)@i', $text, $matches)) {
+		//print_r($matches);
+		$host = $matches[1];
+		if (preg_match('/[^.]+\.[^.]+$/', $host, $matches)) {
+			//print_r($matches);
+			$x = explode(".", $matches[0]);
+			$host = $x[0];
+		}
+		$url = $text;
+		if ($linkontrol->isMovieLink($host)) {
+			$linktype = linkontrol::VIDEO;
+		}
+		else {
+			$linktype = linkontrol::WEBPAGE;
+		}
+
+		$scrape = new scrape();
+		$arr = $scrape->getUrl($text);
+		$title = $arr['title'];
+		// content is too massive
+		//$body = $arr['content'];
+	}	
+	else {
+		$title = $text;
+		$linktype = linkontrol::TEXT; 
+	}
+	if ($handle = opendir('Icons')) {
+    		/* This is the correct way to loop over the directory. */
+		while (false !== ($entry = readdir($handle))) {
+			$x = explode(".", $entry);
+			$match = $x[0];
+			if ($match == $host) {
+				$images[1] = $entry;
+				$img = $entry;
+				break;
+			}
+		}
+		closedir($handle);
+	}
+	$feedid = $linkontrol->addTimeFeed($movieid, $start, 0, $title, $img, $body, $url, $linktype);
+	$arr = $linkontrol->getTimeFeed($feedid);
+	if (isset($arr)) {
+		$json_feed = $linkontrol->timeFeedToArray($arr);
+	}
+	$response_array = array("images" => $images);
+	//print_r($response_array);
+	//print_r($json_feed);
+	//die();
 }
 else if ($_GET['do'] == 'movie_to_json') {
 	$sessionkey = mysql_real_escape_string($_REQUEST['sessionkey']);

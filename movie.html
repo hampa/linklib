@@ -32,6 +32,20 @@ var setAlert = function(message) {
 	$("#apialert").show();
 }
 
+var updateLinkPreview = function() {
+	$('#linkpreview').html('
+                                <div id="itemText">
+                                        <div id="icon">
+                                                <img src="Icons/twitter.svg" alt="twitter" width="55" height="55"/>
+                                        </div>
+                                        <div id="itemContent">
+                                                <div id="itemTitle">Title 2</div>
+                                                <div id="itemBody">body</div>
+                                        </div>
+                                </div>
+	');
+}
+
 var addQrCode = function(id) {
 	$("#qrcodediv").html(
 			'<img id="qrcode" src="http://chart.apis.google.com/chart?chs=128x128&cht=qr&chld=L|0&chl=http%3A%2F%2Fwww.linkontrol.com%2Fremote.php%3Fid%3D' 

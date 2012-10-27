@@ -1,5 +1,14 @@
 <?php
 class linkontrol {
+	const WEBPAGE = 0;
+	const PERSON = 1;
+	const LOCATION = 2;
+	const VIDEO = 3;
+	const PICTURE = 4;
+	const TEXT = 5;
+	const AUDIO = 6;
+	const WEBCONTENT = 7;
+
 	function runSqlMulti($SQL) {
 		global $db;
 		return $db->run($SQL);
@@ -8,6 +17,10 @@ class linkontrol {
 	function runSql($SQL) {
 		$arr = $this->runSqlMulti($SQL);
 		return $arr[0];
+	}
+
+	function isMovieLink($host) {
+		return array_key_exists($host, array('youtube.com', 'vimeo.com', 'yotu.be'));
 	}
 
 	function getTimeFeeds($movieid, $sort = "asc") {
@@ -210,7 +223,15 @@ class linkontrol {
 		$linktypeid = $val['linktypeid'];
 		$timefeedid = $val['timefeedid'];
 		$start = $val['start'];
-		$img = "Icons/" . $val['img'];
+		$img = $val['img'];
+		$images = array();
+		$images[0] = $val['img'];
+		if ($val['img'] != "ll.png") {
+			$images[1] = "ll.png"; 
+		}
+		else {
+			$images[1] = "";
+		}
 		$href = $val['href'];
 		$title = $val['title'];
 		if ($val['body'] != "") {
@@ -226,7 +247,7 @@ class linkontrol {
                         $name = $matches[2];
                         $body = "<strong>" . $host . "</strong>" . $name;
                 }
-		return array('title' => $title, 'body' => $body, 'img' => $img, 'url' => $href, 'percent' => $percent, 'start' => $start, 'linktype' => $linktypeid, 'feedid' => $timefeedid);
+		return array('title' => $title, 'body' => $body, 'img' => $img, 'url' => $href, 'percent' => $percent, 'start' => $start, 'linktype' => $linktypeid, 'feedid' => $timefeedid, 'images' => $images, 'deleted' => 0);
 	}
 
 	function timeFeedToList($val) {
@@ -250,7 +271,7 @@ class linkontrol {
 
 		$height = 80;
 		$width = $height;
-		if ($linktypeid == 3) { // video
+		if ($linktypeid == VIDEO) { // video
 				/*
                                 return "<li style='display: none' start='$start'>" .
 					'<div data-role="collapsible" data-theme="a">' .
@@ -263,10 +284,10 @@ class linkontrol {
                                         "<iframe width='288' height='200' src='$href' frameborder='0' allowfullscreen></iframe>" .
 					"</li>\n";
 		}
-		else if ($linktypeid == 5) { // Text 
+		else if ($linktypeid == TEXT) { // Text 
 			return "<li style='display: none' start='$start' data-icon='gear'><div id='fade'></div><img width='$width' height='$height' src='$img' /><h3>$title</h3><p>$body</p></li>\n";
 		}
-		else if ($linktypeid == 7) {
+		else if ($linktypeid == WEBCONTENT) {
 			return "<li style='display: none' start='$start' data-icon='gear'><div id='fade'></div><a href='#page_$timefeedid'><img width='$width' height='$height' src='$img' /><h3>$title</h3><p>$body</p></a></li>\n";
 		}
 		else {

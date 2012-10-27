@@ -12,32 +12,111 @@
 <script>
 
 var json;
-var userid = 0
-var username = "";
+//var userid = 0
+//var username = "";
+var loggedin = false;
 var movieid = 0;
 var popcorn;
 var lastclicked = null;
 var feeddata = null;
+var timelineTitle = 0;
+var currentTime = 0;
 
 $(document).ajaxError(function(e, xhr, settings, exception) {
 	console.log('error in: ' + settings.url + ' \\n'+'error:\\n' + exception);
 });
+
+var timeToSeconds = function(str) {
+        var h = 0;
+        var m = 0;
+        var s = 0;
+        var n = str.split(":");
+        var l = n.length;
+        if (l == 3) {
+                h = parseInt(n[0], 10);
+                m = parseInt(n[1], 10);
+                s = parseInt(n[2], 10);
+        }
+        else if (l == 2) {
+                m = parseInt(n[0], 10);
+                s = parseInt(n[1], 10);
+        }
+        else if (l == 1) {
+                s = parseInt(n[0], 10);
+        }
+        //console.log(str + "len" + l + "=> h:" + h + " m: " + m + " s:" + s);
+        return (h * 360 + m * 60 + s);
+}
+
+var secondsToTime = function(s) {
+	var h  = Math.floor(s / (60 * 60));
+	s -= h * (60 * 60);
+	var m  = Math.floor(s / 60);
+        s -= m * 60;
+	s = Math.floor(s);
+	return { "h": h, "m": m, "s": s };
+}
+
+var padInt = function (x) {
+	return String("0" + x).slice(-2);
+}
+
+var secondsToStr = function(seconds) {
+	var t = secondsToTime(seconds);
+	var h = padInt(t.h);
+	var m = padInt(t.m);
+	var s = padInt(t.s);
+	return h + ":" + m + ":" + s;
+}
 
 var setAlert = function(message) {
 	$('#apialert').html('<div class="alert"><a class="close" data-dismiss="alert">x</a><span>'+message+'</span></div>');
 	$("#apialert").show();
 }
 
+var getPreviewData = function() {
+	var linktype = $('[name=linktype]:checked').val(); 
+	var img = $('[name=linkimage]:checked').val(); 
+	var title = $('[name=title]').val(); 
+	//var body = $('[name=body]').val(); 
+	var url = $('[name=url]').val(); 
+	var body = url;
+	var time = $('[name=linkstart]').val(); 
+	var start = timeToSeconds(time);
+	var duration = popcorn.duration();
+	var percent = (start / duration) * 100; 
+	var feedid = $('[name=linkfeedid]').val();
+	var index = $('[name=linkindex]').val();
+	return { "linktype": linktype,
+		"title": title,
+		"body": body,
+		"url": url,
+		"deleted": 0,
+		"img": img,
+		"start": start,
+		"percent": percent,
+		"feedid": feedid,
+		"index": index
+	};
+}
+
+var printLinkPreview = function() {
+	console.log(getPreviewData());
+}
+
 var updateLinkPreview = function() {
+	/*
 	var url = "a link";
 	var type = $('[name=linktype]:checked').val(); 
-	var img = $('[name=linkimage]:checked').val(); 
+	var img = 'Icons/' + $('[name=linkimage]:checked').val(); 
 	var title = $('[name=title]').val(); 
 	var body = $('[name=body]').val(); 
 	var percent = 0;
 	var start = 0;
 	var feedid = 0;
-	var h = feedToHtml(title, body, url, img, type, percent, start, feedid);
+	*/
+	var d = getPreviewData();
+	var h = feedToHtml(d.title, d.body, d.url, d.img, d.linktype, d.percent, d.start, d.feedid);
 	$('#linkpreview').html(h);
 }
 
@@ -46,7 +125,7 @@ var feedToHtml = function(title, body, url, img, type, percent, start, feedid) {
         if (type == 5) { // text
                 var h = '<div id="item' + feedid + '">' +
                         '<div id="itemText" start=' + start + '>' +
-                                '<div id="icon"><img src="' + img + '" alt="twitter" width="55" height="55"/></div>' +
+                                '<div id="icon"><img src="Icons/' + img + '" alt="twitter" width="55" height="55"/></div>' +
                                 '<div id="itemContent">' +
                                         '<div id="itemTitle">' + title + '</div>' +
                                         '<div id="itemBody">' + body + '</div>' +
@@ -58,7 +137,7 @@ var feedToHtml = function(title, body, url, img, type, percent, start, feedid) {
                 var h = '<div id="item' + feedid + '">' +
                         //'<div id="itemLink" onClick="openUrl(\'' + url + '\')" start=' + start + '>' +
                         '<div id="itemLink" start=' + start + '>' +
-                                '<div id="icon"><img src="' + img + '" alt="twitter" width="55" height="55"/></div>' +
+                                '<div id="icon"><img src="Icons/' + img + '" alt="twitter" width="55" height="55"/></div>' +
                                 '<div id="itemContent">' +
                                         '<div id="itemTitle"> ' + title + '</div>' +
                                         '<div id="itemBody">' + body + '</div>' +
@@ -75,11 +154,13 @@ var enableLogin = function(userid, username) {
 		$("#loginbar").hide();
 		$("#logoutbar").show();
 		$("#topusername").html(username);
+		loggedin = true;
 	}
 	else {
 		$("#loginbar").show();
 		$("#logoutbar").hide();
 		$("#topusername").html("");
+		loggedin = false;
 	}
 }
 
@@ -108,22 +189,78 @@ var loadMovie = function(url) {
 	});
 }
 
-var hidePopover = function(x) {
-	console.log("do it2" + x);
-	$("#timelinebar").popover('hide');
-	$.post('api.php?do=add_time_feed&movieid=' + movieid, { title: $('[name=url]').val() }, function(data) { 
-		feeddata = data;
-		console.log(data.alert + " " + data.userid + " " + data.username + " " + data.timefeed.title);
-		//if (data.alert == "error") {
+var deleteTimeFeed = function() {
+	var d = getPreviewData();
+	console.log(d);
+	$.post('api.php?do=delete_time_feed', { 
+			timefeedid: d.feedid
+		}, function(data) { 
+		console.log("msg: " + data.msg);
+		if (data.alert == "error") {
 			setAlert(data.msg);
-		//}
-		//addFeedEvent("a title", "http://www.wut.com", Math.floor((Math.random() * 100) + 1));
-  		//$('.result').html(data);
+		}
+		else {
+			console.log("update feed" + data);
+			removeTimeLineEvent(d.index);	
+			addTooltip();
+		}
+	});
+}
+
+var updateTimeFeed = function() {
+	var d = getPreviewData();
+	console.log(d);
+	$.post('api.php?do=update_time_feed', { 
+			feedid: d.feedid, 
+			start: d.start,
+			end: 0,
+			title: d.title,
+			img: d.img,
+			body: "",
+			href: d.url
+		}, function(data) { 
+			console.log("msg: " + data.msg);
+			if (data.alert == "error") {
+				setAlert(data.msg);
+			}
+			else {
+				console.log("update feed" + data);
+				removeTimeLineEvent(d.index);	
+				var f = feeddata.timefeed[d.index];
+				f.start = d.start;
+				f.img = d.img;
+				f.url = d.url;	
+				f.title = d.title;
+				f.linktype = d.linktype;
+				addTimeLineEvent(d.index, d.feedid, d.title, d.body, d.url, d.percent); 
+				
+				addTooltip();
+			}
+	});
+}
+
+var createTimeFeed = function() {
+	var text = $('[name=addlinktext]').val();
+	$("#timelinebar").popover('hide');
+	console.log("createTimeFeed text: " + text + " movieid: " + movieid + " currentTime:" + currentTime);
+	$.post('api.php?do=create_time_feed&movieid=' + movieid, { text: text, start: currentTime }, function(data) { 
+		if (data.alert == "error") {
+			setAlert(data.msg);
+		}
+		else {
+			var item = data.timefeed;
+			console.log(item.title);
+			var length = feeddata.timefeed.length;
+			var duration = popcorn.duration();
+			feeddata.timefeed[length] = data.timefeed;
+			var p = (item.start / duration) * 100;	
+			addTimeLineEvent(length, item.feedid, item.title, item.body, item.url, p); 
+			addTooltip();
+		}
 	}, "json")
 	.success(function() { console.log("second success"); })
 	.error(function(xhr, status, error) { console.log("error" + xhr.responseText + " status: " + status); })
 	.complete(function() { console.log("complete"); });
-
 }
 
 var addTooltip = function() {
@@ -137,6 +274,10 @@ var addTooltip = function() {
         });
 
 	$("#timeline a").click(function(e) {
+		if (loggedin == false) {
+			setAlert("Please sign in first");
+			return;
+		}	
 		lastclicked = $(this);
 		var idx = $(this).attr('idx');
 		var data = feeddata.timefeed[idx];
@@ -145,8 +286,20 @@ var addTooltip = function() {
 		console.log("linktype " + data.linktype);
 		$('#linkpreview').html(h);
 		$('[name=title]').val(data.title);
+		$('[name=linkstart]').val(secondsToStr(data.start));
+		$('[name=linkindex]').val(idx);
+		$('[name=linkfeedid]').val(data.feedid);
 		$('[name=url]').val(data.url);
 		$('[name=linktype]')[data.linktype].checked = true;
+		$('#linkimage1').attr('src', 'Icons/' + data.images[0]);	
+		$('#linkimageradio1').val(data.images[0]);
+		if (data.images[1] != "") {
+			$('#linkimage2').attr('src', 'Icons/' + data.images[1]);		
+			$('#linkimageradio2').val(data.images[1]);
+		}
+		$('#optionsRadio' + data.linktype).attr('checked', 'checked');
+
+		console.log(data.images[0] + " " + data.images[1]);
 		openEditFeed();
 		e.stopPropagation();
 	});
@@ -162,7 +315,7 @@ var fetchEvents = function(movieid) {
 		
 		enableLogin(data.userid, data.username);
 		if (data.movie && data.movie.name) {
-			$("#moviename").html(data.movie.name);
+			$("#headername").html(data.movie.name);
 		}
 		clearFeed();
 		loadMovie(data.movie.url);
@@ -183,8 +336,14 @@ var fetchEvents = function(movieid) {
 }
 
 var addTimeLineEvent = function(idx, feedid, title, body, url, percent) {
-	var h = '<a href="#" idx="' + idx + '" feedid="' + feedid + '" rel="tooltip" title="' + body + '" class="feed-event" style="left: ' + percent + '%;"></a>';
+	var h = '<a href="#" id="feed' + idx + '" idx="' + idx + '" feedid="' + feedid + '" rel="tooltip" title="' + body + '" class="feed-event" style="left: ' + percent + '%;"></a>';
+	console.log(h);
 	$("#timeline").append(h);
+}
+
+var removeTimeLineEvent = function(idx) {
+	feeddata.timefeed[idx].deleted = 1;
+	$("#feed" + idx).remove();
 }
 
 var addFeedEvent = function(title, url, percent) {
@@ -200,7 +359,6 @@ var clearFeed = function() {
 
 var hidePopover2 = function() {
 	console.log("from input type");
-	//$("#timelinebar").popover('hide');
 }
 
 var logout = function() {
@@ -230,6 +388,11 @@ function getParams() {
 var openEditFeed = function() {
 	//$("#editfeed").popover('show');
 	$("#editModal").modal('show');
+	$("#linktitle").focus();
+}
+
+var getTimelineTitle = function() {
+	return timelineTitle;
 }
 
 $(function() {
@@ -293,31 +456,47 @@ $(function() {
                 left: 5
         });
 
+	$(".container").click(function(e) {
+		$("#timelinebar").popover('hide');
+	});
+
 	$("#timeline").click(function(e) {
+		if (loggedin == false) {
+			setAlert("Please sign in first");
+			return;
+		}	
 		var posX = $(this).position().left;
 		var posY = $(this).position().top;
 		var offsetX = e.pageX - posX;
-		console.log("click" + e.pageX+ ' , ' + e.pageY);
-		//console.log("click" + posX + ' , ' + posY);
-		//console.log( (e.pageX - posX) + ' , ' + (e.pageY - posY));
-		//$("#myModal").modal('toggle');
-		//$('#myPopover').popover('show')
+		var width = $(this).width();
+		var duration = popcorn.duration();
+		if (duration == 0) {
+			console.log("move doesnt have duration yet");
+			return;
+		}
+		var normalized = (offsetX / width);
+		var seconds = normalized * duration;
+		currentTime = seconds;
+		var t = secondsToTime(seconds);
 		$("#timelinebar").css("left", offsetX + "px");
+		if (t.h > 0) {
+			timelineTitle = t.h + "h" + t.m + "m" + t.s + "s";
+		}
+		else if (t.m > 0) {
+			timelineTitle = t.m + "m" + t.s + "s";
+		}
+		else {
+			timelineTitle = t.s + "s";
+		}
+		e.stopPropagation();
 		$("#timelinebar").popover('show');
 		$("#addlink").focus();
 	});
 
 	$("#timelinebar").popover({placement: "bottom", live:true, 
-			title: '5m32s', 
-			content: '<input name="url" id="addlink" type="text" placeholder="paste link or type comment" onSubmit="hidePopover2(); return false;"/><button class="btn" onclick="hidePopover(44);">Save</button>', 
+			title: getTimelineTitle, 
+			content: '<input name="addlinktext" id="addlink" type="text" placeholder="paste link or type comment" onSubmit="hidePopover2(); return false;"/><button class="btn" onclick="createTimeFeed();">Save</button>', 
 			html:true
-	});
-
-	$("#editfeedxxx").popover({
-		placement: "bottom", live:true, 
-		title: '5m32s', 
-		content: '<input name="url" id="addlink" type="text" placeholder="paste link or type comment" onSubmit="hidePopover2(); return false;"/><button class="btn" onclick="hidePopover(44);">Save</button>', 
-		html:true
 	});
 });
 
@@ -332,7 +511,7 @@ $(function() {
 					<span class="icon-bar"></span>
 				</a>
  
-				<a class="brand" id="moviename">linklib.org</a>
+				<a class="brand" id="headername">linklib.org</a>
 
 				<div class="nav-collapse">
 					<ul class="nav pull-right" id="loginbar">
@@ -342,9 +521,9 @@ $(function() {
 							<a class="dropdown-toggle" href="#" data-toggle="dropdown">Sign In <strong class="caret"></strong></a>
 							<div class="dropdown-menu" style="padding: 15px; padding-bottom: 0px;">
 								<form action="" method="post" accept-charset="UTF-8" name="loginform">
-								<input id="username" style="margin-bottom: 15px;" type="text" name="username" size="30" />
-								<input id="password" style="margin-bottom: 15px;" type="password" name="password" size="30" />
-								<input class="btn btn-primary" style="clear: left; width: 100%; height: 32px; font-size: 13px;" type="submit" name="commit" value="Sign In" />
+									<input id="username" style="margin-bottom: 15px;" type="text" name="username" size="30" />
+									<input id="password" style="margin-bottom: 15px;" type="password" name="password" size="30" />
+									<input class="btn btn-primary" style="clear: left; width: 100%; height: 32px; font-size: 13px;" type="submit" name="commit" value="Sign In" />
 								</form>
 							</div>
 						</li>
@@ -359,7 +538,7 @@ $(function() {
 		</div>
 	</div>
 
-	<div class="container" style="position:absolute; left:0; width:100%; height:800px;background-color:#ff00ff">
+	<div class="container" style="position:absolute; left:0; width:100%; height:800px;background-color:#ffFFff">
 		<!-- <button class="btn" onclick="hidePopover(44);">Save</button> -->
 		<!--
     		<div class="alert" id="apialert">
@@ -368,29 +547,15 @@ $(function() {
     		</div>
 		-->
 		<div id="videodiv" class="videodiv"> 
-			<div id="video" style="position:relative; padding-top:50px;width:100%;height:480px;background-color:#00ff00"></div>
-			<!--
-			<div id="timeline">
-				<div id="feeddata">
-					<a title='Wikipedia US Presidential Election, 2008 - http://en.wikipedia.org/wiki/United_States_presidential_election,_2008' class='feed-event' style='left: 10%;'></a>
-					<a title='Wikipedia Homer Simpsons - http://en.wikipedia.org/wiki/Homer_Simpson' class='feed-event' style='left: 50%;'></a>
-				</div>
-				<div id="editfeed" style="position:absolute; height:20px;left:100px;width:10px;background-color:#ff00ff"></div>
-			</div>
-			-->
-			<div id="timelinecontainer" style="position:relative; width:100%; margin-top:10px">
+			<div id="video" style="position:relative; padding-top:50px;width:100%;height:480px;background-color:#FFFFFF"></div>
+			<div id="timelinecontainer" style="position:relative; width:100%; margin-left:auto; margin-right:auto;margin-top:10px">
 				<div id="timeline"></div>
-				<div id="timelinebar"></div>
+				<div id="timelinebar" style="position:absolute; height:20px;left:100px;width:10px;background-color:#fff0ff; opacity:0.1;"></div>
 			</div>
 		</div>
 		<div id="apialert"></div>
 	</div>
 
-	<!--
-	<div id="fitta" style="position: absolute; left: 100px; top: 100px; width:500px; height:500px; background-color:#0000ff: z-index: 100">
-		<p>hello</p>
-	</div>
-	-->
 	<div id="editModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		<div class="modal-header">
 			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -412,27 +577,35 @@ $(function() {
 			</div>
 			</p>
 			<form name="previewform">
+				<input type="hidden" name="linkfeedid" value="123">
+				<input type="hidden" name="linkindex" value="123">
 				<label class="control-label" for="linktitle">Title
 					<input class="input-xlarge" name="title" id="linktitle" type="text" value="title"><span class="help-inline">title</span>
 				</label>
 				<label class="control-label" for="linkurl">Url
 					<input class="input-xlarge" name="url" id="linkurl" type="text" value="url"><span class="help-inline">url</span>
 				</label>
-				<p>Link Type</p>
-				<label class="radio inline">
-					<input type="radio" name="linktype" id="optionsRadios1" value="1" checked> Bajs 
+				<label class="control-label" for="linkstart">HH:MM:SS
+					<input class="input-small" name="linkstart" id="linkstart" type="text" value="0">
 				</label>
-			<label class="radio">
-				<input type="radio" name="linktype" id="optionsRadios2" value="2"> HOra
-			</label>
+				<p>Link Type</p>
+				<label class="radio">
+					<input type="radio" name="linktype" id="optionsRadios0" value="0" checked> Web Page
+				</label>
+				<label class="radio">
+					<input type="radio" name="linktype" id="optionsRadios5" value="5"> Text 
+				</label>
+				<label class="radio">
+					<input type="radio" name="linktype" id="optionsRadios3" value="3"> Video 
+				</label>
 			<p>Choose Image</p>
 			<label class="radio inline">
-				<input type="radio" name="linkimage" id="optionsRadios1" value="Icons/twitter.svg" checked> 
-					<img src="Icons/twitter.svg" width="55" height="55" style="background-color:#000" /> 
+				<input type="radio" name="linkimage" id="linkimageradio1" value="twitter.svg" checked> 
+					<img id="linkimage1" src="Icons/twitter.svg" width="55" height="55" style="background-color:#000" /> 
 			</label>
 			<label class="radio inline">
-				<input type="radio" name="linkimage" id="optionsRadios1" value="Icons/facebook.svg" checked>
-					<img src="Icons/facebook.svg" width="55" height="55" style="background-color:#000" /> 
+				<input type="radio" name="linkimage" id="linkimageradio2" value="facebook.svg">
+					<img id="linkimage2" src="Icons/facebook.svg" width="55" height="55" style="background-color:#000" /> 
 			</label>
 			</form>
 			<!--
@@ -444,8 +617,9 @@ $(function() {
 			-->
 		</div>
 		<div class="modal-footer">
+			<button class="btn pull-left" data-dismiss="modal" onClick="deleteTimeFeed()">Delete</button>
 			<button class="btn" data-dismiss="modal">Close</button>
-			<button class="btn btn-primary">Save changes</button>
+			<button class="btn btn-primary" data-dismiss="modal" onClick="updateTimeFeed()">Save changes</button>
 		</div>
 	</div>
 
