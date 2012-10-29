@@ -20,7 +20,7 @@ class linkontrol {
 	}
 
 	function isMovieLink($host) {
-		return array_key_exists($host, array('youtube.com', 'vimeo.com', 'yotu.be'));
+		return array_key_exists($host, array('youtube.com', 'vimeo.com', 'youtu.be'));
 	}
 
 	function getTimeFeeds($movieid, $sort = "asc") {

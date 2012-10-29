@@ -263,6 +263,12 @@ var createTimeFeed = function() {
 	.complete(function() { console.log("complete"); });
 }
 
+// The higher NslowdownFactor the slower currentValue approaches targetValue
+// typical values for slowdownFactor (2,4,10,20);
+var weightedAverage = function(currentValue, targetValue, slowdownFactor) {
+	return ((currentValue * (slowdownFactor - 1)) + targetValue) / slowdownFactor;
+}
+
 var addTooltip = function() {
 	console.log("addToolTip");
         $("#timeline a").tooltip({
@@ -302,6 +308,32 @@ var addTooltip = function() {
 		console.log(data.images[0] + " " + data.images[1]);
 		openEditFeed();
 		e.stopPropagation();
+	});
+
+	$("#timeline").hover(
+			function() {
+				$("#timelinedisplay").fadeIn(100)
+			},
+			function() {
+				$("#timelinedisplay").fadeOut(300)
+			});
+
+	var currentTimeLineX = 0;
+	$("#timeline").mousemove(function(e) {
+		//var posX = $(this).position().left;
+		var posX = $(this).offset().left;
+		var posY = $(this).position().top;
+		//console.log(posX + " " + posY + " " + e.pageX);
+		var offsetX = e.pageX - posX;
+		var width = $(this).width();
+		var duration = popcorn.duration();
+		var normalized = (offsetX / width);
+		var seconds = normalized * duration;
+		currentTime = seconds;
+		var t = secondsToTime(seconds);
+		currentTimeLineX = weightedAverage(currentTimeLineX, offsetX, 10);
+		$("#timelinedisplay").css("left", offsetX + "px");
+		$("#timelinedisplay").html(secondsToStr(currentTime));
 	});
 }
 
@@ -465,7 +497,8 @@ $(function() {
 			setAlert("Please sign in first");
 			return;
 		}	
-		var posX = $(this).position().left;
+		//var posX = $(this).position().left;
+		var posX = $(this).offset().left;
 		var posY = $(this).position().top;
 		var offsetX = e.pageX - posX;
 		var width = $(this).width();
@@ -548,9 +581,10 @@ $(function() {
 		-->
 		<div id="videodiv" class="videodiv"> 
 			<div id="video" style="position:relative; padding-top:50px;width:100%;height:480px;background-color:#FFFFFF"></div>
-			<div id="timelinecontainer" style="position:relative; width:100%; margin-left:auto; margin-right:auto;margin-top:10px">
+			<div id="timelinecontainer" style="position:relative; width:70%; margin-left:auto; margin-right:auto;margin-top:10px">
 				<div id="timeline"></div>
 				<div id="timelinebar" style="position:absolute; height:20px;left:100px;width:10px;background-color:#fff0ff; opacity:0.1;"></div>
+				<div id="timelinedisplay" style="position:absolute; height:20px;top:20px;left:100px;width:100px;background-color:#ffffff;">11:11:22</div>
 			</div>
 		</div>
 		<div id="apialert"></div>
