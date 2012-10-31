@@ -9,6 +9,7 @@ $sessionkey = "";
 $userid = intval($userid);
 $response_array = array();
 $msg = "";
+$error = 0;
 
 if ($_GET['do'] == 'scrape') {
 	if ($_REQUEST['url'] == '') {
@@ -32,11 +33,13 @@ else if ($_GET['do'] == "login") {
 	if ($_REQUEST['username'] == '') {
 		$msg = "Username cannot be empty";
 		$alert = "error";
+		$error = 1;
 		return;
 	}
 	if ($_REQUEST['password'] == '') {
 		$msg = "Password cannot be empty";
 		$alert = "error";
+		$error = 1;
 		return;
 	}
 	if ($fgmembersite->Login()) {
@@ -48,6 +51,7 @@ else if ($_GET['do'] == "login") {
 	else {
 		$msg = "Login failed";
 		$alert = "error";
+		$error = 1;
 	}
 }
 else if ($_GET['do'] == "password_reminder") {
@@ -92,6 +96,7 @@ else if ($_GET['do'] == "register") {
 	}
 	$msg = $fgmembersite->GetErrorMessage();
 	$alert = "error";
+	$error = 1;
 }
 else if ($_GET['do'] == 'add_time_feed') {
 	if ($userid == 0) {

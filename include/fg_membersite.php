@@ -318,8 +318,9 @@ class FGMembersite
         {
             return '';
         }
-        $errormsg = nl2br(htmlentities($this->error_message));
-        return $errormsg;
+	return $this->error_message;
+        //$errormsg = nl2br(htmlentities($this->error_message));
+        //return $errormsg;
     }    
     //-------Private Helper functions-----------
     

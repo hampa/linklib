@@ -70,8 +70,13 @@ var secondsToStr = function(seconds) {
 }
 
 var setAlert = function(message) {
-	$('#apialert').html('<div class="alert"><a class="close" data-dismiss="alert">x</a><span>'+message+'</span></div>');
+	$('#apialert').html('<div class="alert"><a class="close" data-dismiss="alert">&times;</a><span>'+message+'</span></div>');
 	$("#apialert").show();
+}
+
+var setRegisterAlert = function(message) {
+	$('#registerAlert').html('<div class="alert"><a class="close" data-dismiss="alert">&times;</a><span>'+message+'</span></div>');
+	$("#registerAlert").show();
 }
 
 var getPreviewData = function() {
@@ -102,6 +107,13 @@ var getPreviewData = function() {
 
 var printLinkPreview = function() {
 	console.log(getPreviewData());
+}
+
+var getRegisterData = function() {
+	var username = $('[name=registerUsername]').val(); 
+	var password = $('[name=registerPassword]').val(); 
+	var email = $('[name=registerEmail]').val(); 
+	return { "username": username, "password": password, "email": email };
 }
 
 var updateLinkPreview = function() {
@@ -404,6 +416,37 @@ var logout = function() {
 	.complete(function() { console.log("complete"); });
 }
 
+var login = function(username, password) {
+	$.post('api.php?do=login',{ "username": username, "password": password },
+		function(data) {
+			setAlert(data.alert + " " + data.msg);
+			enableLogin(data.userid, data.username);
+		}, 'json');
+}
+
+var register = function() {
+	console.log("register");
+	var r = getRegisterData();
+
+	$.post('api.php?do=register', { 
+		"username": r.username,
+		"email": r.email,
+		"password": r.password }, function(data) {
+		console.log(data);
+		if (data.error) {
+			setRegisterAlert(data.alert + " " + data.msg);
+		}
+		else {
+			$("#registerModal").modal('hide')
+			login(r.username, r.password);
+		}
+	}, 'json');
+	//.success(function() { console.log("second success"); })
+	//.error(function(xhr, status, error) { console.log("error" + xhr.responseText); })
+	//.complete(function() { console.log("complete"); });
+}
+
+
 function getParams() {
         var idx = document.URL.indexOf('?');
         if (idx != -1) {
@@ -421,6 +464,10 @@ var openEditFeed = function() {
 	//$("#editfeed").popover('show');
 	$("#editModal").modal('show');
 	$("#linktitle").focus();
+}
+
+var openRegister = function() {
+	$("#registerModal").modal('show');
 }
 
 var getTimelineTitle = function() {
@@ -457,6 +504,8 @@ $(function() {
 	$('form[name=loginform]').submit(function() {
 		console.log("loginform submit");
 		console.log("username" + $('[name=username]').val());
+		login($('[name=username]').val(), $('[name=password]').val());
+		/*
 		$.post('api.php?do=login',{
 			username: $('[name=username]').val(), 
 			password: $('[name=password]').val() }, 
@@ -464,15 +513,8 @@ $(function() {
 				setAlert(data.alert + " " + data.msg);
 				console.log(data.alert + " " + data.msg);
 				enableLogin(data.userid, data.username);
-				/*
-				if (data.success) {
-					console.log("success");
-				}
-				else {
-					console.log("fail");
-				}
-				*/
 			}, 'json');
+		*/
 		return false;
 	});
 
@@ -548,14 +590,14 @@ $(function() {
 
 				<div class="nav-collapse">
 					<ul class="nav pull-right" id="loginbar">
-						<li><a href="/users/sign_up">Sign Up</a></li>
+						<li><a href="#" onClick="openRegister()">Sign Up</a></li>
 						<li class="divider-vertical"></li>
 						<li class="dropdown">
 							<a class="dropdown-toggle" href="#" data-toggle="dropdown">Sign In <strong class="caret"></strong></a>
 							<div class="dropdown-menu" style="padding: 15px; padding-bottom: 0px;">
 								<form action="" method="post" accept-charset="UTF-8" name="loginform">
-									<input id="username" style="margin-bottom: 15px;" type="text" name="username" size="30" />
-									<input id="password" style="margin-bottom: 15px;" type="password" name="password" size="30" />
+									<input id="username" style="margin-bottom: 15px;" type="text" name="username" size="30" placeholder="Username" />
+									<input id="password" style="margin-bottom: 15px;" type="password" name="password" size="30" placeholder="Password" />
 									<input class="btn btn-primary" style="clear: left; width: 100%; height: 32px; font-size: 13px;" type="submit" name="commit" value="Sign In" />
 								</form>
 							</div>
@@ -665,12 +707,39 @@ $(function() {
             </div>
           </div>
 
-
-	<a href="#" id="element2" rel="popover" title="A Title" data-content="And here's some amazing content. It's very engaging. right?">Yo</a>
-		<!--
-		<div class="bs-docs-example" style="padding-bottom: 24px;">
-			<a href="#" id="element2" class="btn btn-large btn-danger" rel="popover" title="A Title" data-content="And here's some amazing content. It's very engaging. right?">Click to toggle popover</a>
+	<!-- register -->
+	<div id="registerModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			<h3 id="editModalLabel">Register</h3>
 		</div>
-	-->
+		<div class="modal-body">
+    			<div id="registerAlert"></div>
+			<form class="form-horizontal">
+				<div class="control-group">
+					<label class="control-label" for="inputUsername">Username</label>
+					<div class="controls">
+						<input name="registerUsername" type="text" id="inputUsername" placeholder="Username">
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="inputEmail">Email</label>
+					<div class="controls">
+						<input name="registerEmail" type="text" id="inputEmail" placeholder="Email">
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="inputPassword">Password</label>
+					<div class="controls">
+						<input name="registerPassword" type="password" id="inputPassword" placeholder="Password">
+					</div>
+				</div>
+			</form>
+		</div>
+		<div class="modal-footer">
+			<button class="btn" data-dismiss="modal">Close</button>
+			<button class="btn btn-primary" onClick="register()">Register</button>
+		</div>
+	</div>
 </body>
 </html>
