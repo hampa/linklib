@@ -23,6 +23,48 @@ class linkontrol {
 		return array_key_exists($host, array('youtube.com', 'vimeo.com', 'youtu.be'));
 	}
 
+	function urlToHost($url) {
+		$host = "";
+		if (preg_match('@^(?:http://)?([^/]+)(.*)@i', $url, $matches)) {
+			$host = $matches[1];
+			if (preg_match('/[^.]+\.[^.]+$/', $host, $matches)) {
+				$x = explode(".", $matches[0]);
+				$host = $x[0];
+			}
+		}
+		return $host;
+	}
+
+	function fetchTouchIcon($url) {
+		$filename = "";
+		$host = $this->urlToHost($url);
+		if ($host == "") {
+			return "";
+		}
+		$ch = curl_init($url);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($ch, CURLOPT_HEADER, 0);
+
+		$output = curl_exec($ch);
+		curl_close($ch);
+
+		preg_match_all('/<link rel="apple-touch-icon.*">/', $output, $match);
+		foreach ($match as $val) {
+        		//echo("yo:" . $val[0] . "\n");
+        		if (preg_match('#http://.*png#', $val[0], $url)) {
+                		$ch = curl_init($url[0]);
+				$filename = $host . ".png";
+                		$fp = fopen("Icons/" . $filename, "w");
+                		curl_setopt($ch, CURLOPT_FILE, $fp);
+                		curl_setopt($ch, CURLOPT_HEADER, 0);
+                		$output = curl_exec($ch);
+                		curl_close($ch);
+				return $filename;
+			}
+		}
+		return $filename;
+        }
+
 	function getTimeFeeds($movieid, $sort = "asc") {
 		$movieid = intval($movieid);
 		$sql = "SELECT timefeed.*, linktype.name as linktypename " .

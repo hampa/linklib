@@ -178,8 +178,8 @@ var enableLogin = function(userid, username) {
 
 var loadMovie = function(url) {
 	console.log("loadMovie " + url);
-	//popcorn = Popcorn.smart('#youtube', '$movie_href');
-	//popcorn = Popcorn.smart('#youtube', '$movie_href');
+	// clear any old video stuff
+	$("#video").html("");
 	popcorn = Popcorn.smart('#video', url);
 	popcorn.listen("error", function(e) {
 		console.log("popcorn error " + e);
@@ -349,8 +349,17 @@ var addTooltip = function() {
 	});
 }
 
-var fetchEvents = function(movieid) {
+var fetchEvents = function(mid) {
+	movieid = mid;
+	
 	console.log("fetching events for movie" + movieid);
+	/*
+	lastclicked = null;
+	feeddata = null;
+	timelineTitle = 0;
+	currentTime = 0;
+	*/
+
 	$.getJSON('api.php?abc=xxx&do=movie_to_json&movieid=' + movieid, function(data) { 
 		//addFeedEvent("a title", "http://www.wut.com", Math.floor((Math.random() * 100) + 1));
 		//feeddata = data;
@@ -363,16 +372,6 @@ var fetchEvents = function(movieid) {
 		}
 		clearFeed();
 		loadMovie(data.movie.url);
-		/*
-		var duration = popcorn.movie.duration;
-		console.log("duration: " + duration);
-		clearFeed();
-		$.each(data.timefeed, function(i, item) {
-			var p = (item.start / duration) * 100;	
-			console.log(i + " " + item.title + " " + p);
-			addFeedEvent(item.title, item.body, p); 
-		});
-		*/
 	})
 	.success(function() { console.log("second success"); })
 	.error(function(xhr, status, error) { console.log("error" + xhr.responseText); })
@@ -424,6 +423,27 @@ var login = function(username, password) {
 		}, 'json');
 }
 
+var addMovie = function(url, name) {
+	$.post('api.php?do=add_movie', { "url": url, "href": url, "name": name},
+		function(data) {
+			console.log(data);
+			if (data.error) {
+				setAlert(data.alert + " " + data.msg);
+			}
+			else {
+				movieid = data.movie.movieid;
+				fetchEvents(movieid);
+			}
+		}, 'json');
+}
+
+var onAddMovie = function() {
+	var url = $("#addMovieUrl").val();
+	var name = $("#addMovieName").val();
+	addMovie(url, name);
+	$("#addMovieModal").modal('hide')
+}
+
 var register = function() {
 	console.log("register");
 	var r = getRegisterData();
@@ -468,6 +488,10 @@ var openEditFeed = function() {
 
 var openRegister = function() {
 	$("#registerModal").modal('show');
+}
+
+var openAddMovie = function() {
+	$("#addMovieModal").modal('show');
 }
 
 var getTimelineTitle = function() {
@@ -517,6 +541,13 @@ $(function() {
 		*/
 		return false;
 	});
+
+        $('form[name=addmovieform]').submit(function() {
+                console.log("movieform submit");
+		//$("#addmoviemenu").hide();
+                addMovie($('[name=addmovieurl]').val(), "something");
+                return false;
+        });
 
         $("#timeline a").tooltip({
                 track: true,
@@ -580,11 +611,13 @@ $(function() {
 	<div class="navbar navbar-fixed-top">
 		<div class="navbar-inner">
 			<div class="container">
+				<!--
 				<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</a>
+				-->
  
 				<a class="brand" id="headername">linklib.org</a>
 
@@ -604,7 +637,11 @@ $(function() {
 						</li>
 					</ul>
 					<ul class="nav pull-right" id="logoutbar">
-						<li id="topusername">username</li>
+						<li id="topusername" class="brand">username</li>
+						<li class="divider-vertical"></li>
+						<li><button class="btn" onclick="openAddMovie();">Add Movie</button></li>
+						<li class="divider-vertical"></li>
+						<li><button class="btn" onclick="openMyMovies();">My Movies</button></li>
 						<li class="divider-vertical"></li>
 						<li><button class="btn" onclick="logout();">Logout</button></li>
 					</ul>
@@ -739,6 +776,35 @@ $(function() {
 		<div class="modal-footer">
 			<button class="btn" data-dismiss="modal">Close</button>
 			<button class="btn btn-primary" onClick="register()">Register</button>
+		</div>
+	</div>
+
+	<!-- add movie -->
+	<div id="addMovieModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			<h3 id="editModalLabel">Add Movie</h3>
+		</div>
+		<div class="modal-body">
+    			<div id="addMovieAlert"></div>
+			<form class="form-horizontal">
+				<div class="control-group">
+					<label class="control-label" for="addMovieUrl">Url</label>
+					<div class="controls">
+						<input name="addMovieUrl" type="text" id="addMovieUrl" placeholder="vimeo or youtube link">
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="inputEmail">Name</label>
+					<div class="controls">
+						<input name="addMovieName" type="text" id="addMovieName" placeholder="Name">
+					</div>
+				</div>
+			</form>
+		</div>
+		<div class="modal-footer">
+			<button class="btn" data-dismiss="modal">Close</button>
+			<button class="btn btn-primary" onClick="onAddMovie()">Add Movie</button>
 		</div>
 	</div>
 </body>

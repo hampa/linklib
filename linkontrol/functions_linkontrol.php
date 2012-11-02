@@ -192,16 +192,29 @@ else if ($_GET['do'] == 'add_movie') {
 	if ($userid == 0) {
 		$msg = "You need to be logged in to add a movie";
 		$alert = "error";
+		$error = 1;
 		return;
 	}
 
 	if ($name == '') {
 		$msg = "Name cannot be empty";
 		$alert = "warning";
+		$error = 2;
 		return;
 	}
 
+	/*
+	if (!$linkontrol->isMovieLink($href)) {
+		$msg = "Not a movie link";
+		$alert = "error";
+		$error = 3;
+		return;
+	}
+	*/
+
 	$movieid = $linkontrol->addMovie($userid, $name, $href);
+	$arr = $linkontrol->getMovie($movieid);
+	$json_movie = array("name" => $arr['name'], "movieid" => $arr['movieid'], "url" => $arr['href']);
 	$msg = "added movie $movieid";
 }
 else if ($_GET['do'] == 'update_movie') {
@@ -341,6 +354,7 @@ else if ($_GET['do'] == 'create_time_feed') {
 		$title = $text;
 		$linktype = linkontrol::TEXT; 
 	}
+	$found = false;
 	if ($handle = opendir('Icons')) {
     		/* This is the correct way to loop over the directory. */
 		while (false !== ($entry = readdir($handle))) {
@@ -349,11 +363,21 @@ else if ($_GET['do'] == 'create_time_feed') {
 			if ($match == $host) {
 				$images[1] = $entry;
 				$img = $entry;
+				$found = true;
 				break;
 			}
 		}
 		closedir($handle);
 	}
+
+	if ($found == false) {
+		$icon = $linkontrol->fetchTouchIcon($url);
+		if ($icon != "") {
+			$images[1] = $icon;
+			$img = $icon;
+		}
+	}
+
 	$feedid = $linkontrol->addTimeFeed($movieid, $start, 0, $title, $img, $body, $url, $linktype);
 	$arr = $linkontrol->getTimeFeed($feedid);
 	if (isset($arr)) {
