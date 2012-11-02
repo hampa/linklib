@@ -418,4 +418,18 @@ else if ($_GET['do'] == 'movie_to_json') {
 	$response_array = array("movie" => $json_movie, "timefeed" => $json_feed);
 	//die(json_encode($json));
 }
+else if ($_GET['do'] == 'get_user_movies') {
+	$u = intval($_REQUEST['userid']);
+	if ($u == 0) {
+		$u = $userid;
+	}
+	$arr = $linkontrol->getUserMovies($u);
+	$json_movies = array();
+        if (isset($arr)) {
+                foreach ($arr as $key => $val) {
+			$json_movies[] = $linkontrol->movieToArray($val);
+                }
+	}
+	//die(json_encode($response_array));
+}
 ?>

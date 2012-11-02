@@ -4,6 +4,7 @@
 <link href="css/bootstrap.min.css" rel="stylesheet">
 <link href="css/timeline2.css" rel="stylesheet"/>
 <link href="css/feeddata.css" rel="stylesheet"/>
+<link href="css/movielist.css" rel="stylesheet"/>
 </head>
 <body>
 <script src="http://code.jquery.com/jquery-latest.js"></script>
@@ -77,6 +78,21 @@ var setAlert = function(message) {
 var setRegisterAlert = function(message) {
 	$('#registerAlert').html('<div class="alert"><a class="close" data-dismiss="alert">&times;</a><span>'+message+'</span></div>');
 	$("#registerAlert").show();
+}
+
+var openMyMovies = function() {
+	$("#videodiv").hide()
+	if (popcorn) {
+		popcorn.pause();
+	}
+	$("#movies").show();
+	getUserMovies(0);
+}
+
+var openMovie = function(id) {
+	$("#movies").hide();
+	$("#videodiv").show();
+	fetchEvents(id);
 }
 
 var getPreviewData = function() {
@@ -349,6 +365,21 @@ var addTooltip = function() {
 	});
 }
 
+var getUserMovies = function(userid) {
+	console.log("getUserMovies" + userid);
+	$.getJSON('api.php?do=get_user_movies&userid=' + userid, function(data) { 
+		//clearMovies();
+		console.log("got " + data.movies);
+		$.each(data.movies, function(i, item) {
+			console.log(item);
+			addMovieImage(item.movieid, item.img, item.url, item.name); 
+		});
+	})
+	.success(function() { console.log("second success"); })
+	.error(function(xhr, status, error) { console.log("error" + xhr.responseText); })
+	.complete(function() { console.log("complete"); });
+}
+
 var fetchEvents = function(mid) {
 	movieid = mid;
 	
@@ -384,6 +415,16 @@ var addTimeLineEvent = function(idx, feedid, title, body, url, percent) {
 	$("#timeline").append(h);
 }
 
+
+var addMovieImage = function(id, img, url, name) {
+	var h = '<div id="movieImage" onClick="openMovie(' + id + ')">' + 
+		'<img src="img/460/thebig.png" class="movie" alt="Click to watch" />' +
+		'<div id="movieText"> ' + name + '</div>' + 
+		'</div>';
+	console.log(h);
+	$("#movies").append(h);
+}
+
 var removeTimeLineEvent = function(idx) {
 	feeddata.timefeed[idx].deleted = 1;
 	$("#feed" + idx).remove();
@@ -396,8 +437,11 @@ var addFeedEvent = function(title, url, percent) {
 }
 
 var clearFeed = function() {
-	console.log("clearFeed");
 	$("#timeline").html("");
+}
+
+var clearMovies = function() {
+	$("#movies").html("");
 }
 
 var hidePopover2 = function() {
@@ -499,6 +543,7 @@ var getTimelineTitle = function() {
 }
 
 $(function() {
+	$("#movies").hide();
         params = getParams();
         if (params && params["movieid"]) {
                 movieid = params["movieid"];
@@ -665,6 +710,22 @@ $(function() {
 				<div id="timelinebar" style="position:absolute; height:20px;left:100px;width:10px;background-color:#fff0ff; opacity:0.1;"></div>
 				<div id="timelinedisplay" style="position:absolute; height:20px;top:20px;left:100px;width:100px;background-color:#ffffff;">11:11:22</div>
 			</div>
+		</div>
+		<div id="movies">
+			<!--
+			<div id="movieImage" onClick="openMovie(13)">
+				<img src="img/460/thebig.png" class="movie" alt="Click to watch" />
+				<div id="movieText"> The Big Lebowski (Coen, 1998) </div>					
+			</div>
+			<div id="movieImage" onClick="openMovie(24)">
+				<img src="img/460/black.png" class="movie" alt="Click to watch" />
+				<div id="movieText"> The Black Keys - Tighten Up </div>
+			</div>
+			<div id="movieImage" onClick="openMovie(46)">
+				<img src="img/460/armadillo.png" class="movie" alt="Click to watch" />
+				<div id="movieText"> Armadillo (Metz, 2010) </div>
+			</div>
+			-->
 		</div>
 		<div id="apialert"></div>
 	</div>

@@ -133,6 +133,20 @@ class linkontrol {
 					"ORDER BY movieid DESC LIMIT 100"); 
         }
 
+	function getUserMovies($userid) {
+		$userid = intval($userid);
+		return $this->runSqlMulti("SELECT movie.*, users.username FROM linkontrol.movie, linkontrol.users " .
+					"WHERE deleted = 0 " .
+					"AND movie.userid = $userid " .
+					"AND movie.userid = users.userid " .
+					"ORDER BY movieid DESC LIMIT 100"); 
+        }
+
+	function movieToArray($val) {
+		$img = "something.png";
+		return array('movieid' => $val['movieid'], 'name' => $val['name'], 'img' => $img, 'url' => $val['href'], 'userid' => $val['userid']);
+	}
+
 	function getMovie($movieid) {
 		$movieid = intval($movieid);
 		return $this->runSql("SELECT * FROM linkontrol.movie WHERE movieid = $movieid LIMIT 1"); 
