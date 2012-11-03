@@ -5,6 +5,7 @@
 <link href="css/timeline2.css" rel="stylesheet"/>
 <link href="css/feeddata.css" rel="stylesheet"/>
 <link href="css/movielist.css" rel="stylesheet"/>
+<link href="css/author.css" rel="stylesheet"/>
 </head>
 <body>
 <script src="http://code.jquery.com/jquery-latest.js"></script>
@@ -81,17 +82,17 @@ var setRegisterAlert = function(message) {
 }
 
 var openMyMovies = function() {
-	$("#videodiv").hide()
+	$("#videodiv").fadeOut()
 	if (popcorn) {
 		popcorn.pause();
 	}
-	$("#movies").show();
+	//$("#movies").show();
 	getUserMovies(0);
 }
 
 var openMovie = function(id) {
-	$("#movies").hide();
-	$("#videodiv").show();
+	$("#movies").fadeOut();
+	$("#videodiv").fadeIn();
 	fetchEvents(id);
 }
 
@@ -370,6 +371,8 @@ var getUserMovies = function(userid) {
 	$.getJSON('api.php?do=get_user_movies&userid=' + userid, function(data) { 
 		//clearMovies();
 		console.log("got " + data.movies);
+		enableLogin(data.userid, data.username);
+		clearMovies();
 		$.each(data.movies, function(i, item) {
 			console.log(item);
 			addMovieImage(item.movieid, item.img, item.url, item.name); 
@@ -377,7 +380,9 @@ var getUserMovies = function(userid) {
 	})
 	.success(function() { console.log("second success"); })
 	.error(function(xhr, status, error) { console.log("error" + xhr.responseText); })
-	.complete(function() { console.log("complete"); });
+	.complete(function() { 
+		$("#movies").fadeIn();
+	});
 }
 
 var fetchEvents = function(mid) {
@@ -543,12 +548,14 @@ var getTimelineTitle = function() {
 }
 
 $(function() {
-	$("#movies").hide();
         params = getParams();
         if (params && params["movieid"]) {
                 movieid = params["movieid"];
 		fetchEvents(movieid);
         }
+	else {
+		openMyMovies();
+	}
 
         var onTooltipUpdate = function(tooltip, x, y) {
                 console.log(tooltip);
@@ -649,6 +656,43 @@ $(function() {
 			content: '<input name="addlinktext" id="addlink" type="text" placeholder="paste link or type comment" onSubmit="hidePopover2(); return false;"/><button class="btn" onclick="createTimeFeed();">Save</button>', 
 			html:true
 	});
+
+	$("#timelinebarnow").popover({placement: "bottom", live:true, 
+			title: getTimelineTitle, 
+			content: '<input name="addlinktext" id="addlink" type="text" placeholder="paste link or type comment" onSubmit="hidePopover2(); return false;"/><button class="btn" onclick="createTimeFeed();">Save</button>', 
+			html:true
+	});
+
+	$("#addLinkButton").click(function(e) {
+		if (popcorn == null) {
+			return;
+                }
+		if (loggedin == false) {
+			setAlert("Please sign in first");
+			return;
+		}
+		if (popcorn.duration() == 0) {
+			return;
+		}
+		timelineTitle = secondsToStr(popcorn.currentTime());
+		var percent = (popcorn.currentTime() / popcorn.duration()) * 100;
+		$("#timelinebar").css("left", percent + "%");
+		$("#timelinebar").popover('show');
+		$("#addlink").focus();
+		e.stopPropagation();
+	});
+
+        setInterval(function () {
+		if (popcorn == null) {
+			return;
+                }
+		var currentButtonTime = popcorn.currentTime();
+		var s = secondsToStr(currentButtonTime);
+		$("#addLinkButton").html("Add Link at " + s);
+		timelineTitle = secondsToStr(popcorn.currentTime());
+		var percent = (popcorn.currentTime() / popcorn.duration()) * 100;
+		$("#timelinebar").css("left", percent + "%");
+        }, 700);
 });
 
 </script>
@@ -709,6 +753,10 @@ $(function() {
 				<div id="timeline"></div>
 				<div id="timelinebar" style="position:absolute; height:20px;left:100px;width:10px;background-color:#fff0ff; opacity:0.1;"></div>
 				<div id="timelinedisplay" style="position:absolute; height:20px;top:20px;left:100px;width:100px;background-color:#ffffff;">11:11:22</div>
+			</div>
+			<!-- <div style="position:relative; left:0px; top:30px"> -->
+			<div class="row" style="position:relative; top:40px; text-align:right">
+					<button class="btn btn-small" type="button" id="addLinkButton">Add link at 00:00:00</button>
 			</div>
 		</div>
 		<div id="movies">
