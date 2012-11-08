@@ -8,9 +8,9 @@
 <link href="css/author.css" rel="stylesheet"/>
 </head>
 <body>
-<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script src="js/jquery-latest.js"></script>
 <script src="js/bootstrap.min.js"></script>
-<script src="http://popcornjs.org/code/dist/popcorn-complete.js"></script>
+<script src="js/popcorn-complete.js"></script>
 <script>
 
 var json;
@@ -98,10 +98,11 @@ var openMovie = function(id) {
 
 
 var viewMovie = function(movieid) {
-	console.log(id + " asdf");
 	var id = userid + "x" + movieid;
-	window.open('movie.html?id=' + id + '&movieid=' + movieid,   
-                'movie', 'width=900,height=900,toolbar=yes,location=yes,directories=yes, status=yes,menubar=yes,scrollbar=yes,copyhistory=yes,resizable=yes,screenX=0');
+	var url = 'movie.html?id=' + id + '&movieid=' + movieid;
+	console.log('open ' + url);
+	window.open(url, 'movie', 
+	'width=900,height=900,toolbar=yes,location=yes,directories=yes, status=yes,menubar=yes,scrollbar=yes,copyhistory=yes,resizable=yes,screenX=0');
 }
 
 var getPreviewData = function() {
@@ -384,7 +385,7 @@ var getUserMovies = function(userid) {
 		clearMovies();
 		$.each(data.movies, function(i, item) {
 			console.log(item);
-			addMovieImage(item.movieid, item.img, item.url, item.name); 
+			addMovieImage(item.movieid, item.thumbnail, item.url, item.name); 
 		});
 	})
 	.success(function() { console.log("second success"); })
@@ -430,17 +431,19 @@ var addTimeLineEvent = function(idx, feedid, title, body, url, percent) {
 }
 
 
-var addMovieImage = function(id, img, url, name) {
+var addMovieImage = function(id, thumbnail, url, name) {
 	//var h = '<div id="movieImage" onClick="openMovie(' + id + ')">' + 
 	var h = '<div id="movieImage">' + 
-		'<img src="img/460/thebig.png" class="movie" alt="Click to watch" />' +
+		'<img src="' + thumbnail + '" class="movie" alt="Click to watch" />' +
 		'<div id="movieText"> ' + name + '</div>' + 
 		'<div id="movieTextLinks">' +
-		'<button class="btn btn-mini" type="button" onClick="viewMovie(' + id + ')">View</button></i>' +
-		'<button class="btn btn-mini" type="button" onClick="openMovie(' + id + ')">Edit</button></i>' +
+		//'<button class="btn btn-mini" type="button" onClick="viewMovie(' + id + ')">View</button></i>' +
+		//'<button class="btn btn-mini" type="button" onClick="openMovie(' + id + ')">Edit</button></i>' +
+		'<i class="icon-film icon-white" onClick="viewMovie(' + id + ')"></i>' + 
+		'<i class="icon-edit icon-white" onClick="openMovie(' + id + ')"></i>' + 
 		'</div>' + 
 		'</div>';
-	console.log(h);
+	console.log(thumbnail);
 	$("#movies").append(h);
 }
 

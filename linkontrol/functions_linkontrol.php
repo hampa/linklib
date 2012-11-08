@@ -215,10 +215,11 @@ else if ($_GET['do'] == 'add_movie') {
 		return;
 	}
 	*/
+	$thumbnail = $linkontrol->urlToThumbnail($href);
 
-	$movieid = $linkontrol->addMovie($userid, $name, $href);
+	$movieid = $linkontrol->addMovie($userid, $name, $href, $thumbnail);
 	$arr = $linkontrol->getMovie($movieid);
-	$json_movie = array("name" => $arr['name'], "movieid" => $arr['movieid'], "url" => $arr['href']);
+	$json_movie = array("name" => $arr['name'], "movieid" => $arr['movieid'], "url" => $arr['href'], "thumbnail" => $arr['thumbnail']);
 	$msg = "added movie $movieid";
 }
 else if ($_GET['do'] == 'update_movie') {

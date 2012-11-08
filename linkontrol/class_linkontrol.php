@@ -23,6 +23,45 @@ class linkontrol {
 		return array_key_exists($host, array('youtube.com', 'vimeo.com', 'youtu.be'));
 	}
 
+	function isYoutubeLink($host) {
+		return array_key_exists($host, array('youtube.com', 'youtu.be'));
+	}
+
+	function getYouTubeId($link) {
+		if (preg_match("#(?<=v=)[a-zA-Z0-9-]+(?=&)|(?<=v\/)[^&\n]+(?=\?)|(?<=v=)[^&\n]+|(?<=youtu.be/)[^&\n]+#", $link, $matches)) {
+			return $matches[0];
+		}
+		return "";
+	}
+
+	function getVimeoId($url) {	
+		if (preg_match("#^http.*vimeo.com.*/(\d+)$#", $url, $matches)) {
+			return $matches[1];
+		}
+		return "";
+	}
+	
+	function youTubeIdToThumbnail($id) {
+		return "http://img.youtube.com/vi/" . $id . "/1.jpg";
+	}
+
+	function vimeoIdToThumbnail($id) {
+		$hash = unserialize(file_get_contents("http://vimeo.com/api/v2/video/$id.php"));
+		return $hash[0]['thumbnail_medium'];  
+	}
+
+	function urlToThumbnail($url) {
+		$id = $this->getYouTubeId($url);
+		if ($id != "") {
+			return $this->youTubeIdToThumbnail($id);
+		}
+		$id = $this->getVimeoId($url);
+		if ($id != "") {
+			return $this->vimeoIdToThumbnail($id);
+		}
+		return "thumbnail.jpg";
+	}
+
 	function urlToHost($url) {
 		$host = "";
 		if (preg_match('@^(?:http://)?([^/]+)(.*)@i', $url, $matches)) {
@@ -109,9 +148,9 @@ class linkontrol {
 		return mysql_affected_rows();
 	}
 
-	function addMovie($userid, $name, $href) {
-                $this->runSql("INSERT INTO linkontrol.movie(userid, name, href) " .
-				"VALUES ($userid, '$name', '$href')");
+	function addMovie($userid, $name, $href, $thumbnail) {
+                $this->runSql("INSERT INTO linkontrol.movie(userid, name, href, thumbnail) " .
+				"VALUES ($userid, '$name', '$href', '$thumbnail')");
 		return mysql_insert_id();
         }
 
@@ -120,6 +159,11 @@ class linkontrol {
                 $this->runSql("UPDATE linkontrol.movie SET name = '$name', href = '$href' WHERE movieid = $movieid");
 		return mysql_affected_rows();
         }
+	
+	function updateMovieThumbnail($movieid, $thumbnail) {
+		$movieid = intval($movieid);
+                $this->runSql("UPDATE linkontrol.movie SET thumbnail = '$thumbnail' WHERE movieid = $movieid");
+	}
 
 	function deleteMovie($movieid) {
 		$movieid = intval($movieid);
@@ -143,8 +187,7 @@ class linkontrol {
         }
 
 	function movieToArray($val) {
-		$img = "something.png";
-		return array('movieid' => $val['movieid'], 'name' => $val['name'], 'img' => $img, 'url' => $val['href'], 'userid' => $val['userid']);
+		return array('movieid' => $val['movieid'], 'name' => $val['name'], 'thumbnail' => $val['thumbnail'], 'url' => $val['href'], 'userid' => $val['userid']);
 	}
 
 	function getMovie($movieid) {
