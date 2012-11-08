@@ -1,0 +1,126 @@
+#hero {
+	font-family: "Helvetica Neue", Helvetica, Arial, Verdana, sans-serif;
+	font-weight: 100;
+	font-size: 46px; 
+	width:380px;
+	margin:auto;
+	margin-top: 100px;
+	color:white;
+	text-align: center;
+}
+	
+#columns {
+	width:1024px;
+	height:100px;
+	margin:auto;
+	margin-top:70px;
+	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", sans-serif;
+	font-weight: 300;
+	color:white;
+	font-size: 20px; 
+	line-height: 27px;
+}
+	
+#column1 {
+	padding:10px;
+	width:321px;	
+	height:80px;
+	margin:auto;
+	float:left;
+	text-align: c;
+}
+	
+#column2 {
+	height:80px;
+	margin:auto;
+	float:left;
+	text-align: left;
+	width:321px;
+	padding:10px;
+
+
+	}
+	
+	#column3 {
+	
+	width:321px;	height:80px;
+	margin:auto;
+	float:left;
+	text-align: right;
+		padding:10px;
+
+
+
+	}
+
+#movies {
+	font-family: "Helvetica Neue", Helvetica, Arial, Verdana, sans-serif;
+	font-weight: 100;
+	font-size: 35px; 
+	width:1024px;
+	height:1000px;
+	margin:auto;
+	margin-top: 60px;
+	color:white;
+	text-align: center;
+	line-height: 300px;
+}
+	
+#movieImage {
+	background-color:black; 
+	position: relative;
+	margin-bottom: 20px;
+	margin-left:10px;
+	margin-right:10px;
+	width:321px;
+	height:150px;
+	overflow:hidden;
+	float:left;
+}
+
+
+img.movie {
+	width:inherit;
+	height:auto;
+	vertical-align: top;
+	opacity:1;
+	transition:opacity 0.1s;
+	-webkit-transition:opacity 0.1s;
+	-moz-transition:opacity 0.1s;
+	-o-transition:opacity 0.1s;
+	
+}
+
+img.movie:hover {
+	opacity:0.7;
+}
+
+#movieText {
+	font-size: 15px;
+	background-color: blue;
+	position: absolute;
+	height:20px;
+	width:100%;
+	background: rgba(0, 0, 0, 0.6);
+	color:white;
+	position: absolute;
+	bottom:0px;
+	line-height: 20px;
+	text-align: center;
+	font-size: 15
+}
+
+#movieTextLinks {
+	font-size: 15px;
+	background-color: blue;
+	position: absolute;
+	height:20px;
+	width:100%;
+	background: rgba(0, 0, 0, 0.6);
+	color:white;
+	position: absolute;
+	bottom:0px;
+	line-height: 20px;
+	text-align: right;
+	font-size: 15
+}

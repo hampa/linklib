@@ -20,8 +20,6 @@ if ($timefeedid > 0) {
 ?>
 <html>
 <head>
-<script type="text/javascript" src="//use.typekit.net/gtv1fsm.js"></script>
-<script type="text/javascript">try{Typekit.load();}catch(e){}</script>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
 <script src="http://popcornjs.org/code/dist/popcorn-complete.js"></script>
 <script src="timefeed.js"></script>
@@ -123,6 +121,37 @@ if ($movieid != 0) {
 <tr><td></td><td><input type=submit value="Submit"></td></tr>
 </table>
 </form>
+
+<h1>create_time_feed</h1>
+<form method=post action="http://linkontrol.toribash.com/~hampa/testapi.php?do=create_time_feed&movieid=<?php echo($movieid); ?>" >
+<table>
+<tr><td>userid:</td>	<td><input name="userid" value="<?php echo($userid); ?>"></td></tr>
+<tr><td>start:</td>	<td><input name="start" value="<?php echo($start); ?>"></td></tr>
+<tr><td>text:</td>	<td><input name="text" value="comment or url"></td></tr>
+<tr><td></td><td><input type=submit value="Submit"></td></tr>
+</table>
+</form>
+
+<h1>get_time_feeds</h1>
+<table border=1>
+<?php
+$arr = $linkontrol->getTimeFeeds($movieid);
+if (isset($arr)) {
+	foreach ($arr as $key => $val) {
+		#print_r($val);
+		echo("\t\t" . $linkontrol->timeFeedToHtml($val));
+	}
+}
+?>
+</table>
+
+<h1>Style test</h2
+<div class=info>This is an info message</div>
+<div class=success>This is a success message</div>
+<div class=warning>This is an warning message</div>
+<div class=error>This is an error message</div>
+</body>
+</html>
 
 <h1>get_time_feeds</h1>
 <table border=1>

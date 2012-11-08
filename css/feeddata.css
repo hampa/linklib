@@ -108,7 +108,7 @@ img {
 	height: 28px;
 	padding: 0px;
 	line-height: 34px;
-	color:#eeeeee;
+	/*color:#eeeeee; */
 	overflow: hidden;
 	text-overflow: ellipsis;
 }

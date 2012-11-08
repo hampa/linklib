@@ -1,5 +1,14 @@
 <?php
 class linkontrol {
+	const WEBPAGE = 0;
+	const PERSON = 1;
+	const LOCATION = 2;
+	const VIDEO = 3;
+	const PICTURE = 4;
+	const TEXT = 5;
+	const AUDIO = 6;
+	const WEBCONTENT = 7;
+
 	function runSqlMulti($SQL) {
 		global $db;
 		return $db->run($SQL);
@@ -9,6 +18,91 @@ class linkontrol {
 		$arr = $this->runSqlMulti($SQL);
 		return $arr[0];
 	}
+
+	function isMovieLink($host) {
+		return array_key_exists($host, array('youtube.com', 'vimeo.com', 'youtu.be'));
+	}
+
+	function isYoutubeLink($host) {
+		return array_key_exists($host, array('youtube.com', 'youtu.be'));
+	}
+
+	function getYouTubeId($link) {
+		if (preg_match("#(?<=v=)[a-zA-Z0-9-]+(?=&)|(?<=v\/)[^&\n]+(?=\?)|(?<=v=)[^&\n]+|(?<=youtu.be/)[^&\n]+#", $link, $matches)) {
+			return $matches[0];
+		}
+		return "";
+	}
+
+	function getVimeoId($url) {	
+		if (preg_match("#^http.*vimeo.com.*/(\d+)$#", $url, $matches)) {
+			return $matches[1];
+		}
+		return "";
+	}
+	
+	function youTubeIdToThumbnail($id) {
+		return "http://img.youtube.com/vi/" . $id . "/1.jpg";
+	}
+
+	function vimeoIdToThumbnail($id) {
+		$hash = unserialize(file_get_contents("http://vimeo.com/api/v2/video/$id.php"));
+		return $hash[0]['thumbnail_medium'];  
+	}
+
+	function urlToThumbnail($url) {
+		$id = $this->getYouTubeId($url);
+		if ($id != "") {
+			return $this->youTubeIdToThumbnail($id);
+		}
+		$id = $this->getVimeoId($url);
+		if ($id != "") {
+			return $this->vimeoIdToThumbnail($id);
+		}
+		return "thumbnail.jpg";
+	}
+
+	function urlToHost($url) {
+		$host = "";
+		if (preg_match('@^(?:http://)?([^/]+)(.*)@i', $url, $matches)) {
+			$host = $matches[1];
+			if (preg_match('/[^.]+\.[^.]+$/', $host, $matches)) {
+				$x = explode(".", $matches[0]);
+				$host = $x[0];
+			}
+		}
+		return $host;
+	}
+
+	function fetchTouchIcon($url) {
+		$filename = "";
+		$host = $this->urlToHost($url);
+		if ($host == "") {
+			return "";
+		}
+		$ch = curl_init($url);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($ch, CURLOPT_HEADER, 0);
+
+		$output = curl_exec($ch);
+		curl_close($ch);
+
+		preg_match_all('/<link rel="apple-touch-icon.*">/', $output, $match);
+		foreach ($match as $val) {
+        		//echo("yo:" . $val[0] . "\n");
+        		if (preg_match('#http://.*png#', $val[0], $url)) {
+                		$ch = curl_init($url[0]);
+				$filename = $host . ".png";
+                		$fp = fopen("Icons/" . $filename, "w");
+                		curl_setopt($ch, CURLOPT_FILE, $fp);
+                		curl_setopt($ch, CURLOPT_HEADER, 0);
+                		$output = curl_exec($ch);
+                		curl_close($ch);
+				return $filename;
+			}
+		}
+		return $filename;
+        }
 
 	function getTimeFeeds($movieid, $sort = "asc") {
 		$movieid = intval($movieid);
@@ -54,9 +148,9 @@ class linkontrol {
 		return mysql_affected_rows();
 	}
 
-	function addMovie($userid, $name, $href) {
-                $this->runSql("INSERT INTO linkontrol.movie(userid, name, href) " .
-				"VALUES ($userid, '$name', '$href')");
+	function addMovie($userid, $name, $href, $thumbnail) {
+                $this->runSql("INSERT INTO linkontrol.movie(userid, name, href, thumbnail) " .
+				"VALUES ($userid, '$name', '$href', '$thumbnail')");
 		return mysql_insert_id();
         }
 
@@ -65,6 +159,11 @@ class linkontrol {
                 $this->runSql("UPDATE linkontrol.movie SET name = '$name', href = '$href' WHERE movieid = $movieid");
 		return mysql_affected_rows();
         }
+	
+	function updateMovieThumbnail($movieid, $thumbnail) {
+		$movieid = intval($movieid);
+                $this->runSql("UPDATE linkontrol.movie SET thumbnail = '$thumbnail' WHERE movieid = $movieid");
+	}
 
 	function deleteMovie($movieid) {
 		$movieid = intval($movieid);
@@ -77,6 +176,19 @@ class linkontrol {
 					"AND movie.userid = users.userid " .
 					"ORDER BY movieid DESC LIMIT 100"); 
         }
+
+	function getUserMovies($userid) {
+		$userid = intval($userid);
+		return $this->runSqlMulti("SELECT movie.*, users.username FROM linkontrol.movie, linkontrol.users " .
+					"WHERE deleted = 0 " .
+					"AND movie.userid = $userid " .
+					"AND movie.userid = users.userid " .
+					"ORDER BY movieid DESC LIMIT 100"); 
+        }
+
+	function movieToArray($val) {
+		return array('movieid' => $val['movieid'], 'name' => $val['name'], 'thumbnail' => $val['thumbnail'], 'url' => $val['href'], 'userid' => $val['userid']);
+	}
 
 	function getMovie($movieid) {
 		$movieid = intval($movieid);
@@ -210,7 +322,15 @@ class linkontrol {
 		$linktypeid = $val['linktypeid'];
 		$timefeedid = $val['timefeedid'];
 		$start = $val['start'];
-		$img = "Icons/" . $val['img'];
+		$img = $val['img'];
+		$images = array();
+		$images[0] = $val['img'];
+		if ($val['img'] != "ll.png") {
+			$images[1] = "ll.png"; 
+		}
+		else {
+			$images[1] = "";
+		}
 		$href = $val['href'];
 		$title = $val['title'];
 		if ($val['body'] != "") {
@@ -226,7 +346,7 @@ class linkontrol {
                         $name = $matches[2];
                         $body = "<strong>" . $host . "</strong>" . $name;
                 }
-		return array('title' => $title, 'body' => $body, 'img' => $img, 'url' => $href, 'percent' => $percent, 'start' => $start, 'linktype' => $linktypeid, 'feedid' => $timefeedid);
+		return array('title' => $title, 'body' => $body, 'img' => $img, 'url' => $href, 'percent' => $percent, 'start' => $start, 'linktype' => $linktypeid, 'feedid' => $timefeedid, 'images' => $images, 'deleted' => 0);
 	}
 
 	function timeFeedToList($val) {
@@ -250,7 +370,7 @@ class linkontrol {
 
 		$height = 80;
 		$width = $height;
-		if ($linktypeid == 3) { // video
+		if ($linktypeid == VIDEO) { // video
 				/*
                                 return "<li style='display: none' start='$start'>" .
 					'<div data-role="collapsible" data-theme="a">' .
@@ -263,10 +383,10 @@ class linkontrol {
                                         "<iframe width='288' height='200' src='$href' frameborder='0' allowfullscreen></iframe>" .
 					"</li>\n";
 		}
-		else if ($linktypeid == 5) { // Text 
+		else if ($linktypeid == TEXT) { // Text 
 			return "<li style='display: none' start='$start' data-icon='gear'><div id='fade'></div><img width='$width' height='$height' src='$img' /><h3>$title</h3><p>$body</p></li>\n";
 		}
-		else if ($linktypeid == 7) {
+		else if ($linktypeid == WEBCONTENT) {
 			return "<li style='display: none' start='$start' data-icon='gear'><div id='fade'></div><a href='#page_$timefeedid'><img width='$width' height='$height' src='$img' /><h3>$title</h3><p>$body</p></a></li>\n";
 		}
 		else {

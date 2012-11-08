@@ -115,20 +115,20 @@ class FGMembersite
     
     function Login()
     {
-        if(empty($_POST['username']))
+        if(empty($_REQUEST['username']))
         {
             $this->HandleError("UserName is empty!");
             return false;
         }
         
-        if(empty($_POST['password']))
+        if(empty($_REQUEST['password']))
         {
             $this->HandleError("Password is empty!");
             return false;
         }
         
-        $username = trim($_POST['username']);
-        $password = trim($_POST['password']);
+        $username = trim($_REQUEST['username']);
+        $password = trim($_REQUEST['password']);
         
         if(!isset($_SESSION)){ session_start(); }
         if(!$this->CheckLoginInDB($username,$password))
@@ -318,8 +318,9 @@ class FGMembersite
         {
             return '';
         }
-        $errormsg = nl2br(htmlentities($this->error_message));
-        return $errormsg;
+	return $this->error_message;
+        //$errormsg = nl2br(htmlentities($this->error_message));
+        //return $errormsg;
     }    
     //-------Private Helper functions-----------
     
