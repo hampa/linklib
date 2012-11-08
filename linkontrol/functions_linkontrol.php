@@ -134,13 +134,11 @@ else if ($_GET['do'] == 'update_time_feed') {
 		return;
 	}
 	$arr = $linkontrol->getTimeFeed($feedid);
-	/*
 	if ($arr['userid'] != $userid) {
 		$msg = "You can only update your timefeeds";
 		$alert = "error";
 		return;
 	}
-	*/
 	if ($feedid == 0) {
 		$msg = "Feedid cannot be 0 or empty";
 		$alert = "error";
