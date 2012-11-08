@@ -8,6 +8,9 @@ $alert = "info";
 $sessionkey = "";
 $userid = intval($userid);
 $response_array = array();
+$json_movies = array();
+$json_movie = array();
+$json_feed = array();
 $msg = "";
 $error = 0;
 
@@ -50,6 +53,7 @@ else if ($_GET['do'] == "login") {
 	}
 	else {
 		$msg = "Login failed";
+		//die($fgmembersite->GetErrorMessage());
 		$alert = "error";
 		$error = 1;
 	}
