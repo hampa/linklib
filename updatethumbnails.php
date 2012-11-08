@@ -9,7 +9,7 @@ if (isset($arr)) {
 		$url = $val['href'];
 		$movieid = $val['movieid'];
 		$thumbnail = $l->urlToThumbnail($url);
-		//$l->updateMovieThumbnail($movieid, $thumbnail);
+		$l->updateMovieThumbnail($movieid, $thumbnail);
 		echo($movieid . " " . $thumbnail. "\n");
 	}
 }
