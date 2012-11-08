@@ -50,8 +50,9 @@ var updateLinkPreview = function() {
 
 var addQrCode = function(id) {
 	$("#qrcodediv").html(
-			'<img id="qrcode" src="http://chart.apis.google.com/chart?chs=128x128&cht=qr&chld=L|0&chl=http%3A%2F%2Fwww.linkontrol.com%2Fremote.php%3Fid%3D' 
+			'<img id="qrcode" src="http://chart.apis.google.com/chart?chs=512x512&cht=qr&chld=L|0&chl=http%3A%2F%2Fwww.linkontrol.com%2Fremote.php%3Fid%3D' 
 			+ id + '" alt="Get links in your mobile">');  // widthHeight="64" widthHeight="64"/>');
+	$("#qrcode").css("width", "64px");
 }
 
 var getTimestamp = function() {
@@ -315,7 +316,7 @@ $(function() {
                 }
 		var t = getTimestamp();
 		var diff = t - mouseMoveTime;
-		if (diff > 8000) { 
+		if (diff > 800000) { 
 			$("#qrcode").fadeOut('slow', function() {
 				//console.log("fade done " + $('#qrcode').css("style"));
 			});
@@ -323,7 +324,23 @@ $(function() {
 		handleFeed(data.time);
         }, 700);
 
+	$("#qrcodediv").click(function(e) {
+		if ($("#qrcode").css("width") == "64px") {
+			$("#qrcode").animate({
+				height: "512",
+				width: "512"
+			}, "fast");
+		}
+		else {
+			$("#qrcode").animate({
+				height: "64",
+				width: "64"
+			}, "fast");
+		}
+	});
+
 	$("#qrcode2").hover(function() {
+		console.log("hover function");
 		// hover in
 		$(this).parent().parent().css("z-index", 1);
 		$(this).animate({
@@ -336,8 +353,8 @@ $(function() {
 		// hover out
 		$(this).parent().parent().css("z-index", 0);
 		$(this).animate({
-			height: "64",
-			width: "64",
+			height: "256",
+			width: "256",
 			left: "+=50",
 			top: "+=50"
 		}, "fast");
@@ -368,6 +385,8 @@ $(function() {
 	<div class="container" style="height:800px;background-color:#000000;width:100%;height:1000px">
 		
 		<div id="videodiv" class="videodiv" style="position:relative; margin: 0px 310px 10px 0px;background-color:#000000;min-height:600px">
+			<!-- <div id="qrcodediv" style="position:absolute;margin-right:310px;margin-top:-20px">HERE </div> -->
+			<div id="qrcodediv" style="position:absolute;width:100%; text-align:right"></div>
 			<div id="video" style="height:600px;width:100%"></div>
 		</div>
 		<div id="timelinecontainer" style="position:relative;margin-right: 310px;margin-top:10px">
@@ -375,8 +394,6 @@ $(function() {
 		</div>
 		<div id="feeddata" style="position:absolute;top:43px;width:300px;height:100%;right:0px;background-color:#000000"></div>
 		<div id="apialert"></div>
-		<div id="qrcodediv" style="position:absolute;margin-right:310px;margin-top:20px">
-		</div>
 	</div>
 </body>
 </html>
