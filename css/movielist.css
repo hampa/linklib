@@ -109,3 +109,18 @@ img.movie:hover {
 	text-align: center;
 	font-size: 15
 }
+
+#movieTextLinks {
+	font-size: 15px;
+	background-color: blue;
+	position: absolute;
+	height:20px;
+	width:100%;
+	background: rgba(0, 0, 0, 0.6);
+	color:white;
+	position: absolute;
+	bottom:0px;
+	line-height: 20px;
+	text-align: right;
+	font-size: 15
+}
