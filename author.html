@@ -11,22 +11,30 @@
 <script src="js/jquery-latest.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/popcorn-complete.js"></script>
+<script src="lib/socket.io/socket.io.js"></script>
 <script>
 
-var json;
+var socket = null;
+var json = null;
 var userid = 0
 //var username = "";
 var loggedin = false;
 var movieid = 0;
-var popcorn;
+var popcorn = null;
 var lastclicked = null;
 var feeddata = null;
 var timelineTitle = 0;
 var currentTime = 0;
+var serverLocation = 'http://linkontrol.toribash.com:1337';	
+var streamId = "someStreamId";
 
 $(document).ajaxError(function(e, xhr, settings, exception) {
 	console.log('error in: ' + settings.url + ' \\n'+'error:\\n' + exception);
 });
+
+var openUrl = function(url) {
+	window.open(url, "_blank");
+}
 
 var timeToSeconds = function(str) {
         var h = 0;
@@ -81,21 +89,27 @@ var setRegisterAlert = function(message) {
 	$("#registerAlert").show();
 }
 
+var addQrCode = function(id) {
+	console.log("addQrCode" + id);
+	$("#qrcodediv").html(
+			'<img id="qrcode" src="http://chart.apis.google.com/chart?chs=512x512&cht=qr&chld=L|0&chl=http%3A%2F%2Fwww.linkontrol.com%2Fremote.php%3Fid%3D' 
+			+ id + '" alt="Get links in your mobile">');  // widthHeight="64" widthHeight="64"/>');
+	$("#qrcode").css("width", "64px");
+}
+
 var openMyMovies = function() {
-	$("#videodiv").fadeOut()
+	$("#viewmovie").fadeOut()
 	if (popcorn) {
 		popcorn.pause();
 	}
-	//$("#movies").show();
 	getUserMovies(0);
 }
 
 var openMovie = function(id) {
 	$("#movies").fadeOut();
-	$("#videodiv").fadeIn();
+	$("#viewmovie").fadeIn();
 	fetchEvents(id);
 }
-
 
 var viewMovie = function(movieid) {
 	var id = userid + "x" + movieid;
@@ -186,6 +200,76 @@ var feedToHtml = function(title, body, url, img, type, percent, start, feedid) {
 	return h;
 }
 
+var addFeedData = function(title, body, url, img, type, percent, start, feedid) {
+	//console.log("addFeedData");
+        var h = "";
+        if (type == 5) { // text
+                var h = '<div id="item' + feedid + '">' +
+                        '<div id="itemText" start=' + start + '>' +
+                                '<div id="icon"><img src="Icons/' + img + '" alt="twitter" width="55" height="55"/></div>' +
+                                '<div id="itemContent">' +
+                                        '<div id="itemTitle">' + title + '</div>' +
+                                        '<div id="itemBody">' + body + '</div>' +
+                                '</div>' +
+                        '</div>' +
+                        "</div>\n";
+        }
+        else {
+                var h = '<div id="item' + feedid + '">' +
+                        '<div id="itemLink" onClick="openUrl(\'' + url + '\')" start=' + start + '>' +
+                                '<div id="icon"><img src="Icons/' + img + '" alt="twitter" width="55" height="55"/></div>' +
+                                '<div id="itemContent">' +
+                                        '<div id="itemTitle"> ' + title + '</div>' +
+                                        '<div id="itemBody">' + body + '</div>' +
+                                '</div>' +
+                        '</div>' +
+                        "</div>\n";
+        }
+	
+        $("#feeddata").append(h);
+}
+
+var handleFeed = function(currenttime) {
+	var data = feeddata;
+	var topItem = null;
+	$.each(data.timefeed, function(i, item) {
+		var x = document.getElementById('item' + item.feedid);
+		//console.log(i + " " + item.feedid + " ct: " + currenttime + " start: " + item.start +  " " + x);
+		if (x == null) {
+			//console.log("cant find " + item.feedid);
+		}
+		else if (currenttime >= item.start) {
+			//console.log("showing");
+			//console.log(i + " " + item.feedid + " " + item.start);
+			if (x.style.display == 'none') {
+				$(x).fadeIn("slow");
+				//$(x).animate({'opacity': show});
+				topItem = item;
+						
+				//x.style.display = '';
+			}
+		}
+		else {
+			//console.log("hiding");
+			x.style.display = 'none';
+		}
+	});
+}
+
+var clearFeed = function() {
+	$("#feeddata").html("");
+	$("#timeline").html("");
+}
+
+var hideFeeds = function() { 
+        var data = feeddata;
+        $.each(data.timefeed, function(i, item) {
+                var x = document.getElementById('item' + item.feedid);
+                if (x) {
+                        x.style.display = 'none';
+                }
+        });
+}
 
 var enableLogin = function(_userid, username) {
 	userid = _userid;
@@ -203,6 +287,20 @@ var enableLogin = function(_userid, username) {
 	}
 }
 
+var updateFeeds = function() {
+	clearFeed();
+	var data = feeddata;
+	var duration = popcorn.duration();
+	$.each(data.timefeed, function(i, item) {
+		var p = (item.start / duration) * 100;	
+		console.log(i + " " + item.title + " " + item.start + " / " + duration);
+		addTimeLineEvent(i, item.feedid, item.title, item.body, item.url, p); 
+		addFeedData(item.title, item.body, item.url, item.img, item.linktype, p, item.start, item.feedid);
+	});
+	hideFeeds();
+	addTooltip();
+}
+
 var loadMovie = function(url) {
 	console.log("loadMovie " + url);
 	// clear any old video stuff
@@ -214,17 +312,19 @@ var loadMovie = function(url) {
 	popcorn.listen("durationchange", function() {
 		console.log("popcorn duration " + popcorn.duration());
 		var duration = popcorn.duration();
+		updateFeeds();
+		/*
 		clearFeed();
 		var data = feeddata;
 		$.each(data.timefeed, function(i, item) {
 			var p = (item.start / duration) * 100;	
 			//console.log(i + " " + item.title + " " + item.start + " / " + duration);
 			addTimeLineEvent(i, item.feedid, item.title, item.body, item.url, p); 
-			//addFeedEvent(item.title, item.body, item.url, item.img, item.linktype, p, item.start, item.feedid);
-			//addFeedEvent(item.title, item.body, p); 
+			addFeedData(item.title, item.body, item.url, item.img, item.linktype, p, item.start, item.feedid);
 		});
-		//hideFeeds();
+		hideFeeds();
 		addTooltip();
+		*/
 	});
 }
 
@@ -235,13 +335,14 @@ var deleteTimeFeed = function() {
 			timefeedid: d.feedid
 		}, function(data) { 
 		console.log("msg: " + data.msg);
-		if (data.alert == "error") {
+		if (data.error) {
 			setAlert(data.msg);
 		}
 		else {
 			console.log("update feed" + data);
-			removeTimeLineEvent(d.index);	
-			addTooltip();
+			//removeTimeLineEvent(d.index);	
+			//addTooltip();
+			refreshEvents();
 		}
 	});
 }
@@ -259,10 +360,11 @@ var updateTimeFeed = function() {
 			href: d.url
 		}, function(data) { 
 			console.log("msg: " + data.msg);
-			if (data.alert == "error") {
+			if (data.error) {
 				setAlert(data.msg);
 			}
 			else {
+				/*
 				console.log("update feed" + data);
 				removeTimeLineEvent(d.index);	
 				var f = feeddata.timefeed[d.index];
@@ -274,6 +376,8 @@ var updateTimeFeed = function() {
 				addTimeLineEvent(d.index, d.feedid, d.title, d.body, d.url, d.percent); 
 				
 				addTooltip();
+				*/
+				refreshEvents();
 			}
 	});
 }
@@ -283,10 +387,11 @@ var createTimeFeed = function() {
 	$("#timelinebar").popover('hide');
 	console.log("createTimeFeed text: " + text + " movieid: " + movieid + " currentTime:" + currentTime);
 	$.post('api.php?do=create_time_feed&movieid=' + movieid, { text: text, start: currentTime }, function(data) { 
-		if (data.alert == "error") {
+		if (data.error) {
 			setAlert(data.msg);
 		}
 		else {
+			/*
 			var item = data.timefeed;
 			console.log(item.title);
 			var length = feeddata.timefeed.length;
@@ -295,6 +400,8 @@ var createTimeFeed = function() {
 			var p = (item.start / duration) * 100;	
 			addTimeLineEvent(length, item.feedid, item.title, item.body, item.url, p); 
 			addTooltip();
+			*/
+			refreshEvents();
 		}
 	}, "json")
 	.success(function() { console.log("second success"); })
@@ -379,8 +486,6 @@ var addTooltip = function() {
 var getUserMovies = function(userid) {
 	console.log("getUserMovies" + userid);
 	$.getJSON('api.php?do=get_user_movies&userid=' + userid, function(data) { 
-		//clearMovies();
-		console.log("got " + data.movies);
 		enableLogin(data.userid, data.username);
 		clearMovies();
 		$.each(data.movies, function(i, item) {
@@ -395,29 +500,36 @@ var getUserMovies = function(userid) {
 	});
 }
 
+var refreshEvents = function() {
+	console.log("refreshEvents for movie" + movieid);
+	$.getJSON('api.php?do=movie_to_json&sort=desc&movieid=' + movieid, function(data) { 
+		feeddata = data;
+		updateFeeds();		
+	})
+	.success(function() { console.log("second success"); })
+	.error(function(xhr, status, error) { console.log("error" + xhr.responseText); })
+	.complete(function() { console.log("complete"); });
+}
+
 var fetchEvents = function(mid) {
 	movieid = mid;
 	
 	console.log("fetching events for movie" + movieid);
-	/*
-	lastclicked = null;
-	feeddata = null;
-	timelineTitle = 0;
-	currentTime = 0;
-	*/
 
-	$.getJSON('api.php?abc=xxx&do=movie_to_json&movieid=' + movieid, function(data) { 
+	$.getJSON('api.php?do=movie_to_json&sort=desc&movieid=' + movieid, function(data) { 
 		//addFeedEvent("a title", "http://www.wut.com", Math.floor((Math.random() * 100) + 1));
-		//feeddata = data;
 		feeddata = data;
-		console.log(data.movie.name + " " + data.userid + " " + data.username);
+		console.log(data.movie);
 		
 		enableLogin(data.userid, data.username);
 		if (data.movie && data.movie.name) {
 			$("#headername").html(data.movie.name);
 		}
+		streamId = userid;
 		clearFeed();
 		loadMovie(data.movie.url);
+		addQrCode(userid);
+		connect();
 	})
 	.success(function() { console.log("second success"); })
 	.error(function(xhr, status, error) { console.log("error" + xhr.responseText); })
@@ -425,25 +537,32 @@ var fetchEvents = function(mid) {
 }
 
 var addTimeLineEvent = function(idx, feedid, title, body, url, percent) {
-	var h = '<a href="#" id="feed' + idx + '" idx="' + idx + '" feedid="' + feedid + '" rel="tooltip" title="' + body + '" class="feed-event" style="left: ' + percent + '%;"></a>';
+	var t = body;
+	if (title != "" && body != "") {
+		t = title + "-" + body;;
+	}
+	else if (title != "") {
+		t = title;
+	}
+	var h = '<a href="#" id="feed' + idx + '" idx="' + idx + '" feedid="' + feedid + '" rel="tooltip" title="' + t + '" class="feed-event" style="left: ' + percent + '%;"></a>';
 	console.log(h);
 	$("#timeline").append(h);
 }
 
 
 var addMovieImage = function(id, thumbnail, url, name) {
-	//var h = '<div id="movieImage" onClick="openMovie(' + id + ')">' + 
-	var h = '<div id="movieImage">' + 
+	var h = '<div id="movieImage" onClick="openMovie(' + id + ')">' + 
+	//var h = '<div id="movieImage">' + 
 		'<img src="' + thumbnail + '" class="movie" alt="Click to watch" />' +
 		'<div id="movieText"> ' + name + '</div>' + 
 		'<div id="movieTextLinks">' +
 		//'<button class="btn btn-mini" type="button" onClick="viewMovie(' + id + ')">View</button></i>' +
 		//'<button class="btn btn-mini" type="button" onClick="openMovie(' + id + ')">Edit</button></i>' +
-		'<i class="icon-play icon-white" onClick="viewMovie(' + id + ')"></i>' + 
-		'<i class="icon-edit icon-white" onClick="openMovie(' + id + ')"></i>' + 
+		//'<i class="icon-play icon-white" onClick="viewMovie(' + id + ')"></i>' + 
+		//'<i class="icon-edit icon-white" onClick="openMovie(' + id + ')"></i>' + 
 		'</div>' + 
 		'</div>';
-	console.log(thumbnail);
+	//console.log(thumbnail);
 	$("#movies").append(h);
 }
 
@@ -458,8 +577,37 @@ var addFeedEvent = function(title, url, percent) {
 	$("#feeddata").append(h);
 }
 
+var addLinkFlowEvent = function(title, body, url, img, type, percent, start, feedid) {
+        var h = "";
+        if (type == 5) { // text
+                var h = '<div id="item' + feedid + '">' +
+                        '<div id="itemText" start=' + start + '>' +
+                                '<div id="icon"><img src="' + img + '" alt="twitter" width="55" height="55"/></div>' +
+                                '<div id="itemContent">' +
+                                        '<div id="itemTitle">' + title + '</div>' +
+                                        '<div id="itemBody">' + body + '</div>' +
+                                '</div>' +
+                        '</div>' +
+                        "</div>\n";
+        }
+        else {
+                var h = '<div id="item' + feedid + '">' +
+                        '<div id="itemLink" onClick="openUrl(\'' + url + '\')" start=' + start + '>' +
+                                '<div id="icon"><img src="' + img + '" alt="twitter" width="55" height="55"/></div>' +
+                                '<div id="itemContent">' +
+                                        '<div id="itemTitle"> ' + title + '</div>' +
+                                        '<div id="itemBody">' + body + '</div>' +
+                                '</div>' +
+                        '</div>' +
+                        "</div>\n";
+        }
+        $("#feeddata").append(h);
+}
+
+
 var clearFeed = function() {
 	$("#timeline").html("");
+	$("#feeddata").html("");
 }
 
 var clearMovies = function() {
@@ -474,7 +622,8 @@ var logout = function() {
 	console.log("logout");
 	$.getJSON('api.php?do=logout&movieid=' + movieid, function(data) { 
 		enableLogin(data.userid, "");
-		setAlert(data.msg);
+		clearMovies();
+		openMyMovies();
 	})
 	.success(function() { console.log("second success"); })
 	.error(function(xhr, status, error) { console.log("error" + xhr.responseText); })
@@ -484,8 +633,11 @@ var logout = function() {
 var login = function(username, password) {
 	$.post('api.php?do=login',{ "username": username, "password": password },
 		function(data) {
-			setAlert(data.alert + " " + data.msg);
+			if (data.error) {
+				setAlert(data.alert + " " + data.msg);
+			}
 			enableLogin(data.userid, data.username);
+			getUserMovies(0);
 		}, 'json');
 }
 
@@ -499,6 +651,7 @@ var addMovie = function(url, name) {
 			else {
 				movieid = data.movie.movieid;
 				fetchEvents(movieid);
+				getUserMovies(0);
 			}
 		}, 'json');
 }
@@ -564,6 +717,27 @@ var getTimelineTitle = function() {
 	return timelineTitle;
 }
 
+var handleGetTime = function(data) {
+	data.time = popcorn.currentTime();
+	emit("time", data);
+}
+
+function emit(command, data) {
+	console.log("emit" + data);
+	if (!data) {
+		data = {};
+	}
+	data.streamId = streamId;
+	socket.emit(command, data);
+}
+
+var connect = function() {
+	console.log("connecting to " + serverLocation + " streamid:" + streamId);
+	socket = io.connect(serverLocation);
+	socket.emit("join", {'streamId':streamId});
+	socket.on('getTime', handleGetTime);
+}
+
 $(function() {
         params = getParams();
         if (params && params["movieid"]) {
@@ -603,7 +777,9 @@ $(function() {
 			username: $('[name=username]').val(), 
 			password: $('[name=password]').val() }, 
 			function(data) {
-				setAlert(data.alert + " " + data.msg);
+				if (data.error) {
+					setAlert(data.alert + " " + data.msg);
+				}
 				console.log(data.alert + " " + data.msg);
 				enableLogin(data.userid, data.username);
 			}, 'json');
@@ -691,6 +867,7 @@ $(function() {
 		if (popcorn.duration() == 0) {
 			return;
 		}
+		popcorn.pause();
 		timelineTitle = secondsToStr(popcorn.currentTime());
 		var percent = (popcorn.currentTime() / popcorn.duration()) * 100;
 		$("#timelinebar").css("left", percent + "%");
@@ -703,13 +880,45 @@ $(function() {
 		if (popcorn == null) {
 			return;
                 }
+		if (userid == 0) {
+			return;
+		}
 		var currentButtonTime = popcorn.currentTime();
 		var s = secondsToStr(currentButtonTime);
 		$("#addLinkButton").html("Add Link at " + s);
 		timelineTitle = secondsToStr(popcorn.currentTime());
 		var percent = (popcorn.currentTime() / popcorn.duration()) * 100;
 		$("#timelinebar").css("left", percent + "%");
+
+		if (socket) {
+                	var data = {};
+                	if (!data.time) {
+                        	data.time = popcorn.currentTime();
+                	}
+                	if (popcorn.paused()) {
+                        	emit("onPause", data);
+                	}
+                	else {
+                        	emit("onPlay", data);
+                	}
+		}
+		handleFeed(popcorn.currentTime());
         }, 700);
+
+	$("#qrcodediv").click(function(e) {
+		if ($("#qrcode").css("width") == "64px") {
+			$("#qrcode").animate({
+				height: "512",
+				width: "512"
+			}, "fast");
+		}
+		else {
+			$("#qrcode").animate({
+				height: "64",
+				width: "64"
+			}, "fast");
+		}
+	});
 });
 
 </script>
@@ -756,43 +965,29 @@ $(function() {
 		</div>
 	</div>
 
+
+	<!-- <div class="container" style="height:800px;background-color:#00ff00;width:100%;height:1000px"> -->
 	<div class="container" style="position:absolute; left:0; width:100%; height:800px;background-color:#ffFFff">
-		<!-- <button class="btn" onclick="hidePopover(44);">Save</button> -->
-		<!--
-    		<div class="alert" id="apialert">
-    			<button type="button" class="close" data-dismiss="alert"></button>
-    			<strong>Warning!</strong> Best check yo self, you're not looking too good.
-    		</div>
-		-->
-		<div id="videodiv" class="videodiv"> 
-			<div id="video" style="position:relative; padding-top:50px;width:100%;height:480px;background-color:#FFFFFF"></div>
-			<div id="timelinecontainer" style="position:relative; width:70%; margin-left:auto; margin-right:auto;margin-top:10px">
-				<div id="timeline"></div>
-				<div id="timelinebar" style="position:absolute; height:20px;left:100px;width:10px;background-color:#fff0ff; opacity:0.1;"></div>
-				<div id="timelinedisplay" style="position:absolute; height:20px;top:20px;left:100px;width:100px;background-color:#ffffff;">11:11:22</div>
+		<div id="apialert"></div>
+		<div id="viewmovie">
+			<div id="videodiv" class="videodiv" style="position:relative; margin: 43px 310px 10px 0px;background-color:#000000;min-height:600px">
+				<div id="qrcodediv" style="position:absolute;width:100%; text-align:right"></div>
+				<div id="video" style="height:600px;width:100%"></div>
+			
+				<div id="timelinecontainer" style="position:relative; width:70%; margin-left:auto; margin-right:auto;margin-top:10px">
+					<div id="timeline"></div>
+					<div id="timelinebar" style="position:absolute; height:20px;left:100px;width:10px;background-color:#fff0ff; opacity:0.1;"></div>
+					<div id="timelinedisplay" style="position:absolute; height:20px;top:20px;left:100px;width:100px;background-color:#ffffff;">11:11:22</div>
+				</div>
+				<div class="row" style="position:relative; top:40px; left:50px">
+						<button class="btn btn-small" type="button" id="addLinkButton">Add link at 00:00:00</button>
+				</div>
 			</div>
-			<!-- <div style="position:relative; left:0px; top:30px"> -->
-			<div class="row" style="position:relative; top:40px; text-align:right">
-					<button class="btn btn-small" type="button" id="addLinkButton">Add link at 00:00:00</button>
-			</div>
+			<div id="feeddata" style="position:absolute;top:43px;width:300px;height:100%;right:0px;background-color:#000000"></div>
 		</div>
 		<div id="movies">
-			<!--
-			<div id="movieImage" onClick="openMovie(13)">
-				<img src="img/460/thebig.png" class="movie" alt="Click to watch" />
-				<div id="movieText"> The Big Lebowski (Coen, 1998) </div>					
-			</div>
-			<div id="movieImage" onClick="openMovie(24)">
-				<img src="img/460/black.png" class="movie" alt="Click to watch" />
-				<div id="movieText"> The Black Keys - Tighten Up </div>
-			</div>
-			<div id="movieImage" onClick="openMovie(46)">
-				<img src="img/460/armadillo.png" class="movie" alt="Click to watch" />
-				<div id="movieText"> Armadillo (Metz, 2010) </div>
-			</div>
-			-->
+			<!-- filled by javascript -->
 		</div>
-		<div id="apialert"></div>
 	</div>
 
 	<div id="editModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
