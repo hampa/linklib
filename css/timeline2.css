@@ -1,6 +1,9 @@
 	#apialert {
-		position: relative; 
-		top: 20px;
+		position: absolute; 
+		top: 2px;
+		left: 10px;
+		width: 600px;
+		z-index: 2000;
 	}
 	#timeline {
 		position: absolute !important;

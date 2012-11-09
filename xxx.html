@@ -111,7 +111,6 @@ var openMovie = function(id) {
 	fetchEvents(id);
 }
 
-
 var viewMovie = function(movieid) {
 	var id = userid + "x" + movieid;
 	var url = 'movie.html?id=' + id + '&movieid=' + movieid;
@@ -288,6 +287,20 @@ var enableLogin = function(_userid, username) {
 	}
 }
 
+var updateFeeds = function() {
+	clearFeed();
+	var data = feeddata;
+	var duration = popcorn.duration();
+	$.each(data.timefeed, function(i, item) {
+		var p = (item.start / duration) * 100;	
+		//console.log(i + " " + item.title + " " + item.start + " / " + duration);
+		addTimeLineEvent(i, item.feedid, item.title, item.body, item.url, p); 
+		addFeedData(item.title, item.body, item.url, item.img, item.linktype, p, item.start, item.feedid);
+	});
+	hideFeeds();
+	addTooltip();
+}
+
 var loadMovie = function(url) {
 	console.log("loadMovie " + url);
 	// clear any old video stuff
@@ -299,6 +312,8 @@ var loadMovie = function(url) {
 	popcorn.listen("durationchange", function() {
 		console.log("popcorn duration " + popcorn.duration());
 		var duration = popcorn.duration();
+		updateFeeds();
+		/*
 		clearFeed();
 		var data = feeddata;
 		$.each(data.timefeed, function(i, item) {
@@ -309,6 +324,7 @@ var loadMovie = function(url) {
 		});
 		hideFeeds();
 		addTooltip();
+		*/
 	});
 }
 
@@ -319,13 +335,14 @@ var deleteTimeFeed = function() {
 			timefeedid: d.feedid
 		}, function(data) { 
 		console.log("msg: " + data.msg);
-		if (data.alert == "error") {
+		if (data.error) {
 			setAlert(data.msg);
 		}
 		else {
 			console.log("update feed" + data);
-			removeTimeLineEvent(d.index);	
-			addTooltip();
+			//removeTimeLineEvent(d.index);	
+			//addTooltip();
+			refreshEvents();
 		}
 	});
 }
@@ -343,10 +360,11 @@ var updateTimeFeed = function() {
 			href: d.url
 		}, function(data) { 
 			console.log("msg: " + data.msg);
-			if (data.alert == "error") {
+			if (data.error) {
 				setAlert(data.msg);
 			}
 			else {
+				/*
 				console.log("update feed" + data);
 				removeTimeLineEvent(d.index);	
 				var f = feeddata.timefeed[d.index];
@@ -358,6 +376,8 @@ var updateTimeFeed = function() {
 				addTimeLineEvent(d.index, d.feedid, d.title, d.body, d.url, d.percent); 
 				
 				addTooltip();
+				*/
+				refreshEvents();
 			}
 	});
 }
@@ -367,10 +387,11 @@ var createTimeFeed = function() {
 	$("#timelinebar").popover('hide');
 	console.log("createTimeFeed text: " + text + " movieid: " + movieid + " currentTime:" + currentTime);
 	$.post('api.php?do=create_time_feed&movieid=' + movieid, { text: text, start: currentTime }, function(data) { 
-		if (data.alert == "error") {
+		if (data.error) {
 			setAlert(data.msg);
 		}
 		else {
+			/*
 			var item = data.timefeed;
 			console.log(item.title);
 			var length = feeddata.timefeed.length;
@@ -379,6 +400,8 @@ var createTimeFeed = function() {
 			var p = (item.start / duration) * 100;	
 			addTimeLineEvent(length, item.feedid, item.title, item.body, item.url, p); 
 			addTooltip();
+			*/
+			refreshEvents();
 		}
 	}, "json")
 	.success(function() { console.log("second success"); })
@@ -475,6 +498,17 @@ var getUserMovies = function(userid) {
 	.complete(function() { 
 		$("#movies").fadeIn();
 	});
+}
+
+var refreshEvents = function() {
+	console.log("refreshEvents for movie" + movieid);
+	$.getJSON('api.php?do=movie_to_json&sort=desc&movieid=' + movieid, function(data) { 
+		feeddata = data;
+		updateFeeds();		
+	})
+	.success(function() { console.log("second success"); })
+	.error(function(xhr, status, error) { console.log("error" + xhr.responseText); })
+	.complete(function() { console.log("complete"); });
 }
 
 var fetchEvents = function(mid) {
@@ -581,7 +615,8 @@ var logout = function() {
 	console.log("logout");
 	$.getJSON('api.php?do=logout&movieid=' + movieid, function(data) { 
 		enableLogin(data.userid, "");
-		setAlert(data.msg);
+		clearMovies();
+		openMyMovies();
 	})
 	.success(function() { console.log("second success"); })
 	.error(function(xhr, status, error) { console.log("error" + xhr.responseText); })
@@ -591,8 +626,11 @@ var logout = function() {
 var login = function(username, password) {
 	$.post('api.php?do=login',{ "username": username, "password": password },
 		function(data) {
-			setAlert(data.alert + " " + data.msg);
+			if (data.error) {
+				setAlert(data.alert + " " + data.msg);
+			}
 			enableLogin(data.userid, data.username);
+			getUserMovies(0);
 		}, 'json');
 }
 
@@ -732,7 +770,9 @@ $(function() {
 			username: $('[name=username]').val(), 
 			password: $('[name=password]').val() }, 
 			function(data) {
-				setAlert(data.alert + " " + data.msg);
+				if (data.error) {
+					setAlert(data.alert + " " + data.msg);
+				}
 				console.log(data.alert + " " + data.msg);
 				enableLogin(data.userid, data.username);
 			}, 'json');
@@ -820,6 +860,7 @@ $(function() {
 		if (popcorn.duration() == 0) {
 			return;
 		}
+		popcorn.pause();
 		timelineTitle = secondsToStr(popcorn.currentTime());
 		var percent = (popcorn.currentTime() / popcorn.duration()) * 100;
 		$("#timelinebar").css("left", percent + "%");
@@ -832,6 +873,9 @@ $(function() {
 		if (popcorn == null) {
 			return;
                 }
+		if (userid == 0) {
+			return;
+		}
 		var currentButtonTime = popcorn.currentTime();
 		var s = secondsToStr(currentButtonTime);
 		$("#addLinkButton").html("Add Link at " + s);
@@ -919,7 +963,7 @@ $(function() {
 	<div class="container" style="position:absolute; left:0; width:100%; height:800px;background-color:#ffFFff">
 		<div id="apialert"></div>
 		<div id="viewmovie">
-			<div id="videodiv" class="videodiv" style="position:relative; margin: 40px 310px 10px 0px;background-color:#000000;min-height:600px">
+			<div id="videodiv" class="videodiv" style="position:relative; margin: 43px 310px 10px 0px;background-color:#000000;min-height:600px">
 				<div id="qrcodediv" style="position:absolute;width:100%; text-align:right"></div>
 				<div id="video" style="height:600px;width:100%"></div>
 			
@@ -932,7 +976,7 @@ $(function() {
 						<button class="btn btn-small" type="button" id="addLinkButton">Add link at 00:00:00</button>
 				</div>
 			</div>
-			<div id="feeddata" style="position:absolute;top:43px;width:300px;height:100%;right:0px;background-color:#ff0000"></div>
+			<div id="feeddata" style="position:absolute;top:43px;width:300px;height:100%;right:0px;background-color:#000000"></div>
 		</div>
 		<div id="movies">
 			<!-- filled by javascript -->
