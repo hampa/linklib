@@ -16,7 +16,7 @@
 	margin-top:70px;
 	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", sans-serif;
 	font-weight: 300;
-	color:white;
+	color:black;
 	font-size: 20px; 
 	line-height: 27px;
 }
@@ -54,6 +54,19 @@
 	}
 
 #movies {
+	font-family: "Helvetica Neue", Helvetica, Arial, Verdana, sans-serif;
+	font-weight: 100;
+	font-size: 35px; 
+	width:1024px;
+	height:1000px;
+	margin:auto;
+	margin-top: 60px;
+	color:white;
+	text-align: center;
+	line-height: 300px;
+}
+
+#demomovies {
 	font-family: "Helvetica Neue", Helvetica, Arial, Verdana, sans-serif;
 	font-weight: 100;
 	font-size: 35px; 

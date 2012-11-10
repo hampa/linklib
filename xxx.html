@@ -27,7 +27,7 @@ var feeddata = null;
 var timelineTitle = 0;
 var currentTime = 0;
 var serverLocation = 'http://linkontrol.toribash.com:1337';	
-var streamId = "someStreamId";
+var streamId = "sid";
 
 $(document).ajaxError(function(e, xhr, settings, exception) {
 	console.log('error in: ' + settings.url + ' \\n'+'error:\\n' + exception);
@@ -38,7 +38,7 @@ var openUrl = function(url) {
 }
 
 var setHeaderName = function(s) {
-	console.log("setHeaderName" + s);
+	console.log("setHeaderName" + s + " (" + streamId + ")");
 	$("#headername").html(s);
 }
 
@@ -99,12 +99,13 @@ var addQrCode = function(id) {
 	console.log("addQrCode" + id);
 	$("#qrcodediv").html(
 			'<img id="qrcode" src="http://chart.apis.google.com/chart?chs=512x512&cht=qr&chld=L|0&chl=http%3A%2F%2Fwww.linkontrol.com%2Fremote.php%3Fid%3D' 
-			+ id + '" alt="Get links in your mobile">');  // widthHeight="64" widthHeight="64"/>');
+			+ id + '" alt="Get links in your mobile (' + id + ')">');  // widthHeight="64" widthHeight="64"/>');
 	$("#qrcode").css("width", "64px");
 }
 
 var openMyMovies = function() {
 	$("#viewmovie").fadeOut()
+	$("#demomovies").fadeOut();
 	if (popcorn) {
 		popcorn.pause();
 	}
@@ -114,8 +115,15 @@ var openMyMovies = function() {
 
 var openMovie = function(id) {
 	$("#movies").fadeOut();
+	$("#demomovies").fadeOut();
 	$("#viewmovie").fadeIn();
 	fetchEvents(id);
+}
+
+var openDemoMovies = function() {
+	$("#movies").fadeOut();
+	$("#viewmovie").fadeOut();
+	$("#demomovies").fadeIn();
 }
 
 var viewMovie = function(movieid) {
@@ -283,12 +291,14 @@ var enableLogin = function(_userid, username) {
 	if (userid) {
 		$("#loginbar").hide();
 		$("#logoutbar").show();
+		$("#addLinkButton").show();
 		$("#topusername").html(username);
 		loggedin = true;
 	}
 	else {
 		$("#loginbar").show();
 		$("#logoutbar").hide();
+		$("#addLinkButton").hide();
 		$("#topusername").html("");
 		loggedin = false;
 	}
@@ -534,7 +544,6 @@ var fetchEvents = function(mid) {
 	console.log("fetching events for movie" + movieid);
 
 	$.getJSON('api.php?do=movie_to_json&sort=desc&movieid=' + movieid, function(data) { 
-		//addFeedEvent("a title", "http://www.wut.com", Math.floor((Math.random() * 100) + 1));
 		feeddata = data;
 		console.log(data.movie);
 		
@@ -542,7 +551,7 @@ var fetchEvents = function(mid) {
 		if (data.movie && data.movie.name) {
 			setHeaderName(data.movie.name);
 		}
-		streamId = userid;
+		streamId = data.movie.sessionid;
 		clearFeed();
 		loadMovie(data.movie.url);
 		addQrCode(userid);
@@ -640,7 +649,7 @@ var logout = function() {
 	$.getJSON('api.php?do=logout&movieid=' + movieid, function(data) { 
 		enableLogin(data.userid, "");
 		clearMovies();
-		openMyMovies();
+		openDemoMovies();
 	})
 	.success(function() { console.log("second success"); })
 	.error(function(xhr, status, error) { console.log("error" + xhr.responseText); })
@@ -654,7 +663,7 @@ var login = function(username, password) {
 				setAlert(data.alert + " " + data.msg);
 			}
 			enableLogin(data.userid, data.username);
-			getUserMovies(0);
+			openMyMovies();
 		}, 'json');
 }
 
@@ -755,14 +764,14 @@ var connect = function() {
 }
 
 $(function() {
+	enableLogin(0, "");
+	openDemoMovies();
+
         params = getParams();
         if (params && params["movieid"]) {
                 movieid = params["movieid"];
 		fetchEvents(movieid);
         }
-	else {
-		openMyMovies();
-	}
 
         var onTooltipUpdate = function(tooltip, x, y) {
                 console.log(tooltip);
@@ -828,7 +837,7 @@ $(function() {
 
 	$("#timeline").click(function(e) {
 		if (loggedin == false) {
-			setAlert("Please sign in first");
+			console.log("Please sign in first");
 			return;
 		}	
 		//var posX = $(this).position().left;
@@ -877,7 +886,7 @@ $(function() {
 			return;
                 }
 		if (loggedin == false) {
-			setAlert("Please sign in first");
+			console.log("Please sign in first");
 			return;
 		}
 		if (popcorn.duration() == 0) {
@@ -992,7 +1001,7 @@ $(function() {
 	<!-- <div class="container" style="height:800px;background-color:#00ff00;width:100%;height:1000px"> -->
 	<div class="container" style="position:absolute; left:0; width:100%; height:800px;background-color:#ffFFff">
 		<div id="apialert"></div>
-		<div id="viewmovie">
+		<div id="viewmovie" style="display:none">
 			<div id="videodiv" class="videodiv" style="position:relative; margin: 43px 310px 10px 0px;background-color:#000000;min-height:600px">
 				<div id="qrcodediv" style="position:absolute;width:100%; text-align:right"></div>
 				<div id="video" style="height:600px;width:100%"></div>
@@ -1008,8 +1017,62 @@ $(function() {
 			</div>
 			<div id="feeddata" style="position:absolute;top:43px;width:300px;height:100%;right:0px;background-color:#000000"></div>
 		</div>
-		<div id="movies">
+		<div id="movies" style="display: 'none'">
 			<!-- filled by javascript -->
+		</div>
+		<div id="demomovies">
+			<div id="movieImage" onClick="openMovie(13)">
+				<img src="img/460/thebig.png" class="movie" alt="Click to watch" />
+				<div id="movieText"> The Big Lebowski (Coen, 1998) </div>					
+			</div>
+			<div id="movieImage" onClick="openMovie(24)">
+				<img src="img/460/black.png" class="movie" alt="Click to watch" />
+				<div id="movieText"> The Black Keys - Tighten Up </div>
+			</div>
+			<div id="movieImage" onClick="openMovie(46)">
+				<img src="img/460/armadillo.png" class="movie" alt="Click to watch" />
+				<div id="movieText"> Armadillo (Metz, 2010) </div>
+			</div>
+			<div id="movieImage" onClick="openMovie(55)">
+				<img src="img/460/merkely.png" class="movie" alt="Click to watch" />
+				<div id="movieText"> TED Talk Popcorn (Merkely, 2012) </div>					
+			</div>
+			<div id="movieImage" onClick="openMovie(16)">
+				<img src="img/460/madmen.png" class="movie" alt="Click to watch" />
+				<div id="movieText"> Mad Men S04E20 (Weiner, 2011) </div>					
+			</div>
+			<div id="movieImage" onClick="openMovie(18)">
+				<img src="img/460/top100.png" class="movie" alt="Click to watch" />
+				<div id="movieText"> 100 Greatest Hits of YouTube </div>
+			</div>
+			<div id="movieImage" onClick="openMovie(50)">
+				<img src="img/460/indiegamethemovie2.png" class="movie" alt="Click to watch" />
+				<div id="movieText"> Indie Game: The Movie (Pajot & Swirsky, 2012)</div>					
+			</div>
+			<div id="movieImage" onClick="openMovie(44)">
+				<img src="img/460/mammasgata.png" class="movie" alt="" />
+				<div id="movieText"> Promoe feat Timbuktu "Mamma's Gata" (2009) </div>
+			</div>
+			<div id="movieImage" onClick="openMovie(53)">
+				<img src="img/460/businesscanvas.png" class="movie" alt="" />
+				<div id="movieText"> Business Model Generation (Osterwalder, 2011)</div>
+			</div>
+			<div id="movieImage" onClick="openMovie(54)">
+				<img src="img/460/bigbird.png" class="movie" alt="" />
+				<div id="movieText"> Big Bird Presidential debate 2012 </div>
+			</div>
+			<div id="movieImage" onClick="openMovie(68)">
+				<img src="img/460/palme.png" class="movie" alt="" />
+				<div id="movieText"> Palme Official Trailer </div>
+			</div>
+			<div id="movieImage" onClick="openMovie(70)">
+				<img src="img/460/whysendlinkstophones.png" class="movie" alt="" />
+				<div id="movieText"> Why send links to phones</div>
+			</div>
+			<div id="movieImage" onClick="openMovie(1)">
+				<img src="img/460/tpbafk.png" class="movie" alt="Click to watch" />
+				<div id="movieText"> TPB AFK (Klose, 2013) </div>					
+			</div>
 		</div>
 	</div>
 
