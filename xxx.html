@@ -17,6 +17,7 @@
 var socket = null;
 var json = null;
 var userid = 0
+var timeLinePopoverVisible = false;
 //var username = "";
 var loggedin = false;
 var movieid = 0;
@@ -34,6 +35,11 @@ $(document).ajaxError(function(e, xhr, settings, exception) {
 
 var openUrl = function(url) {
 	window.open(url, "_blank");
+}
+
+var setHeaderName = function(s) {
+	console.log("setHeaderName" + s);
+	$("#headername").html(s);
 }
 
 var timeToSeconds = function(str) {
@@ -103,6 +109,7 @@ var openMyMovies = function() {
 		popcorn.pause();
 	}
 	getUserMovies(0);
+	setHeaderName("linklib.org");
 }
 
 var openMovie = function(id) {
@@ -382,9 +389,19 @@ var updateTimeFeed = function() {
 	});
 }
 
+var hideTimeLinePopover = function() {
+	timeLinePopoverVisible = false;
+	$("#timelinebar").popover('hide');
+}
+
+var showTimeLinePopover = function() {
+	timeLinePopoverVisible = true;
+	$("#timelinebar").popover('show');
+}
+
 var createTimeFeed = function() {
 	var text = $('[name=addlinktext]').val();
-	$("#timelinebar").popover('hide');
+	hideTimeLinePopover();
 	console.log("createTimeFeed text: " + text + " movieid: " + movieid + " currentTime:" + currentTime);
 	$.post('api.php?do=create_time_feed&movieid=' + movieid, { text: text, start: currentTime }, function(data) { 
 		if (data.error) {
@@ -523,7 +540,7 @@ var fetchEvents = function(mid) {
 		
 		enableLogin(data.userid, data.username);
 		if (data.movie && data.movie.name) {
-			$("#headername").html(data.movie.name);
+			setHeaderName(data.movie.name);
 		}
 		streamId = userid;
 		clearFeed();
@@ -700,7 +717,6 @@ function getParams() {
 }
 
 var openEditFeed = function() {
-	//$("#editfeed").popover('show');
 	$("#editModal").modal('show');
 	$("#linktitle").focus();
 }
@@ -807,7 +823,7 @@ $(function() {
         });
 
 	$(".container").click(function(e) {
-		$("#timelinebar").popover('hide');
+		hideTimeLinePopover();	
 	});
 
 	$("#timeline").click(function(e) {
@@ -840,7 +856,7 @@ $(function() {
 			timelineTitle = t.s + "s";
 		}
 		e.stopPropagation();
-		$("#timelinebar").popover('show');
+		showTimeLinePopover();
 		$("#addlink").focus();
 	});
 
@@ -871,7 +887,8 @@ $(function() {
 		timelineTitle = secondsToStr(popcorn.currentTime());
 		var percent = (popcorn.currentTime() / popcorn.duration()) * 100;
 		$("#timelinebar").css("left", percent + "%");
-		$("#timelinebar").popover('show');
+		//$("#timelinebar").popover('show');
+		showTimeLinePopover();
 		$("#addlink").focus();
 		e.stopPropagation();
 	});
@@ -883,12 +900,18 @@ $(function() {
 		if (userid == 0) {
 			return;
 		}
+		if (popcorn.duration() == 0) {
+			return;
+		}
 		var currentButtonTime = popcorn.currentTime();
 		var s = secondsToStr(currentButtonTime);
 		$("#addLinkButton").html("Add Link at " + s);
 		timelineTitle = secondsToStr(popcorn.currentTime());
-		var percent = (popcorn.currentTime() / popcorn.duration()) * 100;
-		$("#timelinebar").css("left", percent + "%");
+
+		if (timeLinePopoverVisible == false) {
+			var percent = (popcorn.currentTime() / popcorn.duration()) * 100;
+			$("#timelinebar").css("left", percent + "%");
+		}
 
 		if (socket) {
                 	var data = {};
