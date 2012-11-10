@@ -27,7 +27,8 @@ var feeddata = null;
 var timelineTitle = 0;
 var currentTime = 0;
 var createEventTime = 0;
-var serverLocation = 'http://linkontrol.toribash.com:1337';	
+//var serverLocation = 'http://linkontrol.toribash.com:1337';	
+var serverLocation = 'http://23.20.12.188:8080';	
 var streamId = "sid";
 
 $(document).ajaxError(function(e, xhr, settings, exception) {
@@ -476,7 +477,7 @@ var addTooltip = function() {
 			$('#linkimage2').attr('src', 'Icons/' + data.images[1]);		
 			$('#linkimageradio2').val(data.images[1]);
 		}
-		$('#optionsRadio' + data.linktype).attr('checked', 'checked');
+		$('#optionsRadios' + data.linktype).attr('checked', true);
 
 		console.log(data.images[0] + " " + data.images[1]);
 		openEditFeed();

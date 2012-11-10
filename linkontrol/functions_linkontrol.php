@@ -425,12 +425,15 @@ else if ($_GET['do'] == 'movie_to_json') {
 		$movieid = intval($_GET['movieid']);
 	}
 	//$sessionid = mysql_real_escape_string($_GET['sessionid']);
+	/*
 	if ($userid == 0) {
 		$sessionid = substr(base_convert(md5($movieid + time()), 10, 36), 1, 5);
 	}
 	else {
 		$sessionid = $userid; //mysql_real_escape_string($_GET['sessionid']);
 	}
+	*/
+	$sessionid = substr(base_convert(md5($movieid + time()), 10, 36), 1, 5);
 	/*
 	if ($sessionid == '') {
 		$sessionid = $linkontrol->createSession($movieid);
