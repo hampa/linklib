@@ -515,10 +515,14 @@ var getUserMovies = function(userid) {
 	$.getJSON('api.php?do=get_user_movies&userid=' + userid, function(data) { 
 		enableLogin(data.userid, data.username);
 		clearMovies();
+		console.log("length" + data.movies.length);
 		$.each(data.movies, function(i, item) {
 			console.log(item);
 			addMovieImage(item.movieid, item.thumbnail, item.url, item.name); 
 		});
+		if (data.movies.length == 0) {
+			$("#movies").append('<p class="defaulttext">Click "Add Movie" to start creating feeds</p>');
+		}
 	})
 	.success(function() { console.log("second success"); })
 	.error(function(xhr, status, error) { console.log("error" + xhr.responseText); })
@@ -905,7 +909,7 @@ $(function() {
         setInterval(function () {
 		if (popcorn == null) {
 			return;
-		}
+                }
 		if (popcorn.duration() == 0) {
 			return;
 		}
@@ -1066,12 +1070,6 @@ $(function() {
 				<img src="img/460/whysendlinkstophones.png" class="movie" alt="" />
 				<div id="movieText"> Why send links to phones</div>
 			</div>
-			<!--
-			<div id="movieImage" onClick="openMovie(1)">
-				<img src="img/460/tpbafk.png" class="movie" alt="Click to watch" />
-				<div id="movieText"> TPB AFK (Klose, 2013) </div>					
-			</div>
-			-->
 		</div>
 	</div>
 
