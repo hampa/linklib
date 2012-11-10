@@ -554,7 +554,7 @@ var fetchEvents = function(mid) {
 		streamId = data.movie.sessionid;
 		clearFeed();
 		loadMovie(data.movie.url);
-		addQrCode(userid);
+		addQrCode(streamId);
 		connect();
 	})
 	.success(function() { console.log("second success"); })
@@ -904,9 +904,6 @@ $(function() {
 
         setInterval(function () {
 		if (popcorn == null) {
-			return;
-                }
-		if (userid == 0) {
 			return;
 		}
 		if (popcorn.duration() == 0) {
