@@ -26,6 +26,7 @@ var lastclicked = null;
 var feeddata = null;
 var timelineTitle = 0;
 var currentTime = 0;
+var createEventTime = 0;
 var serverLocation = 'http://linkontrol.toribash.com:1337';	
 var streamId = "sid";
 
@@ -412,8 +413,8 @@ var showTimeLinePopover = function() {
 var createTimeFeed = function() {
 	var text = $('[name=addlinktext]').val();
 	hideTimeLinePopover();
-	console.log("createTimeFeed text: " + text + " movieid: " + movieid + " currentTime:" + currentTime);
-	$.post('api.php?do=create_time_feed&movieid=' + movieid, { text: text, start: currentTime }, function(data) { 
+	console.log("createTimeFeed text: " + text + " movieid: " + movieid + " createEventTime:" + createEventTime);
+	$.post('api.php?do=create_time_feed&movieid=' + movieid, { text: text, start: createEventTime }, function(data) { 
 		if (data.error) {
 			setAlert(data.msg);
 		}
@@ -454,7 +455,6 @@ var addTooltip = function() {
 
 	$("#timeline a").click(function(e) {
 		if (loggedin == false) {
-			setAlert("Please sign in first");
 			return;
 		}	
 		lastclicked = $(this);
@@ -469,7 +469,7 @@ var addTooltip = function() {
 		$('[name=linkindex]').val(idx);
 		$('[name=linkfeedid]').val(data.feedid);
 		$('[name=url]').val(data.url);
-		$('[name=linktype]')[data.linktype].checked = true;
+		//$('[name=linktype]')[data.linktype].checked = true;
 		$('#linkimage1').attr('src', 'Icons/' + data.images[0]);	
 		$('#linkimageradio1').val(data.images[0]);
 		if (data.images[1] != "") {
@@ -491,7 +491,6 @@ var addTooltip = function() {
 				$("#timelinedisplay").fadeOut(300)
 			});
 
-	var currentTimeLineX = 0;
 	$("#timeline").mousemove(function(e) {
 		//var posX = $(this).position().left;
 		var posX = $(this).offset().left;
@@ -504,7 +503,6 @@ var addTooltip = function() {
 		var seconds = normalized * duration;
 		currentTime = seconds;
 		var t = secondsToTime(seconds);
-		currentTimeLineX = weightedAverage(currentTimeLineX, offsetX, 10);
 		$("#timelinedisplay").css("left", offsetX + "px");
 		$("#timelinedisplay").html(secondsToStr(currentTime));
 	});
@@ -856,7 +854,7 @@ $(function() {
 		}
 		var normalized = (offsetX / width);
 		var seconds = normalized * duration;
-		currentTime = seconds;
+		createEventTime = seconds;
 		var t = secondsToTime(seconds);
 		$("#timelinebar").css("left", offsetX + "px");
 		if (t.h > 0) {
@@ -897,10 +895,10 @@ $(function() {
 			return;
 		}
 		popcorn.pause();
+		createEventTime = popcorn.currentTime();
 		timelineTitle = secondsToStr(popcorn.currentTime());
 		var percent = (popcorn.currentTime() / popcorn.duration()) * 100;
 		$("#timelinebar").css("left", percent + "%");
-		//$("#timelinebar").popover('show');
 		showTimeLinePopover();
 		$("#addlink").focus();
 		e.stopPropagation();
@@ -1007,7 +1005,7 @@ $(function() {
 				<div id="qrcodediv" style="position:absolute;width:100%; text-align:right"></div>
 				<div id="video" style="height:600px;width:100%"></div>
 			
-				<div id="timelinecontainer" style="position:relative; width:70%; margin-left:auto; margin-right:auto;margin-top:10px">
+				<div id="timelinecontainer" style="position:relative; width:70%; margin-left:auto; margin-right:auto;margin-top:15px">
 					<div id="timeline"></div>
 					<div id="timelinebar" style="position:absolute; height:20px;left:100px;width:10px;background-color:#fff0ff; opacity:0.1;"></div>
 					<div id="timelinedisplay" style="position:absolute; height:20px;top:20px;left:100px;width:100px;background-color:#ffffff;">11:11:22</div>

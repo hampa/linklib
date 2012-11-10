@@ -375,33 +375,34 @@ else if ($_GET['do'] == 'create_time_feed') {
 		$title = $arr['title'];
 		// content is too massive
 		//$body = $arr['content'];
+		$found = false;
+		if ($handle = opendir('Icons')) {
+			/* This is the correct way to loop over the directory. */
+			while (false !== ($entry = readdir($handle))) {
+				$x = explode(".", $entry);
+				$match = $x[0];
+				if ($match == $host) {
+					$images[1] = $entry;
+					$img = $entry;
+					$found = true;
+					break;
+				}
+			}
+			closedir($handle);
+		}
+
+		if ($found == false) {
+			$icon = $linkontrol->fetchTouchIcon($url);
+			if ($icon != "") {
+				$images[1] = $icon;
+				$img = $icon;
+			}
+		}
 	}	
 	else {
 		$title = $text;
 		$linktype = linkontrol::TEXT; 
-	}
-	$found = false;
-	if ($handle = opendir('Icons')) {
-    		/* This is the correct way to loop over the directory. */
-		while (false !== ($entry = readdir($handle))) {
-			$x = explode(".", $entry);
-			$match = $x[0];
-			if ($match == $host) {
-				$images[1] = $entry;
-				$img = $entry;
-				$found = true;
-				break;
-			}
-		}
-		closedir($handle);
-	}
-
-	if ($found == false) {
-		$icon = $linkontrol->fetchTouchIcon($url);
-		if ($icon != "") {
-			$images[1] = $icon;
-			$img = $icon;
-		}
+		$images[0] = "ll.png";
 	}
 
 	$feedid = $linkontrol->addTimeFeed($movieid, $start, 0, $title, $img, $body, $url, $linktype);

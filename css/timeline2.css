@@ -25,7 +25,7 @@
 		width: 4px; 
 		font-size: 20px !important; 
 		z-index: 1000; 
-		border-right:1px solid white;
+		border-right:2px solid white;
 		cursor: pointer;
 	}
 	#tooltip {
