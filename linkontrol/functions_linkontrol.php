@@ -18,6 +18,7 @@ if ($_GET['do'] == 'scrape') {
 	if ($_REQUEST['url'] == '') {
 		$msg = "url is missing";
 		$alert = "error";
+		$error = 1;
 		return;
 	}
 	$url = $_REQUEST['url'];
@@ -62,6 +63,7 @@ else if ($_GET['do'] == "password_reminder") {
 	if ($_REQUEST['email'] == '') {
 		$msg = "Email cannot be empty";
 		$alert = "error";
+		$error = 1;
 		return;
 	}	
 	if ($fgmembersite->EmailResetPasswordLink()) {
@@ -71,17 +73,20 @@ else if ($_GET['do'] == "password_reminder") {
 	else {
 		$msg = $fgmembersite->GetErrorMessage();
 		$alert = "error";
+		$error = 1;
 	}
 }
 else if ($_GET['do'] == "change_password") {
 	if ($_REQUEST['oldpwd'] == '') {
 		$msg = "Old password cannot be empty";
 		$alert = "error";
+		$error = 1;
 		return;
 	}
 	if ($_REQUEST['newpwd'] == '') {
 		$msg = "New Password cannot be empty";
 		$alert = "error";
+		$error = 1;
 		return;
 	}
 	if ($fgmembersite->ChangePassword()) {
@@ -91,6 +96,7 @@ else if ($_GET['do'] == "change_password") {
 	else {
 		$msg = $fgmembersite->GetErrorMessage();
 		$alert = "error";
+		$error = 1;
 	}
 }
 else if ($_GET['do'] == "register") {
@@ -106,6 +112,7 @@ else if ($_GET['do'] == 'add_time_feed') {
 	if ($userid == 0) {
 		$msg = "You need to be logged for this";
 		$alert = "error";
+		$error = 1;
 		return;
 	}
 	$movieid = intval($_REQUEST['movieid']);
@@ -113,6 +120,7 @@ else if ($_GET['do'] == 'add_time_feed') {
 	if ($arr['userid'] != $userid) {
 		$msg = "You can only add time feeds to your movie";
 		$alert = "error";
+		$error = 1;
 		return;
 	}
 	$start = intval($_REQUEST['start']);
@@ -141,17 +149,20 @@ else if ($_GET['do'] == 'update_time_feed') {
 	if ($userid == 0) {
 		$msg = "You need to be logged for this";
 		$alert = "error";
+		$error = 1;
 		return;
 	}
 	$arr = $linkontrol->getTimeFeed($feedid);
 	if ($arr['userid'] != $userid) {
 		$msg = "You can only update your timefeeds";
 		$alert = "error";
+		$error = 1;
 		return;
 	}
 	if ($feedid == 0) {
 		$msg = "Feedid cannot be 0 or empty";
 		$alert = "error";
+		$error = 1;
 		return;
 	}
 	/*
@@ -172,6 +183,7 @@ else if ($_GET['do'] == 'delete_time_feed') {
 	if ($userid == 0) {
 		$msg = "You need to be logged for this";
 		$alert = "error";
+		$error = 1;
 		return;
 	}
 	$timefeedid = intval($_REQUEST['timefeedid']);
@@ -180,6 +192,7 @@ else if ($_GET['do'] == 'delete_time_feed') {
 	if ($arr['userid'] != $userid) {
 		$msg = "You can only delete your timefeeds";
 		$alert = "error";
+		$error = 1;
 		return;
 	}
 
@@ -227,27 +240,32 @@ else if ($_GET['do'] == 'update_movie') {
 	if ($userid == 0) {
 		$msg = "You need to be logged in to update a movie";
 		$alert = "error";
+		$error = 1;
 		return;
 	}
 	$arr = $linkontrol->getMovie($movieid);
 	if ($arr['userid'] != $userid) {
 		$msg = "You cannot edit other peoples movies";
 		$alert = "error";
+		$error = 1;
 		return;
 	}
 	if ($movieid == 0) {
 		$msg = "movieid cannot be 0";
 		$alert = "warning";
+		$error = 1;
 		return;
 	}
 	if ($name == '') {
 		$msg = "Name cannot be empty";
 		$alert = "warning";
+		$error = 1;
 		return;
 	}
 	if ($href == '') {
 		$msg = "href cannot be empty";
 		$alert = "warning";
+		$error = 1;
 		return;
 	}
 
@@ -255,6 +273,7 @@ else if ($_GET['do'] == 'update_movie') {
 	if ($rows == 0) {
 		$msg = "unable to find movie $movieid";
 		$alert = "error";
+		$error = 1;
 		return;
 	}
 	$msg = "Movie was updated";
@@ -263,6 +282,7 @@ else if ($_GET['do'] == 'delete_movie') {
 	if ($userid == 0) {
 		$msg = "You need to be logged for this";
 		$alert = "error";
+		$error = 1;
 		return;
 	}
 	$movieid = intval($_REQUEST['movieid']);
@@ -270,6 +290,7 @@ else if ($_GET['do'] == 'delete_movie') {
 	if ($arr['userid'] != $userid) {
 		$msg = "You cannot delete other peoples movies";
 		$alert = "error";
+		$error = 1;
 		return;
 	}
 
@@ -317,11 +338,13 @@ else if ($_GET['do'] == 'create_time_feed') {
 	if (!isset($arr)) {
 		$msg = "could not find movie";
 		$alert = "error";
+		$error = 1;
 		return;
 	}
 	if ($text == "") {
 		$msg = "text cannot be empty";
 		$alert = "error";
+		$error = 1;
 		return;
 	}
 	$images = array();
@@ -331,7 +354,7 @@ else if ($_GET['do'] == 'create_time_feed') {
 	$url = "";
 	$linktype = 0;
 	$title = "";
-	if (preg_match('@^(?:http://)?([^/]+)(.*)@i', $text, $matches)) {
+	if (preg_match('/^http.*/', $text) && preg_match('@^(?:http://)?([^/]+)(.*)@i', $text, $matches)) {
 		//print_r($matches);
 		$host = $matches[1];
 		if (preg_match('/[^.]+\.[^.]+$/', $host, $matches)) {
@@ -400,17 +423,26 @@ else if ($_GET['do'] == 'movie_to_json') {
 	else {
 		$movieid = intval($_GET['movieid']);
 	}
-	$sessionid = mysql_real_escape_string($_GET['sessionid']);
+	//$sessionid = mysql_real_escape_string($_GET['sessionid']);
+	if ($userid == 0) {
+		$sessionid = substr(base_convert(md5($movieid + time()), 10, 36), 1, 5);
+	}
+	else {
+		$sessionid = $userid; //mysql_real_escape_string($_GET['sessionid']);
+	}
+	/*
 	if ($sessionid == '') {
 		$sessionid = $linkontrol->createSession($movieid);
 	}
 	else {
 		$linkontrol->reuseSession($sessionid, $movieid);
 	}
+	*/
+	$linkontrol->reuseSession($sessionid, $movieid);
 
 	$arr = $linkontrol->getMovie($movieid);
 	//print_r($arr);
-	$json_movie = array("name" => $arr['name'], "movieid" => $arr['movieid'], "url" => $arr['href']);
+	$json_movie = array("name" => $arr['name'], "movieid" => $arr['movieid'], "url" => $arr['href'], "sessionid" => $sessionid);
 	$json_feed = array();
         $arr = $linkontrol->getTimeFeeds($movieid, $_REQUEST['sort']);
         if (isset($arr)) {
