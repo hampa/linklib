@@ -354,7 +354,7 @@ else if ($_GET['do'] == 'create_time_feed') {
 	$url = "";
 	$linktype = 0;
 	$title = "";
-	if (preg_match('@^(?:http://)?([^/]+)(.*)@i', $text, $matches)) {
+	if (preg_match('/^http.*/', $text) && preg_match('@^(?:http://)?([^/]+)(.*)@i', $text, $matches)) {
 		//print_r($matches);
 		$host = $matches[1];
 		if (preg_match('/[^.]+\.[^.]+$/', $host, $matches)) {

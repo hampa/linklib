@@ -293,7 +293,7 @@ var updateFeeds = function() {
 	var duration = popcorn.duration();
 	$.each(data.timefeed, function(i, item) {
 		var p = (item.start / duration) * 100;	
-		//console.log(i + " " + item.title + " " + item.start + " / " + duration);
+		console.log(i + " " + item.title + " " + item.start + " / " + duration);
 		addTimeLineEvent(i, item.feedid, item.title, item.body, item.url, p); 
 		addFeedData(item.title, item.body, item.url, item.img, item.linktype, p, item.start, item.feedid);
 	});
@@ -537,7 +537,14 @@ var fetchEvents = function(mid) {
 }
 
 var addTimeLineEvent = function(idx, feedid, title, body, url, percent) {
-	var h = '<a href="#" id="feed' + idx + '" idx="' + idx + '" feedid="' + feedid + '" rel="tooltip" title="' + body + '" class="feed-event" style="left: ' + percent + '%;"></a>';
+	var t = body;
+	if (title != "" && body != "") {
+		t = title + "-" + body;;
+	}
+	else if (title != "") {
+		t = title;
+	}
+	var h = '<a href="#" id="feed' + idx + '" idx="' + idx + '" feedid="' + feedid + '" rel="tooltip" title="' + t + '" class="feed-event" style="left: ' + percent + '%;"></a>';
 	console.log(h);
 	$("#timeline").append(h);
 }
