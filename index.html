@@ -520,7 +520,7 @@ var getUserMovies = function(userid) {
 			addMovieImage(item.movieid, item.thumbnail, item.url, item.name); 
 		});
 		if (data.movies.length == 0) {
-			$("#movies").append('<p class="defaulttext">Click "Add Movie" to start creating feeds</p>');
+			$("#movies").append('<p class="defaulttext">Click "Add Video" to start creating feeds</p>');
 		}
 	})
 	.success(function() { console.log("second success"); })
@@ -986,9 +986,9 @@ $(function() {
 					<ul class="nav pull-right" id="logoutbar">
 						<li id="topusername" class="brand">username</li>
 						<li class="divider-vertical"></li>
-						<li><button class="btn" onclick="openAddMovie();">Add Movie</button></li>
+						<li><button class="btn" onclick="openAddMovie();">Add Video</button></li>
 						<li class="divider-vertical"></li>
-						<li><button class="btn" onclick="openMyMovies();">My Movies</button></li>
+						<li><button class="btn" onclick="openMyMovies();">My Videos</button></li>
 						<li class="divider-vertical"></li>
 						<li><button class="btn" onclick="logout();">Logout</button></li>
 					</ul>
@@ -1186,7 +1186,7 @@ $(function() {
 	<div id="addMovieModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		<div class="modal-header">
 			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-			<h3 id="editModalLabel">Add Movie</h3>
+			<h3 id="editModalLabel">Add Video</h3>
 		</div>
 		<div class="modal-body">
     			<div id="addMovieAlert"></div>
@@ -1207,7 +1207,7 @@ $(function() {
 		</div>
 		<div class="modal-footer">
 			<button class="btn" data-dismiss="modal">Close</button>
-			<button class="btn btn-primary" onClick="onAddMovie()">Add Movie</button>
+			<button class="btn btn-primary" onClick="onAddMovie()">Add Video</button>
 		</div>
 	</div>
 </body>
