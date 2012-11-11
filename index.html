@@ -7,7 +7,7 @@
 <link href="css/movielist.css" rel="stylesheet"/>
 <link href="css/author.css" rel="stylesheet"/>
 </head>
-<body>
+<body style="background-color:#000000">
 <script src="js/jquery-latest.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/popcorn-complete.js"></script>
@@ -30,6 +30,7 @@ var createEventTime = 0;
 //var serverLocation = 'http://linkontrol.toribash.com:1337';	
 var serverLocation = 'http://23.20.12.188:8080';	
 var streamId = "sid";
+var isMyMovie = false;
 
 $(document).ajaxError(function(e, xhr, settings, exception) {
 	console.log('error in: ' + settings.url + ' \\n'+'error:\\n' + exception);
@@ -112,10 +113,17 @@ var openMyMovies = function() {
 		popcorn.pause();
 	}
 	getUserMovies(0);
-	setHeaderName("linklib.org");
+	setHeaderName("Linklib");
 }
 
 var openMovie = function(id) {
+	$("#movies").fadeOut();
+	$("#demomovies").fadeOut();
+	$("#viewmovie").fadeIn();
+	fetchEvents(id);
+}
+
+var openDemoMovie = function(id) {
 	$("#movies").fadeOut();
 	$("#demomovies").fadeOut();
 	$("#viewmovie").fadeIn();
@@ -294,6 +302,7 @@ var enableLogin = function(_userid, username) {
 		$("#loginbar").hide();
 		$("#logoutbar").show();
 		$("#addLinkButton").show();
+		$("#addLinkText").show();
 		$("#topusername").html(username);
 		loggedin = true;
 	}
@@ -301,6 +310,7 @@ var enableLogin = function(_userid, username) {
 		$("#loginbar").show();
 		$("#logoutbar").hide();
 		$("#addLinkButton").hide();
+		$("#addLinkText").hide();
 		$("#topusername").html("");
 		loggedin = false;
 	}
@@ -411,25 +421,15 @@ var showTimeLinePopover = function() {
 	$("#timelinebar").popover('show');
 }
 
-var createTimeFeed = function() {
-	var text = $('[name=addlinktext]').val();
-	hideTimeLinePopover();
-	console.log("createTimeFeed text: " + text + " movieid: " + movieid + " createEventTime:" + createEventTime);
-	$.post('api.php?do=create_time_feed&movieid=' + movieid, { text: text, start: createEventTime }, function(data) { 
+var createTimeFeed = function(time, text) {
+	//var text = $('[name=addlinktext]').val();
+	//hideTimeLinePopover();
+	console.log("createTimeFeed text: " + text + " movieid: " + movieid + " time:" + time);
+	$.post('api.php?do=create_time_feed&movieid=' + movieid, { text: text, start: time}, function(data) { 
 		if (data.error) {
 			setAlert(data.msg);
 		}
 		else {
-			/*
-			var item = data.timefeed;
-			console.log(item.title);
-			var length = feeddata.timefeed.length;
-			var duration = popcorn.duration();
-			feeddata.timefeed[length] = data.timefeed;
-			var p = (item.start / duration) * 100;	
-			addTimeLineEvent(length, item.feedid, item.title, item.body, item.url, p); 
-			addTooltip();
-			*/
 			refreshEvents();
 		}
 	}, "json")
@@ -458,6 +458,10 @@ var addTooltip = function() {
 		if (loggedin == false) {
 			return;
 		}	
+		if (isMyMovie == false) {
+			console.log("not your movie");
+			return;
+		}
 		lastclicked = $(this);
 		var idx = $(this).attr('idx');
 		var data = feeddata.timefeed[idx];
@@ -520,7 +524,12 @@ var getUserMovies = function(userid) {
 			addMovieImage(item.movieid, item.thumbnail, item.url, item.name); 
 		});
 		if (data.movies.length == 0) {
-			$("#movies").append('<p class="defaulttext">Click "Add Video" to start creating feeds</p>');
+			//$("#movies").append('<p class="defaulttext">Click "Add Video" to start creating feeds</p>');
+			$("#movies").append('<p><button class="btn btn-large btn-primary btn-inverse" onClick="openAddMovie();">Add Video</button></p>');
+			$("#openMyVideosButton").hide();
+		}
+		else {
+			$("#openMyVideosButton").show();
 		}
 	})
 	.success(function() { console.log("second success"); })
@@ -549,10 +558,19 @@ var fetchEvents = function(mid) {
 	$.getJSON('api.php?do=movie_to_json&sort=desc&movieid=' + movieid, function(data) { 
 		feeddata = data;
 		console.log(data.movie);
-		
 		enableLogin(data.userid, data.username);
 		if (data.movie && data.movie.name) {
 			setHeaderName(data.movie.name);
+		}
+		if (data.userid != data.movie.author) {
+			$("#addLinkButton").hide();
+			$("#addLinkText").hide();
+			isMyMovie = false;
+		}
+		else {
+			$("#addLinkButton").show();
+			$("#addLinkText").show();
+			isMyMovie = true;
 		}
 		streamId = data.movie.sessionid;
 		clearFeed();
@@ -662,11 +680,16 @@ var logout = function() {
 var login = function(username, password) {
 	$.post('api.php?do=login',{ "username": username, "password": password },
 		function(data) {
+			enableLogin(data.userid, data.username);
 			if (data.error) {
 				setAlert(data.alert + " " + data.msg);
 			}
-			enableLogin(data.userid, data.username);
-			openMyMovies();
+			if (data.userid == 0) {	
+				openDemoMovies();
+			}
+			else {
+				openMyMovies();
+			}
 		}, 'json');
 }
 
@@ -776,10 +799,13 @@ $(function() {
 		fetchEvents(movieid);
         }
 
+	/*
         var onTooltipUpdate = function(tooltip, x, y) {
                 console.log(tooltip);
                 //console.log("yey" + x + " " + y);
         }       
+	*/
+
 	// Setup drop down menu
 	$('.dropdown-toggle').dropdown();
  
@@ -822,6 +848,7 @@ $(function() {
                 return false;
         });
 
+	/*
         $("#timeline a").tooltip({
                 track: true,
                 delay: 0,
@@ -833,16 +860,22 @@ $(function() {
                 onUpdate: onTooltipUpdate,
                 left: 5
         });
+	*/
 
 	$(".container").click(function(e) {
 		hideTimeLinePopover();	
 	});
 
+	/*
 	$("#timeline").click(function(e) {
 		if (loggedin == false) {
 			console.log("Please sign in first");
 			return;
 		}	
+		if (isMyMovie == false) {
+			console.log("not your movie");
+			return;
+		}
 		//var posX = $(this).position().left;
 		var posX = $(this).offset().left;
 		var posY = $(this).position().top;
@@ -871,7 +904,9 @@ $(function() {
 		showTimeLinePopover();
 		$("#addlink").focus();
 	});
+	*/
 
+	/*
 	$("#timelinebar").popover({placement: "bottom", live:true, 
 			title: getTimelineTitle, 
 			content: '<input name="addlinktext" id="addlink" type="text" placeholder="paste link or type comment" onSubmit="hidePopover2(); return false;"/><button class="btn" onclick="createTimeFeed();">Save</button>', 
@@ -883,6 +918,7 @@ $(function() {
 			content: '<input name="addlinktext" id="addlink" type="text" placeholder="paste link or type comment" onSubmit="hidePopover2(); return false;"/><button class="btn" onclick="createTimeFeed();">Save</button>', 
 			html:true
 	});
+	*/
 
 	$("#addLinkButton").click(function(e) {
 		if (popcorn == null) {
@@ -897,12 +933,14 @@ $(function() {
 		}
 		popcorn.pause();
 		createEventTime = popcorn.currentTime();
-		timelineTitle = secondsToStr(popcorn.currentTime());
-		var percent = (popcorn.currentTime() / popcorn.duration()) * 100;
-		$("#timelinebar").css("left", percent + "%");
-		showTimeLinePopover();
-		$("#addlink").focus();
-		e.stopPropagation();
+		var text = $("#addLinkText").val();
+		if (text == "") {
+			console.log("text is empty");
+			$("#addlinkText").focus();
+			return;
+		}
+		createTimeFeed(popcorn.currentTime(), text);
+		$("#addLinkText").val("");
 	});
 
         setInterval(function () {
@@ -955,23 +993,15 @@ $(function() {
 
 </script>
 
-	<div class="navbar navbar-fixed-top">
+	<div class="navbar navbar-fixed-top navbar-inverse">
 		<div class="navbar-inner">
-			<div class="container">
-				<!--
-				<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				</a>
-				-->
- 
-				<a class="brand" id="headername">linklib.org</a>
-
+			<div class="container" style="width:90%">
+				<a class="brand" id="headername">Linklib</a>
 				<div class="nav-collapse">
 					<ul class="nav pull-right" id="loginbar">
+						<li><a href="#" onClick="openDemoMovies()">All Videos</a></li>
 						<li><a href="#" onClick="openRegister()">Sign Up</a></li>
-						<li class="divider-vertical"></li>
+						<!-- <li class="divider-vertical"></li> -->
 						<li class="dropdown">
 							<a class="dropdown-toggle" href="#" data-toggle="dropdown">Sign In <strong class="caret"></strong></a>
 							<div class="dropdown-menu" style="padding: 15px; padding-bottom: 0px;">
@@ -986,11 +1016,10 @@ $(function() {
 					<ul class="nav pull-right" id="logoutbar">
 						<li id="topusername" class="brand">username</li>
 						<li class="divider-vertical"></li>
-						<li><button class="btn" onclick="openAddMovie();">Add Video</button></li>
-						<li class="divider-vertical"></li>
-						<li><button class="btn" onclick="openMyMovies();">My Videos</button></li>
-						<li class="divider-vertical"></li>
-						<li><button class="btn" onclick="logout();">Logout</button></li>
+						<li><a href="#" id="openAddVideoButton" onclick="openAddMovie();">Add Video</a></li>
+						<li><a href="#" id="openMyVideosButton" onclick="openMyMovies();">My Videos</a></li>
+						<li><a href="#" onClick="openDemoMovies()">All Videos</a></li>
+						<li><a href="#"  onclick="logout();">Logout</a></li>
 					</ul>
 				</div>
 			</div>
@@ -998,21 +1027,25 @@ $(function() {
 	</div>
 
 
-	<!-- <div class="container" style="height:800px;background-color:#00ff00;width:100%;height:1000px"> -->
-	<div class="container" style="position:absolute; left:0; width:100%; height:800px;background-color:#ffFFff">
+	<div class="container" style="position:absolute; left:0; width:100%; height:800px;background-color:#000">
 		<div id="apialert"></div>
 		<div id="viewmovie" style="display:none">
 			<div id="videodiv" class="videodiv" style="position:relative; margin: 43px 310px 10px 0px;background-color:#000000;min-height:600px">
 				<div id="qrcodediv" style="position:absolute;width:100%; text-align:right"></div>
 				<div id="video" style="height:600px;width:100%"></div>
 			
-				<div id="timelinecontainer" style="position:relative; width:70%; margin-left:auto; margin-right:auto;margin-top:15px">
+				<div id="timelinecontainer" style="position:relative; width:100%; margin-left:auto; margin-right:auto;margin-top:15px">
 					<div id="timeline"></div>
 					<div id="timelinebar" style="position:absolute; height:20px;left:100px;width:10px;background-color:#fff0ff; opacity:0.1;"></div>
-					<div id="timelinedisplay" style="position:absolute; height:20px;top:20px;left:100px;width:100px;background-color:#ffffff;">11:11:22</div>
+					<div id="timelinedisplay" style="position:absolute; height:20px;top:20px;left:100px;width:100px;background-color:#000;color:#fff"></div>
 				</div>
-				<div class="row" style="position:relative; top:40px; left:50px">
-						<button class="btn btn-small" type="button" id="addLinkButton">Add link at 00:00:00</button>
+				<div class="row" style="position:relative; top:50px; left:2px">
+					<div class="span6">
+						<input type="text" style="display:block; width:100%" id="addLinkText" placeholder="Paste comment or url">	
+					</div>
+					<div class="span6">	
+						<button class="btn btn-block" type="button" id="addLinkButton">Add link at 00:00:00</button>
+					</div>
 				</div>
 			</div>
 			<div id="feeddata" style="position:absolute;top:43px;width:300px;height:100%;right:0px;background-color:#000000"></div>
@@ -1021,51 +1054,51 @@ $(function() {
 			<!-- filled by javascript -->
 		</div>
 		<div id="demomovies">
-			<div id="movieImage" onClick="openMovie(13)">
+			<div id="movieImage" onClick="openDemoMovie(13)">
 				<img src="img/460/thebig.png" class="movie" alt="Click to watch" />
 				<div id="movieText"> The Big Lebowski (Coen, 1998) </div>					
 			</div>
-			<div id="movieImage" onClick="openMovie(24)">
+			<div id="movieImage" onClick="openDemoMovie(24)">
 				<img src="img/460/black.png" class="movie" alt="Click to watch" />
 				<div id="movieText"> The Black Keys - Tighten Up </div>
 			</div>
-			<div id="movieImage" onClick="openMovie(46)">
+			<div id="movieImage" onClick="openDemoMovie(46)">
 				<img src="img/460/armadillo.png" class="movie" alt="Click to watch" />
 				<div id="movieText"> Armadillo (Metz, 2010) </div>
 			</div>
-			<div id="movieImage" onClick="openMovie(55)">
+			<div id="movieImage" onClick="openDemoMovie(55)">
 				<img src="img/460/merkely.png" class="movie" alt="Click to watch" />
 				<div id="movieText"> TED Talk Popcorn (Merkely, 2012) </div>					
 			</div>
-			<div id="movieImage" onClick="openMovie(16)">
+			<div id="movieImage" onClick="openDemoMovie(16)">
 				<img src="img/460/madmen.png" class="movie" alt="Click to watch" />
 				<div id="movieText"> Mad Men S04E20 (Weiner, 2011) </div>					
 			</div>
-			<div id="movieImage" onClick="openMovie(18)">
+			<div id="movieImage" onClick="openDemoMovie(18)">
 				<img src="img/460/top100.png" class="movie" alt="Click to watch" />
 				<div id="movieText"> 100 Greatest Hits of YouTube </div>
 			</div>
-			<div id="movieImage" onClick="openMovie(50)">
+			<div id="movieImage" onClick="openDemoMovie(50)">
 				<img src="img/460/indiegamethemovie2.png" class="movie" alt="Click to watch" />
 				<div id="movieText"> Indie Game: The Movie (Pajot & Swirsky, 2012)</div>					
 			</div>
-			<div id="movieImage" onClick="openMovie(44)">
+			<div id="movieImage" onClick="openDemoMovie(44)">
 				<img src="img/460/mammasgata.png" class="movie" alt="" />
 				<div id="movieText"> Promoe feat Timbuktu "Mamma's Gata" (2009) </div>
 			</div>
-			<div id="movieImage" onClick="openMovie(53)">
+			<div id="movieImage" onClick="openDemoMovie(53)">
 				<img src="img/460/businesscanvas.png" class="movie" alt="" />
 				<div id="movieText"> Business Model Generation (Osterwalder, 2011)</div>
 			</div>
-			<div id="movieImage" onClick="openMovie(54)">
+			<div id="movieImage" onClick="openDemoMovie(54)">
 				<img src="img/460/bigbird.png" class="movie" alt="" />
 				<div id="movieText"> Big Bird Presidential debate 2012 </div>
 			</div>
-			<div id="movieImage" onClick="openMovie(68)">
+			<div id="movieImage" onClick="openDemoMovie(68)">
 				<img src="img/460/palme.png" class="movie" alt="" />
 				<div id="movieText"> Palme Official Trailer </div>
 			</div>
-			<div id="movieImage" onClick="openMovie(70)">
+			<div id="movieImage" onClick="openDemoMovie(70)">
 				<img src="img/460/whysendlinkstophones.png" class="movie" alt="" />
 				<div id="movieText"> Why send links to phones</div>
 			</div>
@@ -1078,7 +1111,6 @@ $(function() {
 			<h3 id="editModalLabel">Edit Feed</h3>
 		</div>
 		<div class="modal-body">
-			<p>Link preview</p>
 			<p>
 			<div id="linkpreview">
                         	<div id="itemText">
@@ -1104,7 +1136,7 @@ $(function() {
 				<label class="control-label" for="linkstart">HH:MM:SS
 					<input class="input-small" name="linkstart" id="linkstart" type="text" value="0">
 				</label>
-				<p>Link Type</p>
+				<!-- <p>Link Type</p> -->
 				<label class="radio">
 					<input type="radio" name="linktype" id="optionsRadios0" value="0" checked> Web Page
 				</label>
@@ -1114,7 +1146,7 @@ $(function() {
 				<label class="radio">
 					<input type="radio" name="linktype" id="optionsRadios3" value="3"> Video 
 				</label>
-			<p>Choose Image</p>
+			<!-- <p>Choose Image</p> -->
 			<label class="radio inline">
 				<input type="radio" name="linkimage" id="linkimageradio1" value="twitter.svg" checked> 
 					<img id="linkimage1" src="Icons/twitter.svg" width="55" height="55" style="background-color:#000" /> 
